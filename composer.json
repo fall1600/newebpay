@@ -1,0 +1,14 @@
+{
+    "name": "fall1600/spgateway",
+    "description": "implement of spgateway",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "fall1600",
+            "email": "fall1600@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
