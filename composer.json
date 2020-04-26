@@ -1,6 +1,6 @@
 {
-    "name": "fall1600/spgateway",
-    "description": "implement of spgateway",
+    "name": "fall1600/newebpay",
+    "description": "implement of newebpay",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -10,9 +10,17 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {},
+    "require": {
+        "ext-openssl": "*",
+        "guzzlehttp/guzzle": "^6.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    },
     "autoload": {
-        "psr-4": {"fall1600": ""},
+        "psr-4": {
+            "fall1600\\": ""
+        },
         "exclude-from-classmap": [
             "/Tests/"
         ]
