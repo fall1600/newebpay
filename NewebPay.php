@@ -2,16 +2,11 @@
 
 namespace fall1600;
 
-use GuzzleHttp\Client;
-
 class NewebPay
 {
     const URL_TEST = 'https://ccore.newebpay.com/MPG/mpg_gateway';
 
     const URL_PROD = 'https://core.newebpay.com/MPG/mpg_gateway';
-
-    /** @var Client */
-    protected $client;
 
     /** @var string */
     protected $hashIV;
@@ -21,11 +16,6 @@ class NewebPay
 
     /** @var string */
     protected $merchantID;
-
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-    }
 
     public function setMerchantID(string $merchantID)
     {

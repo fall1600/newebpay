@@ -11,7 +11,7 @@ class NewebPayTest extends TestCase
     public function test_sendTransaction()
     {
         //arrange
-        $spgateway = new NewebPay(new Client());
+        $spgateway = new NewebPay();
 
         $spgateway
             ->setMerchantID('MS110551869')
