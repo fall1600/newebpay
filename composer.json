@@ -10,5 +10,11 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {"fall1600": ""},
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    }
 }
