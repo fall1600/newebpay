@@ -17,7 +17,7 @@
     </php>
 
     <testsuites>
-        <testsuite name="fall1600 Spgateway Test Suite">
+        <testsuite name="fall1600 newebpay Test Suite">
             <directory>./Tests/</directory>
         </testsuite>
     </testsuites>

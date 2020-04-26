@@ -4,7 +4,7 @@ namespace fall1600;
 
 use GuzzleHttp\Client;
 
-class Spgateway
+class NewebPay
 {
     const URL_TEST = 'https://ccore.newebpay.com/MPG/mpg_gateway';
 

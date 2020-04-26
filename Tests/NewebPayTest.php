@@ -2,16 +2,16 @@
 
 namespace fall1600\Tests;
 
-use fall1600\Spgateway;
+use fall1600\NewebPay;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 
-class SpgatewayTest extends TestCase
+class NewebPayTest extends TestCase
 {
     public function test_sendTransaction()
     {
         //arrange
-        $spgateway = new Spgateway(new Client());
+        $spgateway = new NewebPay(new Client());
 
         $spgateway
             ->setMerchantID('MS110551869')
