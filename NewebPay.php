@@ -104,11 +104,17 @@ class NewebPay
     }
 
     /**
+     * @param string $tradeInfo
      * @return string
      */
     protected function countTradeSha(string $tradeInfo)
     {
-        return $tradeInfo;
+        return strtoupper(
+            hash(
+                "sha256",
+                "HashKey={$this->hashKey}&{$tradeInfo}&HashIV={$this->hashIV}"
+            )
+        );
     }
 
     protected function create_mpg_aes_encrypt ($parameter = "" , $key = "", $iv = "") {
