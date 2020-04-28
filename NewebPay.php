@@ -4,9 +4,17 @@ namespace fall1600;
 
 class NewebPay
 {
-    const URL_TEST = 'https://ccore.newebpay.com/MPG/mpg_gateway';
+    /** @var string */
+    protected $urlTest = 'https://ccore.newebpay.com/MPG/mpg_gateway';
 
-    const URL_PROD = 'https://core.newebpay.com/MPG/mpg_gateway';
+    /** @var string */
+    protected $urlProduction = 'https://core.newebpay.com/MPG/mpg_gateway';
+
+    /** @var string */
+    protected $version = '1.5';
+
+    /** @var bool */
+    protected $isProduction = true;
 
     /** @var string */
     protected $hashIV;
@@ -37,28 +45,70 @@ class NewebPay
 
         return $this;
     }
-    
-    public function sendTransaction()
+
+    public function setIsProduction(bool $isProduction)
     {
-        var_dump(
-            $this->create_mpg_aes_encrypt(['foo' => 'bar'], $this->hashKey, $this->hashIV)
-        );
+        $this->isProduction = $isProduction;
 
-        die;
+        return $this;
+    }
 
-        // send MerchantID, TradeInfo, TradeSha, Version
-        try {
-            $resp = $this->client
-                ->request('post', self::URL_TEST, [
-                    'MerchantID' => 'fall1600',
-                    'TradeInfo' => '123',
-                    'TradeSha' => '456',
-                    'Version' => '1.5',
-                ]);
-            var_dump($resp->getBody()->getContents());
-        } catch (\Throwable $exception) {
-            var_dump($exception->getMessage());
-        }
+    public function setVersion(string $version)
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    public function echoPage()
+    {
+        echo $this->generateCheckoutPage();
+    }
+
+    /**
+     * @return string
+     */
+    public function generateCheckoutPage(): string
+    {
+        $url = $this->isProduction? $this->urlProduction: $this->urlTest;
+
+        $tradeInfo = $this->countTradeInfo();
+
+        $tradeSha = $this->countTradeSha($tradeInfo);
+
+        return <<<EOT
+        <!DOCTYPE html>
+            <html>
+                <head>
+                    <meta charset="utf-8">
+                </head>
+                <body>
+                    <form name="newebpay" id="newebpay" method="post" action={$url} style="display:none;">
+                        <input type="text" name="MerchantID" value="{$this->merchantID}" type="hidden"/>
+                        <input type="text" name="TradeInfo" value="{$tradeInfo}" type="hidden"/>
+                        <input type="text" name="TradeSha" value="{$tradeSha}" type="hidden"/>
+                        <input type="text" name="Version" value="{$this->version}" type="hidden"/>
+                    </form>
+                </bod>
+            </html>
+        EOT;
+    }
+
+
+    /**
+     * @return string
+     */
+    protected function countTradeInfo()
+    {
+        return $this->create_mpg_aes_encrypt(['foo' => 'bar'], $this->hashKey, $this->hashIV);
+    }
+
+    /**
+     * @return string
+     */
+    protected function countTradeSha(string $tradeInfo)
+    {
+        return $tradeInfo;
     }
 
     protected function create_mpg_aes_encrypt ($parameter = "" , $key = "", $iv = "") {
