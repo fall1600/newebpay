@@ -68,7 +68,7 @@ class NewebPay
     /**
      * @return string
      */
-    public function generateCheckoutPage(): string
+    public function generateCheckoutPage()
     {
         $url = $this->isProduction? $this->urlProduction: $this->urlTest;
 
@@ -100,7 +100,7 @@ class NewebPay
      */
     protected function countTradeInfo()
     {
-        return $this->create_mpg_aes_encrypt(['foo' => 'bar'], $this->hashKey, $this->hashIV);
+        return $this->createMpgEncrypt(['foo' => 'bar']);
     }
 
     /**
@@ -117,28 +117,30 @@ class NewebPay
         );
     }
 
-    protected function create_mpg_aes_encrypt ($parameter = "" , $key = "", $iv = "") {
-        $return_str = '';
-        if (!empty($parameter)) {
-//將參數經過 URL ENCODED QUERY STRING
-            $return_str = http_build_query($parameter);
+    protected function createMpgEncrypt ($parameter = '')
+    {
+        $returnStr = '';
+        if (! empty($parameter)) {
+            //將參數經過 URL ENCODED QUERY STRING
+            $returnStr = http_build_query($parameter);
         }
 
         return trim(
             bin2hex(
                 openssl_encrypt(
-                    $this->addpadding($return_str),
+                    $this->addPadding($returnStr),
                     'aes-256-cbc',
-                    $key,
+                    $this->hashKey,
                     OPENSSL_RAW_DATA|OPENSSL_ZERO_PADDING,
-                    $iv)
+                    $this->hashIV)
             )
         );
     }
 
-    protected function addpadding($string, $blocksize = 32) {
+    protected function addPadding(string $string, int $blockSize = 32)
+    {
         $len = strlen($string);
-        $pad = $blocksize - ($len % $blocksize);
+        $pad = $blockSize - ($len % $blockSize);
         $string .= str_repeat(chr($pad), $pad);
         return $string;
     }
