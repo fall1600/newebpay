@@ -2,6 +2,9 @@
 
 namespace fall1600;
 
+use fall1600\Constants\LangType;
+use fall1600\Contracts\OrderInterface;
+
 class NewebPay
 {
     /** @var string */
@@ -24,6 +27,26 @@ class NewebPay
 
     /** @var string */
     protected $merchantID;
+
+    /** @var string */
+    protected $langType;
+
+    /** @var OrderInterface */
+    protected $order;
+
+    public function setLangType(string $langType)
+    {
+        $this->langType = $langType;
+
+        return $this;
+    }
+
+    public function setOrder(OrderInterface $order)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
 
     public function setMerchantID(string $merchantID)
     {
@@ -96,14 +119,20 @@ class NewebPay
 
 
     /**
+     * 交易資料 AES 加密
+     *
      * @return string
      */
     protected function countTradeInfo()
     {
-        return $this->createMpgEncrypt(['foo' => 'bar']);
+        $payload = $this->buildPayload();
+
+        return $this->createMpgEncrypt($payload);
     }
 
     /**
+     * 交易資料 SHA256 加密
+     *
      * @param string $tradeInfo
      * @return string
      */
@@ -143,5 +172,27 @@ class NewebPay
         $pad = $blockSize - ($len % $blockSize);
         $string .= str_repeat(chr($pad), $pad);
         return $string;
+    }
+
+    /**
+     * @return array
+     */
+    protected function buildPayload()
+    {
+        return [
+            'MerchantID' => $this->merchantID,
+            'RespondType' => 'JSON',
+            'TimeStamp' => time(),
+            'Version' => $this->version,
+            'LangType' => $this->langType ?? LangType::ZH_TW,
+            'MerchantOrderNo' => $this->order->getMerchantOrderNo(),
+            'Amt' => $this->order->getAmt(),
+            'ItemDesc' => $this->order->getItemDesc(),
+            'ReturnURL' => '',
+            'NotifyURL' => '',
+            'CustomerURL' => '',
+            'ClientBackURL' => '',
+            'ExpireDate' => '',
+        ];
     }
 }

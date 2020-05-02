@@ -18,4 +18,11 @@ interface OrderInterface
      * @return string
      */
     public function getMerchantOrderNo();
+
+    /**
+     * 商品資訊
+     *
+     * @return string
+     */
+    public function getItemDesc();
 }
