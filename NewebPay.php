@@ -13,9 +13,6 @@ class NewebPay
     /** @var string */
     protected $urlProduction = 'https://core.newebpay.com/MPG/mpg_gateway';
 
-    /** @var string */
-    protected $version = Version::CURRENT;
-
     /** @var bool */
     protected $isProduction = true;
 
@@ -75,6 +72,8 @@ class NewebPay
 
         $tradeSha = $this->countTradeSha($tradeInfo);
 
+        $version = Version::CURRENT;
+
         return <<<EOT
         <!DOCTYPE html>
             <html>
@@ -86,7 +85,7 @@ class NewebPay
                         <input type="text" name="MerchantID" value="{$this->merchantID}" type="hidden"/>
                         <input type="text" name="Hash" value="{$tradeInfo}" type="hidden"/>
                         <input type="text" name="TradeSha" value="{$tradeSha}" type="hidden"/>
-                        <input type="text" name="Version" value="{$this->version}" type="hidden"/>
+                        <input type="text" name="Version" value="{$version}" type="hidden"/>
                     </form>
                 </bod>
             </html>
