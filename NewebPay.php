@@ -2,12 +2,17 @@
 
 namespace fall1600\Package\Newebpay;
 
-use fall1600\Package\Newebpay\Constants\Version;
 use fall1600\Package\Newebpay\Contracts\TradeInfoHashInterface;
 use fall1600\Package\Newebpay\Info\Info;
 
 class NewebPay
 {
+    /**
+     * 藍星說是哪一版就是哪一版
+     * @var string
+     */
+    public const VERSION = '1.5';
+
     /**
      * 測試機網址
      * @var string
@@ -66,13 +71,13 @@ class NewebPay
      */
     public function generateForm()
     {
-        $url = $this->isProduction? NewebPay::URL_PRODUCTION: NewebPay::URL_TEST;
+        $url = $this->isProduction? static::URL_PRODUCTION: static::URL_TEST;
 
         $tradeInfo = $this->tradeInfoHash->countTradeInfo($this->info);
 
         $tradeSha = $this->tradeInfoHash->countTradeSha($tradeInfo);
 
-        $version = Version::CURRENT;
+        $version = static::VERSION;
 
         return <<<EOT
         <form name="newebpay" id="newebpay" method="post" action={$url} style="display:none;">

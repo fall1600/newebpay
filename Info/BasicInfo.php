@@ -2,7 +2,7 @@
 
 namespace fall1600\Package\Newebpay\Info;
 
-use fall1600\Package\Newebpay\Constants\Version;
+use fall1600\Package\Newebpay\NewebPay;
 
 class BasicInfo extends Info
 {
@@ -12,7 +12,7 @@ class BasicInfo extends Info
             'MerchantID' => $this->merchantId,
             'RespondType' => 'JSON',
             'TimeStamp' => time(),
-            'Version' => Version::CURRENT,
+            'Version' => NewebPay::VERSION,
             'NotifyURL' => $this->notifyUrl,
         ];
     }
