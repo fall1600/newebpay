@@ -4,7 +4,7 @@ namespace fall1600\Package\Newebpay\Info\Decorator;
 
 use fall1600\Package\Newebpay\Info\Info;
 
-class PayinfullInfo extends Info
+class PayInFullInfo extends Info
 {
     /** @var Info */
     protected $info;
