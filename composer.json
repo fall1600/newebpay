@@ -11,7 +11,8 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "ext-openssl": "*"
+        "ext-openssl": "*",
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^9"
