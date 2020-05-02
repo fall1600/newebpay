@@ -60,7 +60,7 @@ class NewebPayTest extends TestCase
             )
             ;
         //act
-        $newebpay->echoPage();
+        $newebpay->echoCheckoutPage();
 
         //assert
     }

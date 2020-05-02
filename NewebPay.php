@@ -43,7 +43,7 @@ class NewebPay
      */
     protected $tradeInfoHash;
 
-    public function echoPage()
+    public function echoCheckoutPage()
     {
         echo $this->generateCheckoutPage();
     }
