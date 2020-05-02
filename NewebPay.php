@@ -20,7 +20,10 @@ class NewebPay
      */
     public const URL_PRODUCTION = 'https://core.newebpay.com/MPG/mpg_gateway';
 
-    /** @var bool */
+    /**
+     * 決定URL 要使用正式或測試機
+     * @var bool
+     */
     protected $isProduction = true;
 
     /**
@@ -30,17 +33,10 @@ class NewebPay
     protected $info;
 
     /**
-     *
+     * 用來加密交易資訊
      * @var TradeInfoHashInterface
      */
     protected $tradeInfoHash;
-
-    public function setIsProduction(bool $isProduction)
-    {
-        $this->isProduction = $isProduction;
-
-        return $this;
-    }
 
     public function echoPage()
     {
@@ -98,6 +94,13 @@ class NewebPay
     public function setTradeInfoHash(TradeInfoHashInterface $tradeInfoHash)
     {
         $this->tradeInfoHash = $tradeInfoHash;
+
+        return $this;
+    }
+
+    public function setIsProduction(bool $isProduction)
+    {
+        $this->isProduction = $isProduction;
 
         return $this;
     }
