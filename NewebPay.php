@@ -8,19 +8,31 @@ use fall1600\Package\Newebpay\Info\Info;
 
 class NewebPay
 {
-    /** @var string */
-    protected $urlTest = 'https://ccore.newebpay.com/MPG/mpg_gateway';
+    /**
+     * 測試機網址
+     * @var string
+     */
+    public const URL_TEST = 'https://ccore.newebpay.com/MPG/mpg_gateway';
 
-    /** @var string */
-    protected $urlProduction = 'https://core.newebpay.com/MPG/mpg_gateway';
+    /**
+     * 正式機網址
+     * @var string
+     */
+    public const URL_PRODUCTION = 'https://core.newebpay.com/MPG/mpg_gateway';
 
     /** @var bool */
     protected $isProduction = true;
 
-    /** @var Info */
+    /**
+     * MPG(Multi Payment Gateway) 參數
+     * @var Info
+     */
     protected $info;
 
-    /** @var TradeInfoHashInterface */
+    /**
+     *
+     * @var TradeInfoHashInterface
+     */
     protected $tradeInfoHash;
 
     public function setIsProduction(bool $isProduction)
@@ -58,7 +70,7 @@ class NewebPay
      */
     public function generateForm()
     {
-        $url = $this->isProduction? $this->urlProduction: $this->urlTest;
+        $url = $this->isProduction? NewebPay::URL_PRODUCTION: NewebPay::URL_TEST;
 
         $tradeInfo = $this->tradeInfoHash->countTradeInfo($this->info);
 
