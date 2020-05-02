@@ -2,9 +2,9 @@
 
 namespace fall1600\Package\Newebpay\Tests;
 
-use fall1600\Package\Newebpay\Constants\LangType;
+use fall1600\Package\Newebpay\Constants\Language;
 use fall1600\Package\Newebpay\Info\BasicInfo;
-use fall1600\Package\Newebpay\Info\Decorator\LangInfo;
+use fall1600\Package\Newebpay\Info\Decorator\LanguageInfo;
 use fall1600\Package\Newebpay\Info\Decorator\OfflinePayInfo;
 use fall1600\Package\Newebpay\Info\Decorator\OrderInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayCancelInfo;
@@ -44,7 +44,7 @@ class NewebPayTest extends TestCase
 
         $info = new BasicInfo($merchantId, $notifyUrl);
         $info = new PayerInfo($info, $email);
-        $info = new LangInfo($info, LangType::EN);
+        $info = new LanguageInfo($info, Language::EN);
         $info = new PayCancelInfo($info, $clientBackUrl);
         $info = new OrderInfo($info, $order);
         $info = new OfflinePayInfo($info, $ttl, $customerUrl);

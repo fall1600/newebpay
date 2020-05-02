@@ -2,8 +2,8 @@
 
 namespace fall1600\Package\Newebpay\Tests;
 
-use fall1600\Package\Newebpay\Constants\LangType;
-use fall1600\Package\Newebpay\Info\Decorator\LangInfo;
+use fall1600\Package\Newebpay\Constants\Language;
+use fall1600\Package\Newebpay\Info\Decorator\LanguageInfo;
 use fall1600\Package\Newebpay\Info\Decorator\OfflinePayInfo;
 use fall1600\Package\Newebpay\Info\Decorator\OrderInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayCompleteInfo;
@@ -44,12 +44,12 @@ class InfoTest extends TestCase
                 new OfflinePayInfo(
                     new OrderInfo(
                         new PayCancelInfo(
-                            new LangInfo(
+                            new LanguageInfo(
                                 new PayerInfo(
                                     new BasicInfo($merchantId, $notifyUrl),
                                     $email
                                 ),
-                            LangType::EN
+                            Language::EN
                             ),
                             $clientBackUrl
                         ),

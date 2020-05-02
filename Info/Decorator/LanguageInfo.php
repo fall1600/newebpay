@@ -2,30 +2,30 @@
 
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
-use fall1600\Package\Newebpay\Constants\LangType;
+use fall1600\Package\Newebpay\Constants\Language;
 use fall1600\Package\Newebpay\Info\Info;
 use fall1600\Package\Newebpay\Info\InfoDecorator;
 
-class LangInfo extends InfoDecorator
+class LanguageInfo extends InfoDecorator
 {
     /** @var InfoDecorator */
     protected $info;
 
     /** @var string */
-    protected $lang;
+    protected $language;
 
-    public function __construct(Info $info, string $lang)
+    public function __construct(Info $info, string $language)
     {
         $this->info = $info;
 
-        $this->lang = $lang;
+        $this->language = $language;
     }
 
     public function getInfo()
     {
         return $this->info->getInfo() +
             [
-                'LangType' => $this->lang ?? LangType::ZH_TW,
+                'LangType' => $this->language ?? Language::ZH_TW,
             ];
     }
 }
