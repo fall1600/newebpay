@@ -31,6 +31,42 @@ class NewebPay
     /** @var string */
     protected $langType;
 
+    /**
+     * 離線付款有效天數, 預設7天, 最長可支援180天
+     *  用來計算參數 ExpireDate
+     *
+     * @var int
+     */
+    protected $validTTL;
+
+    /**
+     * 支付完成返回的商店網址
+     *
+     * @var string
+     */
+    protected $returnUrl;
+
+    /**
+     * 支付通知網址
+     *  藍星背景告知系統支付明細的callback
+     *
+     * @var string
+     */
+    protected $notifyUrl;
+
+    /**
+     * 商店取號網址
+     *  消費者選擇離線付款後 藍星要redirect 的網址
+     * @var string
+     */
+    protected $customerUrl;
+
+    /**
+     * 支付取消返回商店網址
+     * @var
+     */
+    protected $clientBackUrl;
+
     /** @var OrderInterface */
     protected $order;
 
@@ -79,6 +115,21 @@ class NewebPay
     public function setVersion(string $version)
     {
         $this->version = $version;
+
+        return $this;
+    }
+
+    public function setValidTTL(int $validTTL)
+    {
+        if ($validTTL <= 0) {
+            throw new \LogicException('ttl must be large than 1');
+        }
+
+        if ($validTTL > 180) {
+            throw new \LogicException('ttl must be less than or equal to 180');
+        }
+
+        $this->validTTL = $validTTL;
 
         return $this;
     }
@@ -175,6 +226,28 @@ class NewebPay
     }
 
     /**
+     * @return string
+     */
+    protected function countExpireDate()
+    {
+        if (! $this->validTTL) {
+            return '';
+        }
+
+        return date(
+            'Ymd',
+            mktime(
+                0,
+                0,
+                0,
+                date('m'),
+                date('d') + $this->validTTL,
+                date('Y')
+            )
+        );
+    }
+
+    /**
      * @return array
      */
     protected function buildPayload()
@@ -188,11 +261,12 @@ class NewebPay
             'MerchantOrderNo' => $this->order->getMerchantOrderNo(),
             'Amt' => $this->order->getAmt(),
             'ItemDesc' => $this->order->getItemDesc(),
-            'ReturnURL' => '',
-            'NotifyURL' => '',
-            'CustomerURL' => '',
-            'ClientBackURL' => '',
-            'ExpireDate' => '',
+            'ReturnURL' => $this->returnUrl ?? '',
+            'NotifyURL' => $this->notifyUrl,
+            'CustomerURL' => $this->customerUrl ?? '',
+            'ClientBackURL' => $this->clientBackUrl ?? '',
+            'ExpireDate' => $this->countExpireDate(),
+            'Email' => '',
         ];
     }
 }
