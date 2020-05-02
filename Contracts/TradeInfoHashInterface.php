@@ -1,8 +1,8 @@
 <?php
 
-namespace fall1600\Contracts;
+namespace fall1600\Package\Newebpay\Contracts;
 
-use fall1600\Info\Info;
+use fall1600\Package\Newebpay\Info\Info;
 
 interface TradeInfoHashInterface
 {

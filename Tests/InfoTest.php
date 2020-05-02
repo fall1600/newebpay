@@ -1,15 +1,15 @@
 <?php
 
-namespace fall1600\Tests;
+namespace fall1600\Package\Newebpay\Tests;
 
-use fall1600\Constants\LangType;
-use fall1600\Info\Decorator\LangInfo;
-use fall1600\Info\Decorator\OfflinePayInfo;
-use fall1600\Info\Decorator\OrderInfo;
-use fall1600\Info\Decorator\PayCompleteInfo;
-use fall1600\Info\Decorator\PayerInfo;
-use fall1600\Info\BasicInfo;
-use fall1600\Info\Decorator\PayCancelInfo;
+use fall1600\Package\Newebpay\Constants\LangType;
+use fall1600\Package\Newebpay\Info\Decorator\LangInfo;
+use fall1600\Package\Newebpay\Info\Decorator\OfflinePayInfo;
+use fall1600\Package\Newebpay\Info\Decorator\OrderInfo;
+use fall1600\Package\Newebpay\Info\Decorator\PayCompleteInfo;
+use fall1600\Package\Newebpay\Info\Decorator\PayerInfo;
+use fall1600\Package\Newebpay\Info\BasicInfo;
+use fall1600\Package\Newebpay\Info\Decorator\PayCancelInfo;
 use fall1600\Tests\Mock\OrderMock;
 use PHPUnit\Framework\TestCase;
 

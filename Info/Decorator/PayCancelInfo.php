@@ -1,8 +1,8 @@
 <?php
 
-namespace fall1600\Info\Decorator;
+namespace fall1600\Package\Newebpay\Info\Decorator;
 
-use fall1600\Info\Info;
+use fall1600\Package\Newebpay\Info\Info;
 
 class PayCancelInfo extends Info
 {

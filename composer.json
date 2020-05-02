@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "fall1600\\": ""
+            "fall1600\\Package\\Newebpay\\": ""
         },
         "exclude-from-classmap": [
             "/Tests/"

@@ -1,8 +1,8 @@
 <?php
 
-namespace fall1600\Tests\Mock;
+namespace fall1600\Package\Newebpay\Tests\Mock;
 
-use fall1600\Contracts\OrderInterface;
+use fall1600\Package\Newebpay\Contracts\OrderInterface;
 
 class OrderMock implements OrderInterface
 {

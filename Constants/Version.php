@@ -1,6 +1,6 @@
 <?php
 
-namespace fall1600\Constants;
+namespace fall1600\Package\Newebpay\Constants;
 
 class Version
 {

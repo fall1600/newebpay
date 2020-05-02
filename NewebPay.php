@@ -1,10 +1,10 @@
 <?php
 
-namespace fall1600;
+namespace fall1600\Package\Newebpay;
 
-use fall1600\Constants\Version;
-use fall1600\Contracts\TradeInfoHashInterface;
-use fall1600\Info\Info;
+use fall1600\Package\Newebpay\Constants\Version;
+use fall1600\Package\Newebpay\Contracts\TradeInfoHashInterface;
+use fall1600\Package\Newebpay\Info\Info;
 
 class NewebPay
 {
@@ -40,6 +40,24 @@ class NewebPay
      */
     public function generateCheckoutPage()
     {
+        return <<<EOT
+        <!DOCTYPE html>
+            <html>
+                <head>
+                    <meta charset="utf-8">
+                </head>
+                <body>
+                    {$this->generateForm()}
+                </bod>
+            </html>
+        EOT;
+    }
+
+    /**
+     * @return string
+     */
+    public function generateForm()
+    {
         $url = $this->isProduction? $this->urlProduction: $this->urlTest;
 
         $tradeInfo = $this->tradeInfoHash->countTradeInfo($this->info);
@@ -49,20 +67,12 @@ class NewebPay
         $version = Version::CURRENT;
 
         return <<<EOT
-        <!DOCTYPE html>
-            <html>
-                <head>
-                    <meta charset="utf-8">
-                </head>
-                <body>
-                    <form name="newebpay" id="newebpay" method="post" action={$url} style="display:none;">
-                        <input type="text" name="MerchantID" value="{$this->info->getMerchantId()}" type="hidden"/>
-                        <input type="text" name="Hash" value="{$tradeInfo}" type="hidden"/>
-                        <input type="text" name="TradeSha" value="{$tradeSha}" type="hidden"/>
-                        <input type="text" name="Version" value="{$version}" type="hidden"/>
-                    </form>
-                </bod>
-            </html>
+        <form name="newebpay" id="newebpay" method="post" action={$url} style="display:none;">
+            <input type="text" name="MerchantID" value="{$this->info->getMerchantId()}" type="hidden"/>
+            <input type="text" name="Hash" value="{$tradeInfo}" type="hidden"/>
+            <input type="text" name="TradeSha" value="{$tradeSha}" type="hidden"/>
+            <input type="text" name="Version" value="{$version}" type="hidden"/>
+        </form>
         EOT;
     }
 

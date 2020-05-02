@@ -1,6 +1,6 @@
 <?php
 
-namespace fall1600\Contracts;
+namespace fall1600\Package\Newebpay\Contracts;
 
 interface OrderInterface
 {
