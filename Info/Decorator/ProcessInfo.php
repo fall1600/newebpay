@@ -10,19 +10,19 @@ class ProcessInfo extends Info
     protected $info;
 
     /**
+     * 支付通知網址
+     *  藍星背景告知系統支付明細的callback url
+     *
+     * @var string
+     */
+    protected $notifyUrl;
+
+    /**
      * 支付完成返回的商店網址
      *
      * @var string
      */
     protected $returnUrl;
-
-    /**
-     * 支付通知網址
-     *  藍星背景告知系統支付明細的callback
-     *
-     * @var string
-     */
-    protected $notifyUrl;
 
     /**
      * 支付取消返回的商店網址
@@ -31,13 +31,13 @@ class ProcessInfo extends Info
      */
     protected $clientBackUrl;
 
-    public function __construct(Info $info, string $returnUrl, string $notifyUrl, string $clientBackUrl)
+    public function __construct(Info $info, string $notifyUrl, string $returnUrl = null, string $clientBackUrl = null)
     {
         $this->info = $info;
 
-        $this->setReturnUrl($returnUrl);
-
         $this->setNotifyUrl($notifyUrl);
+
+        $this->setReturnUrl($returnUrl);
 
         $this->setClientBackUrl($clientBackUrl);
     }
@@ -46,14 +46,10 @@ class ProcessInfo extends Info
     {
         return $this->info->getInfo() +
             [
-                'ReturnURL' => $this->returnUrl,
                 'NotifyURL' => $this->notifyUrl,
+                'ReturnURL' => $this->returnUrl,
+                'ClientBackURL' => $this->clientBackUrl,
             ];
-    }
-
-    protected function setReturnUrl(string $returnUrl)
-    {
-        $this->returnUrl = $returnUrl;
     }
 
     protected function setNotifyUrl(string $notifyUrl)
@@ -61,7 +57,13 @@ class ProcessInfo extends Info
         $this->notifyUrl = $notifyUrl;
     }
 
-    protected function setClientBackUrl(string $clientBackUrl)
+
+    protected function setReturnUrl(string $returnUrl = null)
+    {
+        $this->returnUrl = $returnUrl;
+    }
+
+    protected function setClientBackUrl(string $clientBackUrl = null)
     {
         $this->clientBackUrl = $clientBackUrl;
     }

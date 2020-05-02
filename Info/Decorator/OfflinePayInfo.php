@@ -26,7 +26,7 @@ class OfflinePayInfo extends InfoDecorator
      */
     protected $customerUrl;
 
-    public function __construct(Info $info, int $ttl, string $customerUrl)
+    public function __construct(Info $info, int $ttl, string $customerUrl = null)
     {
         $this->info = $info;
 
@@ -58,7 +58,7 @@ class OfflinePayInfo extends InfoDecorator
     }
 
 
-    protected function setCustomerUrl(string $customerUrl)
+    protected function setCustomerUrl(string $customerUrl = null)
     {
         $this->customerUrl = $customerUrl;
     }

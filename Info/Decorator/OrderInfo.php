@@ -14,9 +14,9 @@ class OrderInfo extends InfoDecorator
     /** @var OrderInterface */
     protected $order;
 
-    public function __construct(Info $pInfo, OrderInterface $order)
+    public function __construct(Info $info, OrderInterface $order)
     {
-        $this->info = $pInfo;
+        $this->info = $info;
 
         $this->order = $order;
     }

@@ -2,7 +2,7 @@
 
 namespace fall1600\Info;
 
-class GeneralInfo extends Info
+class BasicInfo extends Info
 {
     public function getInfo()
     {

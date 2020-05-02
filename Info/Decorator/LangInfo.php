@@ -14,9 +14,9 @@ class LangInfo extends InfoDecorator
     /** @var string */
     protected $lang;
 
-    public function __construct(Info $pInfo, string $lang)
+    public function __construct(Info $info, string $lang)
     {
-        $this->info = $pInfo;
+        $this->info = $info;
 
         $this->lang = $lang;
     }
