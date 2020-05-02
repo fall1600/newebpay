@@ -26,7 +26,7 @@ class OfflinePayInfo extends InfoDecorator
      */
     protected $customerUrl;
 
-    public function __construct(Info $info, int $ttl, string $customerUrl = null)
+    public function __construct(Info $info, int $ttl = null, string $customerUrl = null)
     {
         $this->info = $info;
 
@@ -44,7 +44,7 @@ class OfflinePayInfo extends InfoDecorator
             ];
     }
 
-    protected function setTtl(int $ttl)
+    protected function setTtl(int $ttl = null)
     {
         if ($ttl <= 0) {
             throw new \LogicException('ttl must be large than 1');

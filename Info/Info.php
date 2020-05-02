@@ -18,6 +18,8 @@ abstract class Info
     protected $notifyUrl;
 
     /**
+     * Decorator
+     *
      * @return array
      */
     abstract public function getInfo();
