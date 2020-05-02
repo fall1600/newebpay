@@ -55,6 +55,14 @@ class NewebPay
     protected $notifyUrl;
 
     /**
+     * 付款人電子信箱
+     *  交易完成或付款完成, 僅用來通知付款人
+     *
+     * @var string
+     */
+    protected $email;
+
+    /**
      * 商店取號網址
      *  消費者選擇離線付款後 藍星要redirect 的網址
      * @var string
@@ -130,6 +138,14 @@ class NewebPay
         }
 
         $this->validTTL = $validTTL;
+
+        return $this;
+    }
+
+
+    public function setEmail(string $email)
+    {
+        $this->email = $email;
 
         return $this;
     }
@@ -266,7 +282,7 @@ class NewebPay
             'CustomerURL' => $this->customerUrl ?? '',
             'ClientBackURL' => $this->clientBackUrl ?? '',
             'ExpireDate' => $this->countExpireDate(),
-            'Email' => '',
+            'Email' => $this->email,
         ];
     }
 }
