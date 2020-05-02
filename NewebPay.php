@@ -2,6 +2,7 @@
 
 namespace fall1600;
 
+use fall1600\Constants\Version;
 use fall1600\Info\Info;
 
 class NewebPay
@@ -13,7 +14,7 @@ class NewebPay
     protected $urlProduction = 'https://core.newebpay.com/MPG/mpg_gateway';
 
     /** @var string */
-    protected $version = '1.5';
+    protected $version = Version::CURRENT;
 
     /** @var bool */
     protected $isProduction = true;
