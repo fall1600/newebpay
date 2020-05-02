@@ -2,7 +2,6 @@
 
 namespace fall1600;
 
-use fall1600\Contracts\OrderInterface;
 use fall1600\Info\Info;
 
 class NewebPay
@@ -28,21 +27,8 @@ class NewebPay
     /** @var string */
     protected $merchantID;
 
-    /** @var string */
-    protected $langType;
-
     /** @var Info */
     protected $info;
-
-    /** @var OrderInterface */
-    protected $order;
-
-    public function setOrder(OrderInterface $order)
-    {
-        $this->order = $order;
-
-        return $this;
-    }
 
     public function setMerchantID(string $merchantID)
     {
