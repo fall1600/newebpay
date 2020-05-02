@@ -11,6 +11,7 @@ class BasicInfo extends Info
             'RespondType' => 'JSON',
             'TimeStamp' => time(),
             'Version' => '1.5',
+            'NotifyURL' => $this->notifyUrl,
         ];
     }
 }

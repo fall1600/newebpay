@@ -4,31 +4,44 @@ namespace fall1600\Info;
 
 abstract class Info
 {
-    /** @var string */
+    /**
+     * 藍星金流商店代號
+     * @var string
+     */
     protected $merchantId;
 
-    /** @var string */
+    /**
+     * 商店專屬加密 hash key
+     * @var string
+     */
     protected $hashKey;
 
-    /** @var string */
+    /**
+     * 商店專屬加密 hash iv
+     * @var string
+     */
     protected $hashIv;
+
+    /**
+     * 支付通知網址
+     *  藍星背景告知系統支付明細的callback url
+     * @var string
+     */
+    protected $notifyUrl;
 
     /**
      * @return array
      */
     abstract public function getInfo();
 
-    /**
-     * @param string $merchantId 藍星金流商店代號
-     * @param string $hashKey 商店專屬加密 hash key
-     * @param string $hashIv 商店專屬加密 hash iv
-     */
-    public function __construct(string $merchantId, string $hashKey, string $hashIv)
+    public function __construct(string $merchantId, string $hashKey, string $hashIv, string $notifyUrl)
     {
         $this->merchantId = $merchantId;
 
         $this->hashKey = $hashKey;
 
         $this->hashIv = $hashIv;
+
+        $this->notifyUrl = $notifyUrl;
     }
 }
