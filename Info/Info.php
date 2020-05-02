@@ -28,4 +28,12 @@ abstract class Info
 
         $this->notifyUrl = $notifyUrl;
     }
+
+    /**
+     * @return string
+     */
+    public function getMerchantId()
+    {
+        return $this->merchantId;
+    }
 }

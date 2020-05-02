@@ -12,6 +12,7 @@ use fall1600\Info\Decorator\PayCompleteInfo;
 use fall1600\Info\Decorator\PayerInfo;
 use fall1600\NewebPay;
 use fall1600\Tests\Mock\OrderMock;
+use fall1600\TradeInfoHash;
 use PHPUnit\Framework\TestCase;
 
 class NewebPayTest extends TestCase
@@ -50,10 +51,12 @@ class NewebPayTest extends TestCase
         $info = new PayCompleteInfo($info, $returnUrl);
 
         $newebpay
-            ->setMerchantID('MS110551869')
-            ->setHashKey($hashKey)
-            ->setHashIV($hashIv)
             ->setInfo($info)
+            ->setTradeInfoHash(
+                (new TradeInfoHash())
+                    ->setHashKey($hashKey)
+                    ->setHashIv($hashIv)
+            )
             ;
         //act
         $newebpay->echoPage();
