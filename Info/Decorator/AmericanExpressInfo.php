@@ -2,8 +2,6 @@
 
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
-use fall1600\Package\Newebpay\Info\Info;
-
 class AmericanExpressInfo extends EnableInfo
 {
     public function getInfo()

@@ -8,7 +8,7 @@ use fall1600\Package\Newebpay\Info\InfoDecorator;
 
 class LanguageInfo extends InfoDecorator
 {
-    /** @var InfoDecorator */
+    /** @var Info */
     protected $info;
 
     /** @var string */

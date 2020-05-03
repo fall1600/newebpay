@@ -3,8 +3,9 @@
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
 use fall1600\Package\Newebpay\Info\Info;
+use fall1600\Package\Newebpay\Info\InfoDecorator;
 
-class LogisticsInfo extends Info
+class LogisticsInfo extends InfoDecorator
 {
     /** @var Info */
     protected $info;
