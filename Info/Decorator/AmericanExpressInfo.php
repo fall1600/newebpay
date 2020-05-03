@@ -4,13 +4,13 @@ namespace fall1600\Package\Newebpay\Info\Decorator;
 
 use fall1600\Package\Newebpay\Info\Info;
 
-class PayInFullInfo extends Info
+class AmericanExpressInfo extends Info
 {
     /** @var Info */
     protected $info;
 
     /**
-     * 設定是否啟用信用卡一次付清支付方式
+     * 美國運通卡啟用
      * @var bool
      */
     protected $isEnable;
@@ -26,7 +26,7 @@ class PayInFullInfo extends Info
     {
         return $this->info->getInfo() +
             [
-                'CREDIT' => $this->isEnable? 1: 0,
+                'CREDITAE' => $this->isEnable? 1: 0,
             ];
     }
 }
