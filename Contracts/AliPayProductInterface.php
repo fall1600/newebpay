@@ -8,7 +8,7 @@ interface AliPayProductInterface
      * 商品編號, 長度限制12位數
      * @return int
      */
-    public function getPid();
+    public function getProductId();
 
     /**
      * 商品名稱, 長度限制60個字元
