@@ -49,7 +49,6 @@ class NewebPayTest extends TestCase
         $info = new PayerEmailEditableInfo($info, $email);
         $info = new LanguageInfo($info, Language::EN);
         $info = new PayCancelInfo($info, $clientBackUrl);
-        $info = new OrderInfo($info, $order);
         $info = new OfflinePayInfo($info, $ttl, $customerUrl);
         $info = new PayCompleteInfo($info, $returnUrl);
 

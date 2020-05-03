@@ -45,18 +45,15 @@ class InfoTest extends TestCase
         $info =
             new PayCompleteInfo(
                 new OfflinePayInfo(
-                    new OrderInfo(
-                        new PayCancelInfo(
-                            new LanguageInfo(
-                                new PayerEmailEditableInfo(
-                                    new BasicInfo($order, $payer, $merchantId, $notifyUrl),
-                                    $email
-                                ),
-                            Language::EN
+                    new PayCancelInfo(
+                        new LanguageInfo(
+                            new PayerEmailEditableInfo(
+                                new BasicInfo($order, $payer, $merchantId, $notifyUrl),
+                                $email
                             ),
-                            $clientBackUrl
+                        Language::EN
                         ),
-                        $order
+                        $clientBackUrl
                     ),
                     $ttl,
                     $customerUrl
