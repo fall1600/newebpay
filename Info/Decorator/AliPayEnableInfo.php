@@ -2,7 +2,7 @@
 
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
-class AliPayInfo extends EnableInfo
+class AliPayEnableInfo extends EnableInfo
 {
     /**
      * 支付寶啟用

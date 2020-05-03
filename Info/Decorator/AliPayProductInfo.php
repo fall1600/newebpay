@@ -3,9 +3,9 @@
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
 use fall1600\Package\Newebpay\Contracts\AliPayProductInterface;
-use fall1600\Package\Newebpay\Info\InfoDecorator;
+use fall1600\Package\Newebpay\Info\AliPayInfo;
 
-class AliPayProductInfo extends InfoDecorator
+class AliPayProductInfo extends AliPayInfo
 {
     /** @var AliPayInfo */
     protected $info;
