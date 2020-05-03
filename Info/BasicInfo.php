@@ -14,6 +14,11 @@ class BasicInfo extends Info
             'TimeStamp' => time(),
             'Version' => NewebPay::VERSION,
             'NotifyURL' => $this->notifyUrl,
+            'Amt' => $this->order->getAmt(),
+            'ItemDesc' => $this->order->getItemDesc(),
+            'MerchantOrderNo' => $this->order->getMerchantOrderNo(),
+            'Email' => $this->payer->getEmail(),
+            'LoginType' => $this->payer->getLoginType()? 1: 0,
         ];
     }
 }

@@ -7,10 +7,11 @@ use fall1600\Package\Newebpay\Info\Decorator\LanguageInfo;
 use fall1600\Package\Newebpay\Info\Decorator\OfflinePayInfo;
 use fall1600\Package\Newebpay\Info\Decorator\OrderInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayCompleteInfo;
-use fall1600\Package\Newebpay\Info\Decorator\PayerInfo;
+use fall1600\Package\Newebpay\Info\Decorator\PayerEmailEditableInfo;
 use fall1600\Package\Newebpay\Info\BasicInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayCancelInfo;
-use fall1600\Tests\Mock\OrderMock;
+use fall1600\Package\Newebpay\Tests\Mock\OrderMock;
+use fall1600\Package\Newebpay\Tests\Mock\PayerMock;
 use PHPUnit\Framework\TestCase;
 
 class InfoTest extends TestCase
@@ -35,6 +36,8 @@ class InfoTest extends TestCase
 
         $order = new OrderMock();
 
+        $payer = new PayerMock();
+
         $ttl = 3;
 
         $customerUrl = 'customer.url';
@@ -45,8 +48,8 @@ class InfoTest extends TestCase
                     new OrderInfo(
                         new PayCancelInfo(
                             new LanguageInfo(
-                                new PayerInfo(
-                                    new BasicInfo($merchantId, $notifyUrl),
+                                new PayerEmailEditableInfo(
+                                    new BasicInfo($order, $payer, $merchantId, $notifyUrl),
                                     $email
                                 ),
                             Language::EN

@@ -9,9 +9,10 @@ use fall1600\Package\Newebpay\Info\Decorator\OfflinePayInfo;
 use fall1600\Package\Newebpay\Info\Decorator\OrderInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayCancelInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayCompleteInfo;
-use fall1600\Package\Newebpay\Info\Decorator\PayerInfo;
+use fall1600\Package\Newebpay\Info\Decorator\PayerEmailEditableInfo;
 use fall1600\Package\Newebpay\NewebPay;
 use fall1600\Package\Newebpay\Tests\Mock\OrderMock;
+use fall1600\Package\Newebpay\Tests\Mock\PayerMock;
 use fall1600\Package\Newebpay\TradeInfoHash;
 use PHPUnit\Framework\TestCase;
 
@@ -38,12 +39,14 @@ class NewebPayTest extends TestCase
 
         $order = new OrderMock();
 
+        $payer = new PayerMock();
+
         $ttl = 3;
 
         $customerUrl = 'customer.url';
 
-        $info = new BasicInfo($merchantId, $notifyUrl);
-        $info = new PayerInfo($info, $email);
+        $info = new BasicInfo($order, $payer, $merchantId, $notifyUrl);
+        $info = new PayerEmailEditableInfo($info, $email);
         $info = new LanguageInfo($info, Language::EN);
         $info = new PayCancelInfo($info, $clientBackUrl);
         $info = new OrderInfo($info, $order);
