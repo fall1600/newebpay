@@ -21,10 +21,4 @@ interface AliPayPayerInterface extends PayerInterface
      * @return string
      */
     public function getTel2();
-
-    /**
-     * 商品項次, 舉例此訂單有A, B 兩種商品品項, 則帶入2
-     * @return int
-     */
-    public function getCount();
 }
