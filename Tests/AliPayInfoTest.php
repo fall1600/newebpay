@@ -3,7 +3,9 @@
 namespace fall1600\Package\Newebpay\Tests;
 
 use fall1600\Package\Newebpay\Info\AliPayBasicInfo;
+use fall1600\Package\Newebpay\Info\Decorator\AliPayEnableInfo;
 use fall1600\Package\Newebpay\Info\Decorator\AliPayProductInfo;
+use fall1600\Package\Newebpay\Info\Decorator\PayInFullInfo;
 use fall1600\Package\Newebpay\Tests\Mock\AliPayPayerMock;
 use fall1600\Package\Newebpay\Tests\Mock\AliPayProductMock;
 use fall1600\Package\Newebpay\Tests\Mock\OrderMock;
@@ -30,6 +32,8 @@ class AliPayInfoTest extends TestCase
         $info = new AliPayBasicInfo($order, $payer, $count, $merchantId, $notifyUrl);
         $info = new AliPayProductInfo($info, 1, $product);
         $info = new AliPayProductInfo($info, 2, $product);
+        $info = new AliPayEnableInfo($info);
+        $info = new PayInFullInfo($info);
 
         //act
         var_dump($info->getInfo());
