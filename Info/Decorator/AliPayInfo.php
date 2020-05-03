@@ -2,12 +2,10 @@
 
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
-class AlipayInfo extends EnableInfo
+class AliPayInfo extends EnableInfo
 {
     /**
      * 支付寶啟用
-     * @todo 還有必填尚未實作, p.35
-     * 
      * @return array
      */
     public function getInfo()
