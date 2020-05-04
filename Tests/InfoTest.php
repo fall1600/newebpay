@@ -11,6 +11,7 @@ use fall1600\Package\Newebpay\Info\Decorator\PayCompleteInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayerEmailEditableInfo;
 use fall1600\Package\Newebpay\Info\BasicInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayCancelInfo;
+use fall1600\Package\Newebpay\NewebPay;
 use PHPUnit\Framework\TestCase;
 
 class InfoTest extends TestCase
@@ -18,10 +19,7 @@ class InfoTest extends TestCase
     public function test_info()
     {
         //arrange
-
         $merchantId = 'merchant.id.123';
-
-        $email = 'test@gg.cc';
 
         $returnUrl= 'return.url';
 
@@ -34,31 +32,32 @@ class InfoTest extends TestCase
 
         $order->expects($this->once())
             ->method('getMerchantOrderNo')
-            ->willReturn((string) time());
+            ->willReturn($orderMerchantNo = (string) time());
 
         $order->expects($this->once())
             ->method('getItemDesc')
-            ->willReturn('This is an apple');
+            ->willReturn($itemDesc = 'This is an apple');
 
         $order->expects($this->once())
             ->method('getAmt')
-            ->willReturn(100);
+            ->willReturn($amt = 100);
 
         $payer = $this->getMockBuilder(PayerInterface::class)
             ->getMock();
 
         $payer->expects($this->once())
             ->method('getEmail')
-            ->willReturn('foobar@gg.cc');
+            ->willReturn($email = 'foobar@gg.cc');
 
         $payer->expects($this->once())
             ->method('getLoginType')
-            ->willReturn(false);
+            ->willReturn($loginType = false);
 
         $ttl = 3;
 
         $customerUrl = 'customer.url';
 
+        //act
         $info =
             new PayCompleteInfo(
                 new OfflinePayInfo(
@@ -68,7 +67,7 @@ class InfoTest extends TestCase
                                 new BasicInfo($order, $payer, $merchantId, $notifyUrl),
                                 $email
                             ),
-                            Language::EN
+                            $lang = Language::EN
                         ),
                         $clientBackUrl
                     ),
@@ -78,26 +77,53 @@ class InfoTest extends TestCase
                 $returnUrl
             )
         ;
-
-        //act
         $result = $info->getInfo();
 
         //assert
         $this->assertArrayHasKey('MerchantID', $result);
+        $this->assertEquals($merchantId, $result['MerchantID']);
+
         $this->assertArrayHasKey('RespondType', $result);
+        $this->assertEquals('JSON', $result['RespondType']);
+
         $this->assertArrayHasKey('TimeStamp', $result);
+
         $this->assertArrayHasKey('Version', $result);
+        $this->assertEquals(NewebPay::VERSION, $result['Version']);
+
         $this->assertArrayHasKey('NotifyURL', $result);
+        $this->assertEquals($notifyUrl, $result['NotifyURL']);
+
         $this->assertArrayHasKey('Amt', $result);
+        $this->assertEquals($amt, $result['Amt']);
+
         $this->assertArrayHasKey('ItemDesc', $result);
+        $this->assertEquals($itemDesc, $result['ItemDesc']);
+
         $this->assertArrayHasKey('MerchantOrderNo', $result);
+        $this->assertEquals($orderMerchantNo, $result['MerchantOrderNo']);
+
         $this->assertArrayHasKey('Email', $result);
+        $this->assertEquals($email, $result['Email']);
+
         $this->assertArrayHasKey('LoginType', $result);
+        $this->assertEquals($loginType, $result['LoginType']);
+
         $this->assertArrayHasKey('EmailModify', $result);
+        $this->assertEquals(1, $result['EmailModify']);
+
         $this->assertArrayHasKey('LangType', $result);
+        $this->assertEquals($lang, $result['LangType']);
+
         $this->assertArrayHasKey('ClientBackURL', $result);
+        $this->assertEquals($clientBackUrl, $result['ClientBackURL']);
+
         $this->assertArrayHasKey('ExpireDate', $result);
+
         $this->assertArrayHasKey('CustomerURL', $result);
+        $this->assertEquals($customerUrl, $result['CustomerURL']);
+
         $this->assertArrayHasKey('ReturnURL', $result);
+        $this->assertEquals($returnUrl, $result['ReturnURL']);
     }
 }
