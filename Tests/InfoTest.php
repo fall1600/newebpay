@@ -51,7 +51,7 @@ class InfoTest extends TestCase
                                 new BasicInfo($order, $payer, $merchantId, $notifyUrl),
                                 $email
                             ),
-                        Language::EN
+                            Language::EN
                         ),
                         $clientBackUrl
                     ),

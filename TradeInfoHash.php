@@ -67,7 +67,8 @@ class TradeInfoHash implements TradeInfoHashInterface
                     'aes-256-cbc',
                     $this->hashKey,
                     OPENSSL_RAW_DATA|OPENSSL_ZERO_PADDING,
-                    $this->hashIv)
+                    $this->hashIv
+                )
             )
         );
     }
