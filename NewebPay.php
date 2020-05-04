@@ -2,7 +2,7 @@
 
 namespace fall1600\Package\Newebpay;
 
-use fall1600\Package\Newebpay\Contracts\TradeInfoHashInterface;
+use fall1600\Package\Newebpay\Contracts\TradeInfoEncryptInterface;
 use fall1600\Package\Newebpay\Info\Info;
 
 class NewebPay
@@ -39,7 +39,7 @@ class NewebPay
 
     /**
      * 用來加密交易資訊
-     * @var TradeInfoHashInterface
+     * @var TradeInfoEncryptInterface
      */
     protected $tradeInfoHash;
 
@@ -96,7 +96,7 @@ class NewebPay
         return $this;
     }
 
-    public function setTradeInfoHash(TradeInfoHashInterface $tradeInfoHash)
+    public function setTradeInfoHash(TradeInfoEncryptInterface $tradeInfoHash)
     {
         $this->tradeInfoHash = $tradeInfoHash;
 

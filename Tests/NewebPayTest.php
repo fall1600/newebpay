@@ -12,7 +12,7 @@ use fall1600\Package\Newebpay\Info\Decorator\PayCancelInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayCompleteInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayerEmailEditableInfo;
 use fall1600\Package\Newebpay\NewebPay;
-use fall1600\Package\Newebpay\TradeInfoHash;
+use fall1600\Package\Newebpay\TradeInfoEncrypt;
 use PHPUnit\Framework\TestCase;
 
 class NewebPayTest extends TestCase
@@ -77,7 +77,7 @@ class NewebPayTest extends TestCase
             ->setIsProduction(false)
             ->setInfo($info)
             ->setTradeInfoHash(
-                (new TradeInfoHash())
+                (new TradeInfoEncrypt())
                     ->setHashKey($hashKey)
                     ->setHashIv($hashIv)
             )

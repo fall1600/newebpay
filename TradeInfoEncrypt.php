@@ -2,10 +2,10 @@
 
 namespace fall1600\Package\Newebpay;
 
-use fall1600\Package\Newebpay\Contracts\TradeInfoHashInterface;
+use fall1600\Package\Newebpay\Contracts\TradeInfoEncryptInterface;
 use fall1600\Package\Newebpay\Info\Info;
 
-class TradeInfoHash implements TradeInfoHashInterface
+class TradeInfoEncrypt implements TradeInfoEncryptInterface
 {
     /** @var string */
     protected $hashKey;

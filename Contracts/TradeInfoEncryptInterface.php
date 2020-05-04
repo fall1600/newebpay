@@ -4,7 +4,7 @@ namespace fall1600\Package\Newebpay\Contracts;
 
 use fall1600\Package\Newebpay\Info\Info;
 
-interface TradeInfoHashInterface
+interface TradeInfoEncryptInterface
 {
     /**
      * @param Info $info
