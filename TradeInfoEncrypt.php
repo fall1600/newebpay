@@ -2,6 +2,7 @@
 
 namespace fall1600\Package\Newebpay;
 
+use fall1600\Package\Newebpay\Constants\Cipher;
 use fall1600\Package\Newebpay\Contracts\TradeInfoEncryptInterface;
 use fall1600\Package\Newebpay\Info\Info;
 
@@ -64,7 +65,7 @@ class TradeInfoEncrypt implements TradeInfoEncryptInterface
             bin2hex(
                 openssl_encrypt(
                     $this->addPadding($returnStr),
-                    'aes-256-cbc',
+                    Cipher::METHOD,
                     $this->hashKey,
                     OPENSSL_RAW_DATA|OPENSSL_ZERO_PADDING,
                     $this->hashIv
