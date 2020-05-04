@@ -3,16 +3,15 @@
 namespace fall1600\Package\Newebpay\Tests;
 
 use fall1600\Package\Newebpay\Constants\Language;
+use fall1600\Package\Newebpay\Contracts\OrderInterface;
+use fall1600\Package\Newebpay\Contracts\PayerInterface;
 use fall1600\Package\Newebpay\Info\BasicInfo;
 use fall1600\Package\Newebpay\Info\Decorator\LanguageInfo;
 use fall1600\Package\Newebpay\Info\Decorator\OfflinePayInfo;
-use fall1600\Package\Newebpay\Info\Decorator\OrderInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayCancelInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayCompleteInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayerEmailEditableInfo;
 use fall1600\Package\Newebpay\NewebPay;
-use fall1600\Package\Newebpay\Tests\Mock\OrderMock;
-use fall1600\Package\Newebpay\Tests\Mock\PayerMock;
 use fall1600\Package\Newebpay\TradeInfoHash;
 use PHPUnit\Framework\TestCase;
 
@@ -37,9 +36,31 @@ class NewebPayTest extends TestCase
 
         $clientBackUrl = 'client.back.url';
 
-        $order = new OrderMock();
+        $order = $this->getMockBuilder(OrderInterface::class)
+            ->getMock();
 
-        $payer = new PayerMock();
+        $order->expects($this->once())
+            ->method('getMerchantOrderNo')
+            ->willReturn($orderMerchantNo = (string) time());
+
+        $order->expects($this->once())
+            ->method('getItemDesc')
+            ->willReturn($itemDesc = 'This is an apple');
+
+        $order->expects($this->once())
+            ->method('getAmt')
+            ->willReturn($amt = 100);
+
+        $payer = $this->getMockBuilder(PayerInterface::class)
+            ->getMock();
+
+        $payer->expects($this->once())
+            ->method('getEmail')
+            ->willReturn($email = 'foobar@gg.cc');
+
+        $payer->expects($this->once())
+            ->method('getLoginType')
+            ->willReturn($loginType = false);
 
         $ttl = 3;
 
