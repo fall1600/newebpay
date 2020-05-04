@@ -41,7 +41,7 @@ class NewebPay
      * 用來加密交易資訊
      * @var TradeInfoEncryptInterface
      */
-    protected $tradeInfoHash;
+    protected $tradeInfoEncrypt;
 
     public function echoCheckoutPage()
     {
@@ -73,9 +73,9 @@ class NewebPay
     {
         $url = $this->isProduction? static::URL_PRODUCTION: static::URL_TEST;
 
-        $tradeInfo = $this->tradeInfoHash->countTradeInfo($this->info);
+        $tradeInfo = $this->tradeInfoEncrypt->countTradeInfo($this->info);
 
-        $tradeSha = $this->tradeInfoHash->countTradeSha($tradeInfo);
+        $tradeSha = $this->tradeInfoEncrypt->countTradeSha($tradeInfo);
 
         $version = static::VERSION;
 
@@ -96,9 +96,9 @@ class NewebPay
         return $this;
     }
 
-    public function setTradeInfoHash(TradeInfoEncryptInterface $tradeInfoHash)
+    public function setTradeInfoEncrypt(TradeInfoEncryptInterface $tradeInfoEncrypt)
     {
-        $this->tradeInfoHash = $tradeInfoHash;
+        $this->tradeInfoEncrypt = $tradeInfoEncrypt;
 
         return $this;
     }

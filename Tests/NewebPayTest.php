@@ -76,7 +76,7 @@ class NewebPayTest extends TestCase
         $newebpay
             ->setIsProduction(false)
             ->setInfo($info)
-            ->setTradeInfoHash(
+            ->setTradeInfoEncrypt(
                 (new TradeInfoEncrypt())
                     ->setHashKey($hashKey)
                     ->setHashIv($hashIv)
