@@ -14,9 +14,6 @@
         "ext-openssl": "*",
         "ext-mbstring": "*"
     },
-    "require-dev": {
-        "phpunit/phpunit": "^9"
-    },
     "autoload": {
         "psr-4": {
             "fall1600\\Package\\Newebpay\\": ""
