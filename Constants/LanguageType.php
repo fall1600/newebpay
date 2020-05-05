@@ -2,7 +2,7 @@
 
 namespace fall1600\Package\Newebpay\Constants;
 
-class Language
+class LanguageType
 {
     // 繁體中文
     const ZH_TW = 'zh-tw';

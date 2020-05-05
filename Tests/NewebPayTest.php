@@ -2,15 +2,15 @@
 
 namespace fall1600\Package\Newebpay\Tests;
 
-use fall1600\Package\Newebpay\Constants\Language;
+use fall1600\Package\Newebpay\Constants\LanguageType;
 use fall1600\Package\Newebpay\Contracts\OrderInterface;
 use fall1600\Package\Newebpay\Contracts\PayerInterface;
 use fall1600\Package\Newebpay\Info\BasicInfo;
-use fall1600\Package\Newebpay\Info\Decorator\LanguageInfo;
-use fall1600\Package\Newebpay\Info\Decorator\OfflinePayInfo;
-use fall1600\Package\Newebpay\Info\Decorator\PayCancelInfo;
-use fall1600\Package\Newebpay\Info\Decorator\PayCompleteInfo;
-use fall1600\Package\Newebpay\Info\Decorator\PayerEmailEditableInfo;
+use fall1600\Package\Newebpay\Info\Decorator\Language;
+use fall1600\Package\Newebpay\Info\Decorator\OfflinePay;
+use fall1600\Package\Newebpay\Info\Decorator\PayCancel;
+use fall1600\Package\Newebpay\Info\Decorator\PayComplete;
+use fall1600\Package\Newebpay\Info\Decorator\PayerEmailEditable;
 use fall1600\Package\Newebpay\NewebPay;
 use fall1600\Package\Newebpay\TradeInfoEncrypt;
 use PHPUnit\Framework\TestCase;
@@ -67,11 +67,11 @@ class NewebPayTest extends TestCase
         $customerUrl = 'customer.url';
 
         $info = new BasicInfo($order, $payer, $merchantId, $notifyUrl);
-        $info = new PayerEmailEditableInfo($info, $email);
-        $info = new LanguageInfo($info, Language::EN);
-        $info = new PayCancelInfo($info, $clientBackUrl);
-        $info = new OfflinePayInfo($info, $ttl, $customerUrl);
-        $info = new PayCompleteInfo($info, $returnUrl);
+        $info = new PayerEmailEditable($info, $email);
+        $info = new Language($info, LanguageType::EN);
+        $info = new PayCancel($info, $clientBackUrl);
+        $info = new OfflinePay($info, $ttl, $customerUrl);
+        $info = new PayComplete($info, $returnUrl);
 
         $newebpay
             ->setIsProduction(false)

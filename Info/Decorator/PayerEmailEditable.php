@@ -2,30 +2,29 @@
 
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
-use fall1600\Package\Newebpay\Constants\Language;
 use fall1600\Package\Newebpay\Info\Info;
 use fall1600\Package\Newebpay\Info\InfoDecorator;
 
-class LanguageInfo extends InfoDecorator
+class PayerEmailEditable extends InfoDecorator
 {
     /** @var Info */
     protected $info;
 
-    /** @var string */
-    protected $language;
+    /** @var bool */
+    protected $canEditEmail;
 
-    public function __construct(Info $info, string $language)
+    public function __construct(Info $info, bool $canEditEmail = true)
     {
         $this->info = $info;
 
-        $this->language = $language;
+        $this->canEditEmail = $canEditEmail;
     }
 
     public function getInfo()
     {
         return $this->info->getInfo() +
             [
-                'LangType' => $this->language ?? Language::ZH_TW,
+                'EmailModify' => $this->canEditEmail? 1: 0,
             ];
     }
 }

@@ -2,13 +2,13 @@
 
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
-class AmericanExpressInfo extends EnableInfo
+class EnableCredit extends Enable
 {
     public function getInfo()
     {
         return $this->info->getInfo() +
             [
-                'CREDITAE' => $this->isEnable? 1: 0,
+                'CREDIT' => $this->isEnable? 1: 0,
             ];
     }
 }

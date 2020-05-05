@@ -2,13 +2,13 @@
 
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
-class LinePayInfo extends EnableInfo
+class EnableUnionPay extends Enable
 {
     public function getInfo()
     {
         return $this->info->getInfo() +
             [
-                'LINEPAY' => $this->isEnable? 1: 0,
+                'UNIONPAY' => $this->isEnable? 1: 0,
             ];
     }
 }

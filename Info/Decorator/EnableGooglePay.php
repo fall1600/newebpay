@@ -2,13 +2,13 @@
 
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
-class CreditBonusInfo extends EnableInfo
+class EnableGooglePay extends Enable
 {
     public function getInfo()
     {
         return $this->info->getInfo() +
             [
-                'CreditRed' => $this->isEnable? 1: 0,
+                'ANDROIDPAY' => $this->isEnable? 1: 0,
             ];
     }
 }

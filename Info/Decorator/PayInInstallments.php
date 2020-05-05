@@ -5,7 +5,7 @@ namespace fall1600\Package\Newebpay\Info\Decorator;
 use fall1600\Package\Newebpay\Info\Info;
 use fall1600\Package\Newebpay\Info\InfoDecorator;
 
-class PayInInstallmentsInfo extends InfoDecorator
+class PayInInstallments extends InfoDecorator
 {
     /** @var Info */
     protected $info;

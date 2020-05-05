@@ -6,9 +6,9 @@ use fall1600\Package\Newebpay\Contracts\AliPayPayerInterface;
 use fall1600\Package\Newebpay\Contracts\AliPayProductInterface;
 use fall1600\Package\Newebpay\Contracts\OrderInterface;
 use fall1600\Package\Newebpay\Info\AliPayBasicInfo;
-use fall1600\Package\Newebpay\Info\Decorator\AliPayEnableInfo;
-use fall1600\Package\Newebpay\Info\Decorator\AliPayProductInfo;
-use fall1600\Package\Newebpay\Info\Decorator\PayInFullInfo;
+use fall1600\Package\Newebpay\Info\Decorator\EnableAliPay;
+use fall1600\Package\Newebpay\Info\Decorator\AliPayProduct;
+use fall1600\Package\Newebpay\Info\Decorator\EnableCredit;
 use fall1600\Package\Newebpay\NewebPay;
 use PHPUnit\Framework\TestCase;
 
@@ -109,10 +109,10 @@ class AliPayInfoTest extends TestCase
 
         //act
         $info = new AliPayBasicInfo($order, $payer, $count, $merchantId, $notifyUrl);
-        $info = new AliPayProductInfo($info, 1, $product1);
-        $info = new AliPayProductInfo($info, 2, $product2);
-        $info = new AliPayEnableInfo($info);
-        $info = new PayInFullInfo($info);
+        $info = new AliPayProduct($info, 1, $product1);
+        $info = new AliPayProduct($info, 2, $product2);
+        $info = new EnableAliPay($info);
+        $info = new EnableCredit($info);
         $result = $info->getInfo();
 
         //assert

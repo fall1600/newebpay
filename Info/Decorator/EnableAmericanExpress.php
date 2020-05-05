@@ -2,17 +2,13 @@
 
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
-class AliPayEnableInfo extends EnableInfo
+class EnableAmericanExpress extends Enable
 {
-    /**
-     * 支付寶啟用
-     * @return array
-     */
     public function getInfo()
     {
         return $this->info->getInfo() +
             [
-                'ALIPAY' => $this->isEnable? 1: 0,
+                'CREDITAE' => $this->isEnable? 1: 0,
             ];
     }
 }

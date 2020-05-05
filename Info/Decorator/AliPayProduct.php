@@ -5,7 +5,7 @@ namespace fall1600\Package\Newebpay\Info\Decorator;
 use fall1600\Package\Newebpay\Contracts\AliPayProductInterface;
 use fall1600\Package\Newebpay\Info\AliPayInfo;
 
-class AliPayProductInfo extends AliPayInfo
+class AliPayProduct extends AliPayInfo
 {
     /** @var AliPayInfo */
     protected $info;

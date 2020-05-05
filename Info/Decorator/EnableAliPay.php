@@ -2,13 +2,17 @@
 
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
-class WebAtmInfo extends EnableInfo
+class EnableAliPay extends Enable
 {
+    /**
+     * 支付寶啟用
+     * @return array
+     */
     public function getInfo()
     {
         return $this->info->getInfo() +
             [
-                'WEBATM' => $this->isEnable? 1: 0,
+                'ALIPAY' => $this->isEnable? 1: 0,
             ];
     }
 }

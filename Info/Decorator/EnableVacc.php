@@ -2,13 +2,18 @@
 
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
-class PayInFullInfo extends EnableInfo
+class EnableVacc extends Enable
 {
+    /**
+     * ATM 轉帳啟用
+     *
+     * @return array
+     */
     public function getInfo()
     {
         return $this->info->getInfo() +
             [
-                'CREDIT' => $this->isEnable? 1: 0,
+                'VACC' => $this->isEnable? 1: 0,
             ];
     }
 }

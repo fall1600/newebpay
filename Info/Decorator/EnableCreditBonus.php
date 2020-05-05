@@ -2,17 +2,13 @@
 
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
-class EzPayInfo extends EnableInfo
+class EnableCreditBonus extends Enable
 {
-    /**
-     * ezPay 電子錢包啟用
-     * @return array
-     */
     public function getInfo()
     {
         return $this->info->getInfo() +
             [
-                'P2G' => $this->isEnable? 1: 0,
+                'CreditRed' => $this->isEnable? 1: 0,
             ];
     }
 }

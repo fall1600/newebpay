@@ -5,35 +5,35 @@ namespace fall1600\Package\Newebpay\Info\Decorator;
 use fall1600\Package\Newebpay\Info\Info;
 use fall1600\Package\Newebpay\Info\InfoDecorator;
 
-class PayCompleteInfo extends InfoDecorator
+class PayCancel extends InfoDecorator
 {
     /** @var Info */
     protected $info;
 
     /**
-     * 支付完成返回的商店網址
+     * 支付取消返回的商店網址
      *
      * @var string
      */
-    protected $returnUrl;
+    protected $clientBackUrl;
 
-    public function __construct(Info $info, string $returnUrl)
+    public function __construct(Info $info, string $clientBackUrl = null)
     {
         $this->info = $info;
 
-        $this->setReturnUrl($returnUrl);
+        $this->setClientBackUrl($clientBackUrl);
     }
 
     public function getInfo()
     {
         return $this->info->getInfo() +
             [
-                'ReturnURL' => $this->returnUrl,
+                'ClientBackURL' => $this->clientBackUrl,
             ];
     }
 
-    protected function setReturnUrl(string $returnUrl = null)
+    protected function setClientBackUrl(string $clientBackUrl = null)
     {
-        $this->returnUrl = $returnUrl;
+        $this->clientBackUrl = $clientBackUrl;
     }
 }

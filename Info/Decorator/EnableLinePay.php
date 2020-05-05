@@ -2,13 +2,13 @@
 
 namespace fall1600\Package\Newebpay\Info\Decorator;
 
-class GooglePayInfo extends EnableInfo
+class EnableLinePay extends Enable
 {
     public function getInfo()
     {
         return $this->info->getInfo() +
             [
-                'ANDROIDPAY' => $this->isEnable? 1: 0,
+                'LINEPAY' => $this->isEnable? 1: 0,
             ];
     }
 }

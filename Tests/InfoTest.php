@@ -2,15 +2,15 @@
 
 namespace fall1600\Package\Newebpay\Tests;
 
-use fall1600\Package\Newebpay\Constants\Language;
+use fall1600\Package\Newebpay\Constants\LanguageType;
 use fall1600\Package\Newebpay\Contracts\OrderInterface;
 use fall1600\Package\Newebpay\Contracts\PayerInterface;
-use fall1600\Package\Newebpay\Info\Decorator\LanguageInfo;
-use fall1600\Package\Newebpay\Info\Decorator\OfflinePayInfo;
-use fall1600\Package\Newebpay\Info\Decorator\PayCompleteInfo;
-use fall1600\Package\Newebpay\Info\Decorator\PayerEmailEditableInfo;
+use fall1600\Package\Newebpay\Info\Decorator\Language;
+use fall1600\Package\Newebpay\Info\Decorator\OfflinePay;
+use fall1600\Package\Newebpay\Info\Decorator\PayComplete;
+use fall1600\Package\Newebpay\Info\Decorator\PayerEmailEditable;
 use fall1600\Package\Newebpay\Info\BasicInfo;
-use fall1600\Package\Newebpay\Info\Decorator\PayCancelInfo;
+use fall1600\Package\Newebpay\Info\Decorator\PayCancel;
 use fall1600\Package\Newebpay\NewebPay;
 use PHPUnit\Framework\TestCase;
 
@@ -59,15 +59,15 @@ class InfoTest extends TestCase
 
         //act
         $info =
-            new PayCompleteInfo(
-                new OfflinePayInfo(
-                    new PayCancelInfo(
-                        new LanguageInfo(
-                            new PayerEmailEditableInfo(
+            new PayComplete(
+                new OfflinePay(
+                    new PayCancel(
+                        new Language(
+                            new PayerEmailEditable(
                                 new BasicInfo($order, $payer, $merchantId, $notifyUrl),
                                 $email
                             ),
-                            $lang = Language::EN
+                            $lang = LanguageType::EN
                         ),
                         $clientBackUrl
                     ),
