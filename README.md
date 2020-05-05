@@ -37,7 +37,7 @@ $info = new OfflinePay($info, $ttl, $customerUrl);
 ```php
 $newebpay = new NewebPay();
 $newebpay->setInfo($info)
-    ->setTradeInfoEncrypt(new TradeInfoEncrypt($hashKey, $hashIv))
+    ->setTradeInfoEncrypt(new TradeInfoEncryptor($hashKey, $hashIv))
     ->echoCheckoutPage();
 ```
 
