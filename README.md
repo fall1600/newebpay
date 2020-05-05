@@ -15,8 +15,15 @@ $info = new BasicInfo($order, $payer, $merchantId, $returnUrl);
 
 #### 依場景開啟各種付款方式
 ```php
-$info = new GooglePayInfo($info);
-$info = new SamsungPayInfo($info);
+// 開啟信用卡
+$info = new EnableCredit($info);
+// 開啟3, 6, 12 期分期付款
+$info = new PayInInstallments($info, '3,6,12');
+// 開啟超商條碼
+$info = new EnableBarcode($info);
+// 離線付款回導頁設定, 需設定繳費截止在幾天內(ttl), 以及取號完成後導回的網址
+$info = new OfflinePay($info, $ttl, $customerUrl);
+
 // 文件末有付款方式對應表
 ```
 
@@ -69,13 +76,13 @@ class Member implements PayerInterface
 
 | Class             | 付款方式                  | 交易性質           |
 |:------------------|:------------------------|:------------------|
-| PayInFullInfo     | 信用卡(一次結清)           | 即時交易           |
-| WebAtmInfo        | WebATM                  | 即時交易            |
-| VaccInfo          | ATM 轉帳                 | 非即時交易          |
-| CvsInfo           | 超商代碼繳費              | 非即時交易          |
-| BarcodeInfo       | 超商條碼繳費              | 非即時交易          |
-| LogisticsInfo     | 超商取貨付款              | 非即時交易          |
-| AliPayEnableInfo  | 支付寶                   | 非即時交易          |
-| EzPayInfo         | ezPay 電子錢包            | 即時交易, 非即時交易 |
-| LinePayInfo       | LINE Pay                | 即時交易           |
+| EnableCredit      | 信用卡(一次結清)           | 即時交易           |
+| EnableWebAtm      | WebATM                  | 即時交易            |
+| EnableVacc        | ATM 轉帳                 | 非即時交易          |
+| EnableCvs         | 超商代碼繳費              | 非即時交易          |
+| EnableBarcode     | 超商條碼繳費              | 非即時交易          |
+| EnableCvsCom      | 超商取貨付款              | 非即時交易          |
+| EnableAliPay      | 支付寶                   | 非即時交易          |
+| EnableEzPay       | ezPay 電子錢包            | 即時交易, 非即時交易 |
+| EnableLinePay     | LINE Pay                | 即時交易           |
 
