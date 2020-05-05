@@ -38,6 +38,12 @@ class NewebPay
     protected $info;
 
     /**
+     * 送往藍星表單的id
+     * @var string
+     */
+    protected $formId = 'newebpay-form';
+
+    /**
      * 用來加密交易資訊
      * @var TradeInfoEncryptInterface
      */
@@ -61,6 +67,10 @@ class NewebPay
                 </head>
                 <body>
                     {$this->generateForm()}
+                    <script>
+                        var form = document.getElementById("$this->formId");
+                        form.submit();
+                    </script>
                 </bod>
             </html>
         EOT;
@@ -80,7 +90,7 @@ class NewebPay
         $version = static::VERSION;
 
         return <<<EOT
-        <form name="newebpay" id="newebpay" method="post" action={$url} style="display:none;">
+        <form name="newebpay" id="{$this->formId}" method="post" action={$url} style="display:none;">
             <input type="text" name="MerchantID" value="{$this->info->getMerchantId()}" type="hidden"/>
             <input type="text" name="Hash" value="{$tradeInfo}" type="hidden"/>
             <input type="text" name="TradeSha" value="{$tradeSha}" type="hidden"/>
@@ -106,6 +116,13 @@ class NewebPay
     public function setIsProduction(bool $isProduction)
     {
         $this->isProduction = $isProduction;
+
+        return $this;
+    }
+
+    public function setFormId(string $formId)
+    {
+        $this->formId = $formId;
 
         return $this;
     }
