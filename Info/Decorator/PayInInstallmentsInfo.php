@@ -30,7 +30,7 @@ class PayInInstallmentsInfo extends InfoDecorator
     {
         return $this->info->getInfo() +
             [
-                'instFlag' => $this->instFlag,
+                'InstFlag' => $this->instFlag,
             ];
     }
 }
