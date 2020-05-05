@@ -2,15 +2,15 @@
 
 namespace fall1600\Package\Newebpay\Tests;
 
-use fall1600\Package\Newebpay\TradeInfoDecrypt;
+use fall1600\Package\Newebpay\TradeInfoDecryptor;
 use PHPUnit\Framework\TestCase;
 
-class TradeInfoDecryptTest extends TestCase
+class TradeInfoDecryptorTest extends TestCase
 {
     public function test_decrypt()
     {
         //arrange
-        $decrypt = new TradeInfoDecrypt();
+        $decrypt = new TradeInfoDecryptor();
         $decrypt->setHashKey($hashKey = '12345678901234567890123456789012')
             ->setHashIv($hashIv = '1234567890123456');
 

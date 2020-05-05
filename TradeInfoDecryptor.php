@@ -4,7 +4,7 @@ namespace fall1600\Package\Newebpay;
 
 use fall1600\Package\Newebpay\Constants\Cipher;
 
-class TradeInfoDecrypt
+class TradeInfoDecryptor
 {
     /** @var string */
     protected $hashKey;

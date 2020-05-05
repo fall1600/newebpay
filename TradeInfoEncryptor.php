@@ -6,7 +6,7 @@ use fall1600\Package\Newebpay\Constants\Cipher;
 use fall1600\Package\Newebpay\Contracts\TradeInfoEncryptInterface;
 use fall1600\Package\Newebpay\Info\Info;
 
-class TradeInfoEncrypt implements TradeInfoEncryptInterface
+class TradeInfoEncryptor implements TradeInfoEncryptInterface
 {
     /** @var string */
     protected $hashKey;
