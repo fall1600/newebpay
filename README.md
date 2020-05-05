@@ -1,5 +1,8 @@
 # Newebpay 藍星金流
 
+程式版本 1.5 <br>
+文件版本 1.0.4 <br>
+[Official Doc](https://www.newebpay.com/website/Page/content/download_api#1)
 
 ## How to use
 
