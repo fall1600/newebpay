@@ -2,7 +2,6 @@
 
 namespace fall1600\Package\Newebpay;
 
-use fall1600\Package\Newebpay\Contracts\TradeInfoEncryptInterface;
 use fall1600\Package\Newebpay\Info\Info;
 
 class NewebPay
@@ -43,11 +42,14 @@ class NewebPay
      */
     protected $formId = 'newebpay-form';
 
+    /** @var Merchant */
+    protected $merchant;
+
     /**
-     * 用來加密交易資訊
-     * @var TradeInfoEncryptInterface
+     * Hash 交易資訊用的
+     * @var TradeInfoHash
      */
-    protected $tradeInfoEncrypt;
+    protected $tradeInfoHash;
 
     public function echoCheckoutPage()
     {
@@ -83,15 +85,15 @@ class NewebPay
     {
         $url = $this->isProduction? static::URL_PRODUCTION: static::URL_TEST;
 
-        $tradeInfo = $this->tradeInfoEncrypt->countTradeInfo($this->info);
+        $tradeInfo = $this->merchant->countTradeInfo($this->info);
 
-        $tradeSha = $this->tradeInfoEncrypt->countTradeSha($tradeInfo);
+        $tradeSha = $this->merchant->countTradeSha($tradeInfo);
 
         $version = static::VERSION;
 
         return <<<EOT
         <form name="newebpay" id="{$this->formId}" method="post" action={$url} style="display:none;">
-            <input type="text" name="MerchantID" value="{$this->info->getMerchantId()}" type="hidden"/>
+            <input type="text" name="MerchantID" value="{$this->merchant->getId()}" type="hidden"/>
             <input type="text" name="Hash" value="{$tradeInfo}" type="hidden"/>
             <input type="text" name="TradeSha" value="{$tradeSha}" type="hidden"/>
             <input type="text" name="Version" value="{$version}" type="hidden"/>
@@ -106,13 +108,6 @@ class NewebPay
         return $this;
     }
 
-    public function setTradeInfoEncrypt(TradeInfoEncryptInterface $tradeInfoEncrypt)
-    {
-        $this->tradeInfoEncrypt = $tradeInfoEncrypt;
-
-        return $this;
-    }
-
     public function setIsProduction(bool $isProduction)
     {
         $this->isProduction = $isProduction;
@@ -123,6 +118,13 @@ class NewebPay
     public function setFormId(string $formId)
     {
         $this->formId = $formId;
+
+        return $this;
+    }
+
+    public function setMerchant(Merchant $merchant)
+    {
+        $this->merchant = $merchant;
 
         return $this;
     }

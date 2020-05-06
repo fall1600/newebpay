@@ -39,7 +39,7 @@ abstract class Info
      */
     abstract public function getInfo();
 
-    public function __construct(OrderInterface $order, PayerInterface $payer, string $merchantId, string $notifyUrl)
+    public function __construct(string $merchantId, string $notifyUrl, OrderInterface $order, PayerInterface $payer)
     {
         $this->order = $order;
 

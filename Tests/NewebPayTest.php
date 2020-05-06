@@ -11,8 +11,9 @@ use fall1600\Package\Newebpay\Info\Decorator\OfflinePay;
 use fall1600\Package\Newebpay\Info\Decorator\PayCancel;
 use fall1600\Package\Newebpay\Info\Decorator\PayComplete;
 use fall1600\Package\Newebpay\Info\Decorator\PayerEmailEditable;
+use fall1600\Package\Newebpay\Merchant;
 use fall1600\Package\Newebpay\NewebPay;
-use fall1600\Package\Newebpay\TradeInfoEncryptor;
+use fall1600\Package\Newebpay\TradeInfoHash;
 use PHPUnit\Framework\TestCase;
 
 class NewebPayTest extends TestCase
@@ -27,6 +28,8 @@ class NewebPayTest extends TestCase
         $hashKey = 'hash.key.234';
 
         $hashIv = 'hash.iv.34567890';
+
+        $merchant = new Merchant($merchantId, $hashKey, $hashIv);
 
         $email = 'test@gg.cc';
 
@@ -66,7 +69,7 @@ class NewebPayTest extends TestCase
 
         $customerUrl = 'customer.url';
 
-        $info = new BasicInfo($order, $payer, $merchantId, $notifyUrl);
+        $info = new BasicInfo($merchant->getId(), $notifyUrl, $order, $payer);
         $info = new PayerEmailEditable($info, $email);
         $info = new Language($info, LanguageType::EN);
         $info = new PayCancel($info, $clientBackUrl);
@@ -76,11 +79,7 @@ class NewebPayTest extends TestCase
         $newebpay
             ->setIsProduction(false)
             ->setInfo($info)
-            ->setTradeInfoEncrypt(
-                (new TradeInfoEncryptor())
-                    ->setHashKey($hashKey)
-                    ->setHashIv($hashIv)
-            )
+            ->setMerchant($merchant)
             ;
         //act
         $newebpay->echoCheckoutPage();

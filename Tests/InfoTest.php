@@ -11,6 +11,7 @@ use fall1600\Package\Newebpay\Info\Decorator\PayComplete;
 use fall1600\Package\Newebpay\Info\Decorator\PayerEmailEditable;
 use fall1600\Package\Newebpay\Info\BasicInfo;
 use fall1600\Package\Newebpay\Info\Decorator\PayCancel;
+use fall1600\Package\Newebpay\Merchant;
 use fall1600\Package\Newebpay\NewebPay;
 use PHPUnit\Framework\TestCase;
 
@@ -19,7 +20,7 @@ class InfoTest extends TestCase
     public function test_info()
     {
         //arrange
-        $merchantId = 'merchant.id.123';
+        $merchant = new Merchant('merchant.id.123','hash.key.123','hash.iv.4567890');
 
         $returnUrl= 'return.url';
 
@@ -64,7 +65,7 @@ class InfoTest extends TestCase
                     new PayCancel(
                         new Language(
                             new PayerEmailEditable(
-                                new BasicInfo($order, $payer, $merchantId, $notifyUrl),
+                                new BasicInfo($merchant->getId(), $notifyUrl, $order, $payer),
                                 $email
                             ),
                             $lang = LanguageType::EN
@@ -81,7 +82,7 @@ class InfoTest extends TestCase
 
         //assert
         $this->assertArrayHasKey('MerchantID', $result);
-        $this->assertEquals($merchantId, $result['MerchantID']);
+        $this->assertEquals($merchant->getId(), $result['MerchantID']);
 
         $this->assertArrayHasKey('RespondType', $result);
         $this->assertEquals('JSON', $result['RespondType']);

@@ -9,6 +9,7 @@ use fall1600\Package\Newebpay\Info\AliPayBasicInfo;
 use fall1600\Package\Newebpay\Info\Decorator\EnableAliPay;
 use fall1600\Package\Newebpay\Info\Decorator\AliPayProduct;
 use fall1600\Package\Newebpay\Info\Decorator\EnableCredit;
+use fall1600\Package\Newebpay\Merchant;
 use fall1600\Package\Newebpay\NewebPay;
 use PHPUnit\Framework\TestCase;
 
@@ -56,6 +57,8 @@ class AliPayInfoTest extends TestCase
             ->willReturn('0988777666');
 
         $merchantId = 'merchant.id.223';
+
+        $merchant = new Merchant($merchantId, $hashKey = 'hash.key.123', $hashIv = 'hash.iv.4567890');
 
         $notifyUrl = 'notify.url';
 
@@ -108,7 +111,7 @@ class AliPayInfoTest extends TestCase
             ->willReturn($p2qty = 1);
 
         //act
-        $info = new AliPayBasicInfo($order, $payer, $count, $merchantId, $notifyUrl);
+        $info = new AliPayBasicInfo($merchant->getId(), $notifyUrl, $order, $payer, $count);
         $info = new AliPayProduct($info, 1, $product1);
         $info = new AliPayProduct($info, 2, $product2);
         $info = new EnableAliPay($info);

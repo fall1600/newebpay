@@ -3,16 +3,22 @@
 namespace fall1600\Package\Newebpay;
 
 use fall1600\Package\Newebpay\Constants\Cipher;
-use fall1600\Package\Newebpay\Contracts\TradeInfoEncryptInterface;
 use fall1600\Package\Newebpay\Info\Info;
 
-class TradeInfoEncryptor implements TradeInfoEncryptInterface
+class TradeInfoHash
 {
     /** @var string */
     protected $hashKey;
 
     /** @var string */
     protected $hashIv;
+
+    public function __construct(string $hashKey = null, string $hashIv = null)
+    {
+        $this->hashKey = $hashKey;
+
+        $this->hashIv = $hashIv;
+    }
 
     /**
      * @param Info $info
@@ -35,6 +41,19 @@ class TradeInfoEncryptor implements TradeInfoEncryptInterface
             hash(
                 "sha256",
                 "HashKey={$this->hashKey}&{$tradeInfo}&HashIV={$this->hashIv}"
+            )
+        );
+    }
+
+    public function createAesDecrypt($parameter = "")
+    {
+        return $this->strippadding(
+            openssl_decrypt(
+                hex2bin($parameter),
+                Cipher::METHOD,
+                $this->hashKey,
+                OPENSSL_RAW_DATA|OPENSSL_ZERO_PADDING,
+                $this->hashIv
             )
         );
     }
@@ -80,5 +99,18 @@ class TradeInfoEncryptor implements TradeInfoEncryptInterface
         $pad = $blockSize - ($len % $blockSize);
         $string .= str_repeat(chr($pad), $pad);
         return $string;
+    }
+
+    protected function strippadding($string)
+    {
+        $slast = ord(substr($string, -1));
+        $slastc = chr($slast);
+        $pcheck = substr($string, -$slast);
+        if (preg_match("/$slastc{" . $slast . "}/", $string)) {
+            $string = substr($string, 0, strlen($string) - $slast);
+            return $string;
+        } else {
+            return false;
+        }
     }
 }
