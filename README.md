@@ -8,12 +8,12 @@
 
 #### 建立交易資訊 (BasicInfo)
  - $merchantId: 你在藍星申請的商店代號
- - $returnUrl: 用來接收藍星付款通知的webhook
+ - $notifyUrl: 用來接收藍星付款通知的webhook
  - $order: 你的訂單物件, 務必實作package 中的OrderInterface
  - $payer: 你的付款人物件, 務必實作package 中的PayerInterface 
  
 ```php
-$info = new BasicInfo($merchantId, $returnUrl, $order, $payer);
+$info = new BasicInfo($merchantId, $notifyUrl, $order, $payer);
 ```
 
 #### 依場景開啟各種付款方式
@@ -26,6 +26,8 @@ $info = new PayInInstallments($info, '3,6,12');
 $info = new EnableBarcode($info);
 // 離線付款回導頁設定, 需設定繳費截止在幾天內(ttl), 以及取號完成後導回的網址
 $info = new OfflinePay($info, $ttl, $customerUrl);
+// 在藍星交易完成後導回的網址
+$info = new PayComplete($info, $returnUrl);
 
 // 文件末有付款方式對應表
 ```
@@ -83,7 +85,7 @@ class Member implements PayerInterface
 - $product2: 第二個品項(實作AliPayProductInterface)
 
 ```php
-$info = new AliPayBasicInfo($merchantId, $returnUrl, $order, $payer, $numberOfProducts);
+$info = new AliPayBasicInfo($merchantId, $notifyUrl, $order, $payer, $numberOfProducts);
 $info = new EnableAliPay($info);
 
 $info = new AliPayProduct($info, 1, $product1);
