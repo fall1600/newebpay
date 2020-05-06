@@ -13,7 +13,6 @@ use fall1600\Package\Newebpay\Info\Decorator\PayComplete;
 use fall1600\Package\Newebpay\Info\Decorator\PayerEmailEditable;
 use fall1600\Package\Newebpay\Merchant;
 use fall1600\Package\Newebpay\NewebPay;
-use fall1600\Package\Newebpay\TradeInfoHash;
 use PHPUnit\Framework\TestCase;
 
 class NewebPayTest extends TestCase
@@ -76,13 +75,11 @@ class NewebPayTest extends TestCase
         $info = new OfflinePay($info, $ttl, $customerUrl);
         $info = new PayComplete($info, $returnUrl);
 
+        //act
         $newebpay
             ->setIsProduction(false)
-            ->setInfo($info)
             ->setMerchant($merchant)
-            ;
-        //act
-        $newebpay->echoCheckoutPage();
+            ->checkout($info);
 
         //assert
     }

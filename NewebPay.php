@@ -31,12 +31,6 @@ class NewebPay
     protected $isProduction = true;
 
     /**
-     * MPG(Multi Payment Gateway) 參數
-     * @var Info
-     */
-    protected $info;
-
-    /**
      * 送往藍星表單的id
      * @var string
      */
@@ -51,15 +45,16 @@ class NewebPay
      */
     protected $tradeInfoHash;
 
-    public function echoCheckoutPage()
+    public function checkout(Info $info)
     {
-        echo $this->generateCheckoutPage();
+        echo $this->generateCheckoutPage($info);
     }
 
     /**
+     * @param Info $info
      * @return string
      */
-    public function generateCheckoutPage()
+    public function generateCheckoutPage(Info $info)
     {
         return <<<EOT
         <!DOCTYPE html>
@@ -68,7 +63,7 @@ class NewebPay
                     <meta charset="utf-8">
                 </head>
                 <body>
-                    {$this->generateForm()}
+                    {$this->generateForm($info)}
                     <script>
                         var form = document.getElementById("$this->formId");
                         form.submit();
@@ -79,13 +74,14 @@ class NewebPay
     }
 
     /**
+     * @param Info $info
      * @return string
      */
-    public function generateForm()
+    public function generateForm(Info $info)
     {
         $url = $this->isProduction? static::URL_PRODUCTION: static::URL_TEST;
 
-        $tradeInfo = $this->merchant->countTradeInfo($this->info);
+        $tradeInfo = $this->merchant->countTradeInfo($info);
 
         $tradeSha = $this->merchant->countTradeSha($tradeInfo);
 
@@ -99,13 +95,6 @@ class NewebPay
             <input type="text" name="Version" value="{$version}" type="hidden"/>
         </form>
         EOT;
-    }
-
-    public function setInfo(Info $info)
-    {
-        $this->info = $info;
-
-        return $this;
     }
 
     public function setIsProduction(bool $isProduction)
