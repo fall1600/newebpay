@@ -90,7 +90,7 @@ class NewebPay
         return <<<EOT
         <form name="newebpay" id="{$this->formId}" method="post" action={$url} style="display:none;">
             <input type="text" name="MerchantID" value="{$this->merchant->getId()}" type="hidden"/>
-            <input type="text" name="Hash" value="{$tradeInfo}" type="hidden"/>
+            <input type="text" name="TradeInfo" value="{$tradeInfo}" type="hidden"/>
             <input type="text" name="TradeSha" value="{$tradeSha}" type="hidden"/>
             <input type="text" name="Version" value="{$version}" type="hidden"/>
         </form>
