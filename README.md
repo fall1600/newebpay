@@ -32,14 +32,15 @@ $info = new PayComplete($info, $returnUrl);
 // 文件末有付款方式對應表
 ```
 
-#### 建立NewebPay 物件, 注入交易資訊, 注入加密物件後, 導去藍星付款
+#### 建立NewebPay 物件, 注入商店資訊, 帶著交易資訊前往藍星付款
+ - $merchantId: 你在藍星商店代號
  - $hashKey: 你在藍星商店專屬的HashKey
  - $hashIv: 你在藍星商店專屬的HashIV
  
 ```php
 $newebpay = new NewebPay();
 $newebpay
-    ->setIsProduction(false) // 調整環境
+    ->setIsProduction(false) // 設定環境, 預設就是走正式機
     ->setMerchant(new Merchant($merchantId, $hashKey, $hashIv))
     ->checkout($info);
 ```
