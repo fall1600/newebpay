@@ -7,13 +7,13 @@
 ## How to use
 
 #### 建立交易資訊 (BasicInfo)
- - $order: 你的訂單物件, 務必實作package 中的OrderInterface
- - $payer: 你的付款人物件, 務必實作package 中的PayerInterface
  - $merchantId: 你在藍星申請的商店代號
- - $returnUrl: 用來接收藍星付款通知的webhook 
+ - $returnUrl: 用來接收藍星付款通知的webhook
+ - $order: 你的訂單物件, 務必實作package 中的OrderInterface
+ - $payer: 你的付款人物件, 務必實作package 中的PayerInterface 
  
 ```php
-$info = new BasicInfo($order, $payer, $merchantId, $returnUrl);
+$info = new BasicInfo($merchantId, $returnUrl, $order, $payer);
 ```
 
 #### 依場景開啟各種付款方式
@@ -36,9 +36,10 @@ $info = new OfflinePay($info, $ttl, $customerUrl);
  
 ```php
 $newebpay = new NewebPay();
-$newebpay->setInfo($info)
-    ->setTradeInfoEncrypt(new TradeInfoEncryptor($hashKey, $hashIv))
-    ->echoCheckoutPage();
+$newebpay
+    ->setIsProduction(false) // 調整環境
+    ->setMerchant(new Merchant($merchantId, $hashKey, $hashIv))
+    ->checkout($info);
 ```
 
 #### 請在你的訂單物件實作 OrderInterface
@@ -82,7 +83,7 @@ class Member implements PayerInterface
 - $product2: 第二個品項(實作AliPayProductInterface)
 
 ```php
-$info = new AliPayBasicInfo($order, $payer, $numberOfProducts, $merchantId, $returnUrl);
+$info = new AliPayBasicInfo($merchantId, $returnUrl, $order, $payer, $numberOfProducts);
 $info = new EnableAliPay($info);
 
 $info = new AliPayProduct($info, 1, $product1);
