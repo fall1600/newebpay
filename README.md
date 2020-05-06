@@ -72,7 +72,22 @@ class Member implements PayerInterface
 }
 ```
 
+#### 支付寶 (AliPay)
 
+支付寶付款需提供的參數更多
+
+- $payer: 你的付款人物件, 務必實作package 中的AliPayPayerInterface
+- $numberOfProducts: 此訂單的品項數量(integer)
+- $product1: 第一個品項(實作AliPayProductInterface)
+- $product2: 第二個品項(實作AliPayProductInterface)
+
+```php
+$info = new AliPayBasicInfo($order, $payer, $numberOfProducts, $merchantId, $returnUrl);
+$info = new EnableAliPay($info);
+
+$info = new AliPayProduct($info, 1, $product1);
+$info = new AliPayProduct($info, 2, $product2);
+```
 
 
 #### 付款方式對應的物件
