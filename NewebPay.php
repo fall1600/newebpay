@@ -39,12 +39,6 @@ class NewebPay
     /** @var Merchant */
     protected $merchant;
 
-    /**
-     * Hash 交易資訊用的
-     * @var TradeInfoHash
-     */
-    protected $tradeInfoHash;
-
     public function checkout(Info $info)
     {
         echo $this->generateCheckoutPage($info);
