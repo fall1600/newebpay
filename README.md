@@ -76,6 +76,22 @@ class Member implements PayerInterface
 }
 ```
 
+#### 解開來自藍星的交易通知
+```php
+$isValid = $merchant->setRawData($request->all())->validate(); //確認為true 後再往下走
+
+// response 封裝了通知交易的結果, 以下僅列常用methods
+$response = $merchant->getResponse();
+// 付款成敗
+$response->getStatus();
+// 取得交易序號
+$response->getTradeNo();
+// 取得訂單編號, 就是OrderInterface 實作的getMerchantOrderNo
+$response->getMerchantOrderNo();
+// 付款時間
+$response->getPayTime();
+```
+
 #### 支付寶 (AliPay)
 
 支付寶付款需提供的參數更多
