@@ -8,12 +8,12 @@ class Response
     protected $data;
 
     /**
-     * 直接注入藍星來的回傳值
-     * @param array $input
+     * 注入藍星來的回傳值
+     * @param array $data
      */
-    public function __construct(array $input)
+    public function __construct(array $data)
     {
-        $this->data = json_decode($input['TradeInfo'], true);
+        $this->data = $data;
     }
 
     /**
