@@ -110,12 +110,12 @@ $info = new AliPayProduct($info, 2, $product2);
 ```
 
 #### 各種url 你分的清楚嗎?
-| Name             | 用途                            | 設定的物件    |    備註                                |
-|:-----------------|:-------------------------------|:-------------|:--------------------------------------|
-| NotifyURL        | 通知你系統交易資訊的callback url   | BasicInfo    | 就這個最重要, 所以BasicInfo 就要設定了    |
-| ReturnURL        | 付款完成後要回到你系統的位置        | PayComplete  | 沒設定就是顯示在藍星                       |
-| CustomerURL      | 離線付款時取號後回到你系統的位置     | OfflinePay   | 沒設定就是顯示在藍星                       |
-| ClientBackURL    | 交易取消時回到你系統的位置          | PayCancel    | 沒設定就是顯示在藍星                       |
+| Name             | 用途                                  | 設定的物件    |    備註                                |
+|:-----------------|:------------------------------------ |:-------------|:--------------------------------------|
+| NotifyURL        | 通知你系統交易資訊的callback url         | BasicInfo    | 這個最重要, 所以BasicInfo 就要設定了     |
+| CustomerURL      | 離線付款取號完成通知你系統的callback url  | OfflinePay   | 沒設定就是顯示在藍星, 人工紀錄付款資訊      |
+| ReturnURL        | 付款完成後要回到你系統的位置              | PayComplete  | 沒設定就是顯示在藍星                     |
+| ClientBackURL    | 交易取消時回到你系統的位置                | PayCancel    | 沒設定就是顯示在藍星                     |
 
 
 #### 付款方式對應的物件
