@@ -72,8 +72,8 @@ class InfoTest extends TestCase
                         ),
                         $clientBackUrl
                     ),
-                    $ttl,
-                    $customerUrl
+                    $customerUrl,
+                    $ttl
                 ),
                 $returnUrl
             )

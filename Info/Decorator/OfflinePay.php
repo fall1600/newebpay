@@ -20,19 +20,19 @@ class OfflinePay extends InfoDecorator
 
     /**
      * 商店取號網址
-     *  消費者選擇離線付款後 藍星要redirect 的網址
+     *  消費者選擇離線付款後 藍星要通知你系統付款資訊
      *
      * @var string
      */
     protected $customerUrl;
 
-    public function __construct(Info $info, int $ttl = null, string $customerUrl = null)
+    public function __construct(Info $info, string $customerUrl, int $ttl = null)
     {
         $this->info = $info;
 
-        $this->setTtl($ttl);
+        $this->customerUrl = $customerUrl;
 
-        $this->setCustomerUrl($customerUrl);
+        $this->setTtl($ttl);
     }
 
     public function getInfo()
@@ -55,12 +55,6 @@ class OfflinePay extends InfoDecorator
         }
 
         $this->ttl = $ttl;
-    }
-
-
-    protected function setCustomerUrl(string $customerUrl = null)
-    {
-        $this->customerUrl = $customerUrl;
     }
 
     /**
