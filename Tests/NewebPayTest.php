@@ -28,7 +28,23 @@ class NewebPayTest extends TestCase
 
         $hashIv = 'hash.iv.34567890';
 
-        $merchant = new Merchant($merchantId, $hashKey, $hashIv);
+//        $merchant = new Merchant($merchantId, $hashKey, $hashIv);
+
+        $merchant = $this->getMockBuilder(Merchant::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $merchant->expects($this->atLeastOnce())
+            ->method('getId')
+            ->willReturn($merchantId);
+
+        $merchant->expects($this->once())
+            ->method('countTradeInfo')
+            ->willReturn($tradeInfo = '12345');
+
+        $merchant->expects($this->once())
+            ->method('countTradeSha')
+            ->willReturn($tradeSha = '22345');
 
         $email = 'test@gg.cc';
 
@@ -41,28 +57,8 @@ class NewebPayTest extends TestCase
         $order = $this->getMockBuilder(OrderInterface::class)
             ->getMock();
 
-        $order->expects($this->once())
-            ->method('getMerchantOrderNo')
-            ->willReturn($orderMerchantNo = (string) time());
-
-        $order->expects($this->once())
-            ->method('getItemDesc')
-            ->willReturn($itemDesc = 'This is an apple');
-
-        $order->expects($this->once())
-            ->method('getAmt')
-            ->willReturn($amt = 100);
-
         $payer = $this->getMockBuilder(PayerInterface::class)
             ->getMock();
-
-        $payer->expects($this->once())
-            ->method('getEmail')
-            ->willReturn($email = 'foobar@gg.cc');
-
-        $payer->expects($this->once())
-            ->method('getLoginType')
-            ->willReturn($loginType = false);
 
         $ttl = 3;
 
@@ -75,12 +71,23 @@ class NewebPayTest extends TestCase
         $info = new OfflinePay($info, $ttl, $customerUrl);
         $info = new PayComplete($info, $returnUrl);
 
+        $expected = <<<EOT
+        <form name="newebpay" id="newebpay-form" method="post" action="https://ccore.newebpay.com/MPG/mpg_gateway" style="display:none;">
+            <input type="text" name="MerchantID" value="{$merchantId}" type="hidden"/>
+            <input type="text" name="TradeInfo" value="{$tradeInfo}" type="hidden"/>
+            <input type="text" name="TradeSha" value="{$tradeSha}" type="hidden"/>
+            <input type="text" name="Version" value="1.5" type="hidden"/>
+        </form>
+        EOT;
+
+
         //act
-        $newebpay
+        $result = $newebpay
             ->setIsProduction(false)
             ->setMerchant($merchant)
-            ->checkout($info);
+            ->generateForm($info);
 
         //assert
+        $this->assertEquals($expected, $result);
     }
 }
