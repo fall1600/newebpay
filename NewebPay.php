@@ -41,16 +41,7 @@ class NewebPay
 
     public function checkout(Info $info)
     {
-        echo $this->generateCheckoutPage($info);
-    }
-
-    /**
-     * @param Info $info
-     * @return string
-     */
-    public function generateCheckoutPage(Info $info)
-    {
-        return <<<EOT
+        echo <<<EOT
         <!DOCTYPE html>
             <html>
                 <head>
