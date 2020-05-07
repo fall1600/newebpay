@@ -8,7 +8,7 @@
 
 #### 建立交易資訊 (BasicInfo)
  - $merchantId: 你在藍星申請的商店代號
- - $notifyUrl: 用來接收藍星付款通知的webhook
+ - $notifyUrl: 用來接收藍星付款通知的callback url
  - $order: 你的訂單物件, 務必實作package 中的OrderInterface
  - $payer: 你的付款人物件, 務必實作package 中的PayerInterface 
  
@@ -16,18 +16,24 @@
 $info = new BasicInfo($merchantId, $notifyUrl, $order, $payer);
 ```
 
-#### 依場景開啟各種付款方式
+#### 依場景開啟各種付款方式, 有需要再啟用即可
 ```php
-// 開啟信用卡
+// 啟用信用卡
 $info = new EnableCredit($info);
-// 開啟3, 6, 12 期分期付款
+// 啟用3, 6, 12 期分期付款
 $info = new PayInInstallments($info, '3,6,12');
-// 開啟超商條碼
+// 啟用超商條碼
 $info = new EnableBarcode($info);
-// 離線付款回導頁設定, 需設定繳費截止在幾天內(ttl), 以及取號完成後導回的網址
-$info = new OfflinePay($info, $ttl, $customerUrl);
+// 啟用Google Pay
+$info = new EnableGooglePay($info);
+// 啟用Web ATM
+$info = new EnableWebAtm($info);
+// 搭配離線付款, 設定藍星通知付款資訊的callback url, 以及繳費期限
+$info = new OfflinePay($info, $customerUrl, $ttl);
 // 在藍星交易完成後導回的網址
 $info = new PayComplete($info, $returnUrl);
+// 設定讓消費者在付款頁按下返回時可以回導的頁面
+$info = new PayCancel($info, $clientBackUrl);
 
 // 文件末有付款方式對應表
 ```
