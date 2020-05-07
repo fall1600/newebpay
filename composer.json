@@ -12,7 +12,8 @@
     "minimum-stability": "stable",
     "require": {
         "ext-openssl": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
