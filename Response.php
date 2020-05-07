@@ -135,6 +135,15 @@ class Response
     }
 
     /**
+     * 離線金流會帶繳費到期日回來, 格式: yyyy-mm-dd
+     * @return string|null
+     */
+    public function getExpireDate()
+    {
+        return $this->data['Result']['ExpireDate'] ?? null;
+    }
+
+    /**
      * @return string
      */
     public function getTradeInfo()
