@@ -35,6 +35,22 @@ class Merchant
     }
 
     /**
+     * 因為商城代號, hashKey, hashIv 是一整組的, 要就一次修改
+     * @param  string  $id
+     * @param  string  $hashKey
+     * @param  string  $hashIv
+     * @return $this
+     */
+    public function reset(string $id, string $hashKey, string $hashIv)
+    {
+        $this->id = $id;
+        $this->hashKey = $hashKey;
+        $this->hashIv = $hashIv;
+
+        return $this;
+    }
+
+    /**
      * @param Info $info
      * @return string
      */
@@ -63,11 +79,31 @@ class Merchant
         );
     }
 
-    public function createAesDecrypt($parameter = "")
+    /**
+     * 用來確認藍星通知的資料是否真的是此merchant 簽發的
+     * @param  string  $tradeInfo
+     * @param  string  $tradeSha
+     * @return bool
+     */
+    public function validate(string $tradeInfo, string $tradeSha)
     {
+        return $tradeSha === $this->countTradeSha($tradeInfo);
+    }
+
+    /**
+     * 從藍星回傳的交易資訊
+     * @param  string  $tradeInfo
+     * @return bool|false|string
+     */
+    public function createAesDecrypt(string $tradeInfo)
+    {
+        if (! $tradeInfo) {
+            throw new \LogicException('empty trade info');
+        }
+
         return $this->stripPadding(
             openssl_decrypt(
-                hex2bin($parameter),
+                hex2bin($tradeInfo),
                 Cipher::METHOD,
                 $this->hashKey,
                 OPENSSL_RAW_DATA|OPENSSL_ZERO_PADDING,
@@ -85,16 +121,6 @@ class Merchant
     }
 
     /**
-     * @param string $id
-     */
-    public function setId(string $id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getHashKey(): string
@@ -103,31 +129,11 @@ class Merchant
     }
 
     /**
-     * @param string $hashKey
-     */
-    public function setHashKey(string $hashKey)
-    {
-        $this->hashKey = $hashKey;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getHashIv()
     {
         return $this->hashIv;
-    }
-
-    /**
-     * @param string $hashIv
-     */
-    public function setHashIv(string $hashIv)
-    {
-        $this->hashIv = $hashIv;
-
-        return $this;
     }
 
     protected function createEncryptedStr(array $infoPayload = [])
