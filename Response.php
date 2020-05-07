@@ -14,78 +14,78 @@ class Response
 
     /**
      * 商城代號
-     * @return string
+     * @return string|null
      */
     public function getMerchantId()
     {
-        return $this->data['MerchantID'];
+        return $this->data['Result']['MerchantID'] ?? null;
     }
 
     /**
      * 交易金額
-     * @return int
+     * @return int|null
      */
     public function getAmt()
     {
-        return (int) $this->data['Amt'];
+        return ((int) $this->data['Result']['Amt']) ?? null;
     }
 
     /**
      * 交易序號
-     * @return string
+     * @return string|null
      */
     public function getTradeNo()
     {
-        return $this->data['TradeNo'];
+        return $this->data['Result']['TradeNo'] ?? null;
     }
 
     /**
      * 用來跟藍星溝通的訂單編號, 也就是OrderInterface 提供的MerchantOrderNo
-     * @return string
+     * @return string|null
      */
     public function getMerchantTradeNo()
     {
-        return $this->data['MerchantTradeNo'];
+        return $this->data['Result']['MerchantTradeNo'] ?? null;
     }
 
     /**
      * 付款方式
-     * @return string
+     * @return string|null
      */
     public function getPaymentType()
     {
-        return $this->data['PaymentType'];
+        return $this->data['Result']['PaymentType'] ?? null;
     }
 
     public function getResponseType()
     {
-        return $this->data['ResponseType'];
+        return $this->data['Result']['ResponseType'] ?? null;
     }
 
     /**
      * 付款完成時間
-     * @return string
+     * @return string|null
      */
     public function getPayTime()
     {
-        return $this->data['PayTime'];
+        return $this->data['Result']['PayTime'] ?? null;
     }
 
     /**
      * 付款人取號或交易時的ip
-     * @return string
+     * @return string|null
      */
     public function getIp()
     {
-        return $this->data['IP'];
+        return $this->data['Result']['IP'] ?? null;
     }
 
     /**
      * 款項保管銀行
-     * @return string
+     * @return string|null
      */
     public function getEscrowBank()
     {
-        return $this->data['EscrowBank'];
+        return $this->data['Result']['EscrowBank'] ?? null;
     }
 }
