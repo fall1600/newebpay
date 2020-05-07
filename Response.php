@@ -7,13 +7,25 @@ class Response
     /** @var array */
     protected $data;
 
+    /** @var string */
+    protected $tradeInfo;
+
+    /** @var string */
+    protected $tradeSha;
+
     /**
      * 注入藍星來的回傳值
      * @param array $data
+     * @param string $tradeInfo
+     * @param string $tradeSha
      */
-    public function __construct(array $data)
+    public function __construct(array $data, string $tradeInfo, string $tradeSha)
     {
         $this->data = $data;
+
+        $this->tradeInfo = $tradeInfo;
+
+        $this->tradeSha = $tradeSha;
     }
 
     /**
@@ -120,5 +132,21 @@ class Response
     public function getEscrowBank()
     {
         return $this->data['Result']['EscrowBank'] ?? null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTradeInfo()
+    {
+        return $this->tradeInfo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTradeSha()
+    {
+        return $this->tradeSha;
     }
 }

@@ -78,7 +78,7 @@ class Member implements PayerInterface
 
 #### 解開來自藍星的交易通知
 ```php
-$isValid = $merchant->setRawData($request->all())->validate(); //確認為true 後再往下走
+$isValid = $merchant->setRawData($request->all())->validateResponse(); //確認為true 後再往下走
 
 // response 封裝了通知交易的結果, 以下僅列常用methods
 $response = $merchant->getResponse();
