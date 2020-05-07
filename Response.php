@@ -43,9 +43,9 @@ class Response
      * 用來跟藍星溝通的訂單編號, 也就是OrderInterface 提供的MerchantOrderNo
      * @return string|null
      */
-    public function getMerchantTradeNo()
+    public function getMerchantOrderNo()
     {
-        return $this->data['Result']['MerchantTradeNo'] ?? null;
+        return $this->data['Result']['MerchantOrderNo'] ?? null;
     }
 
     /**
