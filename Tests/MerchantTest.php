@@ -17,7 +17,7 @@ class MerchantTest extends TestCase
         $expected = 'MerchantID=3430112&RespondType=JSON&TimeStamp=1485232229&Version=1.4&MerchantOrderNo=S_1485232229&Amt=40&ItemDesc=UnitTest';
 
         //act
-        $result = $merchant->createAesDecrypt($encryptedStr);
+        $result = $merchant->decryptTradeInfo($encryptedStr);
 
         //assert
         $this->assertEquals($expected, $result);

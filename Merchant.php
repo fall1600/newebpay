@@ -3,6 +3,7 @@
 namespace fall1600\Package\Newebpay;
 
 use fall1600\Package\Newebpay\Constants\Cipher;
+use fall1600\Package\Newebpay\Exceptions\TradeInfoException;
 use fall1600\Package\Newebpay\Info\Info;
 
 class Merchant
@@ -25,6 +26,12 @@ class Merchant
      */
     protected $hashIv;
 
+    /**
+     * 封裝來自藍星的回傳, 僅提供各種支付共同參數的accessor
+     * @var Response
+     */
+    protected $response;
+
     public function __construct(string $id, string $hashKey, string $hashIv)
     {
         $this->id = $id;
@@ -36,6 +43,7 @@ class Merchant
 
     /**
      * 因為商城代號, hashKey, hashIv 是一整組的, 要就一次修改
+     * response 是屬於個別商城的, 改商城順手清空response
      * @param  string  $id
      * @param  string  $hashKey
      * @param  string  $hashIv
@@ -46,6 +54,8 @@ class Merchant
         $this->id = $id;
         $this->hashKey = $hashKey;
         $this->hashIv = $hashIv;
+
+        $this->response = null;
 
         return $this;
     }
@@ -80,6 +90,25 @@ class Merchant
     }
 
     /**
+     * 注入來自藍星通知的交易資訊
+     * @param array $rawData
+     * @return $this
+     * @throws TradeInfoException
+     */
+    public function setRawData(array $rawData)
+    {
+        if (! isset($rawData['TradeInfo']) || ! isset($rawData['TradeSha'])) {
+            throw new TradeInfoException('invalid data');
+        }
+
+        $this->response = new Response(
+            json_decode($this->decryptTradeInfo($rawData['TradeInfo']), true)
+        );
+
+        return $this;
+    }
+
+    /**
      * 用來確認藍星通知的資料是否真的是此merchant 簽發的
      * @param  string  $tradeInfo
      * @param  string  $tradeSha
@@ -91,11 +120,12 @@ class Merchant
     }
 
     /**
-     * 從藍星回傳的交易資訊
-     * @param  string  $tradeInfo
-     * @return bool|false|string
+     * 從藍星回傳的加密交易資訊解成可讀的字串
+     * @param string $tradeInfo
+     * @return string
+     * @throws TradeInfoException
      */
-    public function createAesDecrypt(string $tradeInfo)
+    public function decryptTradeInfo(string $tradeInfo)
     {
         if (! $tradeInfo) {
             throw new \LogicException('empty trade info');
@@ -136,6 +166,14 @@ class Merchant
         return $this->hashIv;
     }
 
+    /**
+     * @return Response
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
     protected function createEncryptedStr(array $infoPayload = [])
     {
         return trim(
@@ -159,6 +197,11 @@ class Merchant
         return $string;
     }
 
+    /**
+     * @param $string
+     * @return string
+     * @throws TradeInfoException
+     */
     protected function stripPadding($string)
     {
         $slast = ord(substr($string, -1));
@@ -167,8 +210,8 @@ class Merchant
         if (preg_match("/$slastc{" . $slast . "}/", $string)) {
             $string = substr($string, 0, strlen($string) - $slast);
             return $string;
-        } else {
-            return false;
         }
+
+        throw new TradeInfoException();
     }
 }
