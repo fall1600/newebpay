@@ -15,7 +15,7 @@ class Comment extends InfoDecorator
      *  若提供此參數則會在付款頁面顯示商店資訊
      * @var string
      */
-    protected $desc;
+    protected $comment;
 
     public function __construct(Info $info, string $comment)
     {
@@ -28,7 +28,7 @@ class Comment extends InfoDecorator
     {
         return $this->info->getInfo() +
             [
-                'OrderComment' => $this->desc,
+                'OrderComment' => $this->comment,
             ];
     }
 
