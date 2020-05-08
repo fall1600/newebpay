@@ -11,7 +11,7 @@ interface PayerInterface
     public function getEmail();
 
     /**
-     * 是否需要登入藍星金流會員
+     * 是否需要登入藍新金流會員
      * @return bool
      */
     public function getLoginType();

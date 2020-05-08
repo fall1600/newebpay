@@ -8,7 +8,7 @@ use fall1600\Package\Newebpay\Info\Info;
 class NewebPay
 {
     /**
-     * 藍星說是哪一版就是哪一版
+     * 藍新說是哪一版就是哪一版
      * @var string
      */
     public const VERSION = '1.5';
@@ -44,7 +44,7 @@ class NewebPay
     protected $isProduction = true;
 
     /**
-     * 送往藍星表單的id
+     * 送往藍新表單的id
      * @var string
      */
     protected $formId = 'newebpay-form';

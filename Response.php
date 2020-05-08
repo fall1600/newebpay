@@ -14,7 +14,7 @@ class Response
     protected $tradeSha;
 
     /**
-     * 注入藍星來的回傳值
+     * 注入藍新來的回傳值
      * @param array $data
      * @param string $tradeInfo
      * @param string $tradeSha
@@ -85,7 +85,7 @@ class Response
     }
 
     /**
-     * 用來跟藍星溝通的訂單編號, 也就是OrderInterface 提供的MerchantOrderNo
+     * 用來跟藍新溝通的訂單編號, 也就是OrderInterface 提供的MerchantOrderNo
      * @return string|null
      */
     public function getMerchantOrderNo()

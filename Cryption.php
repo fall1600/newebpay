@@ -73,7 +73,7 @@ trait Cryption
     }
 
     /**
-     * 從藍星回傳的加密交易資訊解成可讀的字串
+     * 從藍新回傳的加密交易資訊解成可讀的字串
      * @param string $tradeInfo
      * @return string
      * @throws TradeInfoException

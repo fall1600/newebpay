@@ -8,7 +8,7 @@ use fall1600\Package\Newebpay\Contracts\PayerInterface;
 abstract class Info
 {
     /**
-     * 要交給藍星處理金流的訂單
+     * 要交給藍新處理金流的訂單
      * @var OrderInterface
      */
     protected $order;
@@ -20,14 +20,14 @@ abstract class Info
     protected $payer;
 
     /**
-     * 藍星金流商店代號
+     * 藍新金流商店代號
      * @var string
      */
     protected $merchantId;
 
     /**
      * 支付通知網址
-     *  藍星背景告知系統支付明細的callback url
+     *  藍新背景告知系統支付明細的callback url
      * @var string
      */
     protected $notifyUrl;

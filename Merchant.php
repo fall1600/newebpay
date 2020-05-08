@@ -9,7 +9,7 @@ class Merchant
     use Cryption;
 
     /**
-     * 藍星金流商店代號
+     * 藍新金流商店代號
      * @var string
      */
     protected $id;
@@ -27,7 +27,7 @@ class Merchant
     protected $hashIv;
 
     /**
-     * 封裝來自藍星的回傳, 僅提供各種支付共同參數的accessor
+     * 封裝來自藍新的回傳, 僅提供各種支付共同參數的accessor
      * @var Response
      */
     protected $response;
@@ -61,7 +61,7 @@ class Merchant
     }
 
     /**
-     * 注入來自藍星通知的交易資訊
+     * 注入來自藍新通知的交易資訊
      * @param array $rawData
      * @return $this
      * @throws TradeInfoException
@@ -82,7 +82,7 @@ class Merchant
     }
 
     /**
-     * 用來確認藍星通知的資料是否真的屬於此商城
+     * 用來確認藍新通知的資料是否真的屬於此商城
      * @return bool
      */
     public function validateResponse()

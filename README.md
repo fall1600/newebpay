@@ -1,4 +1,4 @@
-# Newebpay 藍星金流
+# Newebpay 藍新金流
 
 程式版本 1.5 <br>
 文件版本 1.0.4 <br>
@@ -7,8 +7,8 @@
 ## How to use
 
 #### 建立交易資訊 (BasicInfo)
- - $merchantId: 你在藍星申請的商店代號
- - $notifyUrl: 用來接收藍星付款通知的callback url
+ - $merchantId: 你在藍新申請的商店代號
+ - $notifyUrl: 用來接收藍新付款通知的callback url
  - $order: 你的訂單物件, 務必實作package 中的OrderInterface
  - $payer: 你的付款人物件, 務必實作package 中的PayerInterface 
  
@@ -28,9 +28,9 @@ $info = new EnableBarcode($info);
 $info = new EnableGooglePay($info);
 // 啟用Web ATM
 $info = new EnableWebAtm($info);
-// 搭配非即時交易, 設定藍星通知付款資訊的callback url, 以及繳費期限
+// 搭配非即時交易, 設定藍新通知付款資訊的callback url, 以及繳費期限
 $info = new OfflinePay($info, $customerUrl, $ttl);
-// 在藍星交易完成後導回的網址
+// 在藍新交易完成後導回的網址
 $info = new PayComplete($info, $returnUrl);
 // 設定讓消費者在付款頁按下返回時可以回導的頁面
 $info = new PayCancel($info, $clientBackUrl);
@@ -38,10 +38,10 @@ $info = new PayCancel($info, $clientBackUrl);
 // 文件末有付款方式對應表
 ```
 
-#### 建立NewebPay 物件, 注入商店資訊, 帶著交易資訊前往藍星付款
- - $merchantId: 你在藍星商店代號
- - $hashKey: 你在藍星商店專屬的HashKey
- - $hashIv: 你在藍星商店專屬的HashIV
+#### 建立NewebPay 物件, 注入商店資訊, 帶著交易資訊前往藍新付款
+ - $merchantId: 你在藍新商店代號
+ - $hashKey: 你在藍新商店專屬的HashKey
+ - $hashIv: 你在藍新商店專屬的HashIV
  
 ```php
 $newebpay = new NewebPay();
@@ -82,7 +82,7 @@ class Member implements PayerInterface
 }
 ```
 
-#### 解開來自藍星的交易通知
+#### 解開來自藍新的交易通知
 ```php
 $isValid = $merchant->setRawData($request->all())->validateResponse(); //確認為true 後再往下走
 
@@ -128,8 +128,8 @@ $resp = $newebpay
 |:-----------------|:------------------------------------ |:-------------|:---------------------------------------------------------|
 | NotifyURL        | 通知你系統交易資訊的callback url         | BasicInfo    | 通常用在訂單付款狀態切換, 最重要,所以BasicInfo 就要設定了   |
 | CustomerURL      | 離線付款取號完成通知你系統的callback url  | OfflinePay   | 用在紀錄離線付款的取號, 務必設定                            |
-| ReturnURL        | 付款完成後要回到你系統的位置              | PayComplete  | 沒設定就是顯示在藍星                                        |
-| ClientBackURL    | 交易取消時回到你系統的位置                | PayCancel    | 沒設定就是顯示在藍星                                        |
+| ReturnURL        | 付款完成後要回到你系統的位置              | PayComplete  | 沒設定就是顯示在藍新                                        |
+| ClientBackURL    | 交易取消時回到你系統的位置                | PayCancel    | 沒設定就是顯示在藍新                                        |
 
 
 #### 付款方式對應的物件

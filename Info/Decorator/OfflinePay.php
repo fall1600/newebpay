@@ -20,7 +20,7 @@ class OfflinePay extends InfoDecorator
 
     /**
      * 商店取號網址
-     *  消費者選擇離線付款後 藍星要通知你系統付款資訊
+     *  消費者選擇離線付款後 藍新要通知你系統付款資訊
      *
      * @var string
      */
