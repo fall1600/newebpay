@@ -115,6 +115,14 @@ $info = new AliPayProduct($info, 1, $product1);
 $info = new AliPayProduct($info, 2, $product2);
 ```
 
+#### 單筆交易查詢
+```php
+$resp = $newebpay
+    ->setMerchant($merchant)
+    ->query($order);
+```
+
+
 #### 各種url 你分的清楚嗎?
 | Name             | 用途                                  | 設定的物件    |    備註                                                   |
 |:-----------------|:------------------------------------ |:-------------|:---------------------------------------------------------|
