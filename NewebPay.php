@@ -2,6 +2,7 @@
 
 namespace fall1600\Package\Newebpay;
 
+use fall1600\Package\Newebpay\Contracts\OrderInterface;
 use fall1600\Package\Newebpay\Info\Info;
 
 class NewebPay
@@ -13,16 +14,29 @@ class NewebPay
     public const VERSION = '1.5';
 
     /**
-     * 測試機網址
+     * 付款-測試環境
      * @var string
      */
-    public const URL_TEST = 'https://ccore.newebpay.com/MPG/mpg_gateway';
+    public const PAYMENT_URL_TEST = 'https://ccore.newebpay.com/MPG/mpg_gateway';
 
     /**
-     * 正式機網址
+     * 付款-正式環境
      * @var string
      */
-    public const URL_PRODUCTION = 'https://core.newebpay.com/MPG/mpg_gateway';
+    public const PAYMENT_URL_PRODUCTION = 'https://core.newebpay.com/MPG/mpg_gateway';
+
+
+    /**
+     * 查詢付款資訊-測試環境
+     * @var string
+     */
+    public const QUERY_URL_TEST = 'https://ccore.newebpay.com/API/QueryTradeInfo';
+
+    /**
+     * 查詢付款資訊-正式環境
+     * @var string
+     */
+    public const QUERY_URL_PRODUCTION = 'https://core.newebpay.com/API/QueryTradeInfo';
 
     /**
      * 決定URL 要使用正式或測試機
@@ -68,7 +82,7 @@ class NewebPay
             throw new \LogicException('empty merchant');
         }
 
-        $url = $this->isProduction? static::URL_PRODUCTION: static::URL_TEST;
+        $url = $this->isProduction? static::PAYMENT_URL_PRODUCTION: static::PAYMENT_URL_TEST;
 
         $tradeInfo = $this->merchant->countTradeInfo($info);
 
@@ -86,6 +100,39 @@ class NewebPay
         EOT;
     }
 
+    /**
+     * @param  OrderInterface  $order
+     * @return array
+     */
+    public function query(OrderInterface $order)
+    {
+        if (! $this->merchant) {
+            throw new \LogicException('empty merchant');
+        }
+
+        $url = $this->isProduction? static::QUERY_URL_PRODUCTION: static::QUERY_URL_TEST;
+
+        $payload = [
+            'MerchantID' => $this->merchant->getId(),
+            'Version' => '1.1',
+            'RespondType' => 'JSON',
+            'CheckValue' => $this->countCheckValue($order),
+            'TimeStamp' => time(),
+            'MerchantOrderNo' => $order->getMerchantOrderNo(),
+            'Amt' => $order->getAmt(),
+        ];
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($payload));
+
+        $resp = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($resp, true);
+    }
+    
     public function setIsProduction(bool $isProduction)
     {
         $this->isProduction = $isProduction;
@@ -105,5 +152,22 @@ class NewebPay
         $this->merchant = $merchant;
 
         return $this;
+    }
+
+    /**
+     * @param  OrderInterface  $order
+     * @return string
+     */
+    protected function countCheckValue(OrderInterface $order)
+    {
+        $payload = [
+            'IV' => $this->merchant->getHashIv(),
+            'Amt' => $order->getAmt(),
+            'MerchantID' => $this->merchant->getId(),
+            'MerchantOrderNo' => $order->getMerchantOrderNo(),
+            'Key' => $this->merchant->getHashKey(),
+        ];
+
+        return strtoupper(hash('sha256', http_build_query($payload)));
     }
 }
