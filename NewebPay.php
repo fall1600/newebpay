@@ -17,14 +17,13 @@ class NewebPay
      * 付款-測試環境
      * @var string
      */
-    public const PAYMENT_URL_TEST = 'https://ccore.newebpay.com/MPG/mpg_gateway';
+    public const CHECKOUT_URL_TEST = 'https://ccore.newebpay.com/MPG/mpg_gateway';
 
     /**
      * 付款-正式環境
      * @var string
      */
-    public const PAYMENT_URL_PRODUCTION = 'https://core.newebpay.com/MPG/mpg_gateway';
-
+    public const CHECKOUT_URL_PRODUCTION = 'https://core.newebpay.com/MPG/mpg_gateway';
 
     /**
      * 查詢付款資訊-測試環境
@@ -82,7 +81,7 @@ class NewebPay
             throw new \LogicException('empty merchant');
         }
 
-        $url = $this->isProduction? static::PAYMENT_URL_PRODUCTION: static::PAYMENT_URL_TEST;
+        $url = $this->isProduction? static::CHECKOUT_URL_PRODUCTION: static::CHECKOUT_URL_TEST;
 
         $tradeInfo = $this->merchant->countTradeInfo($info);
 
