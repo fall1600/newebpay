@@ -28,7 +28,7 @@ $info = new EnableBarcode($info);
 $info = new EnableGooglePay($info);
 // 啟用Web ATM
 $info = new EnableWebAtm($info);
-// 搭配離線付款, 設定藍星通知付款資訊的callback url, 以及繳費期限
+// 搭配非即時交易, 設定藍星通知付款資訊的callback url, 以及繳費期限
 $info = new OfflinePay($info, $customerUrl, $ttl);
 // 在藍星交易完成後導回的網址
 $info = new PayComplete($info, $returnUrl);
