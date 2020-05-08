@@ -64,6 +64,10 @@ class NewebPay
      */
     public function generateForm(Info $info)
     {
+        if (! $this->merchant) {
+            throw new \LogicException('empty merchant');
+        }
+
         $url = $this->isProduction? static::URL_PRODUCTION: static::URL_TEST;
 
         $tradeInfo = $this->merchant->countTradeInfo($info);
