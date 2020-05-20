@@ -1,6 +1,7 @@
 {
     "name": "fall1600/newebpay",
     "description": "implement of newebpay",
+    "keywords": ["newebpay", "payment"],
     "type": "library",
     "license": "MIT",
     "authors": [
