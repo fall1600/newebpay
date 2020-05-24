@@ -1,6 +1,6 @@
 {
     "name": "fall1600/newebpay",
-    "description": "implement of newebpay",
+    "description": "Payment solution of NewebPay(藍新金流), implementing by pure PHP",
     "keywords": ["newebpay", "payment"],
     "type": "library",
     "license": "MIT",
