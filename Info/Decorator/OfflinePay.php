@@ -66,16 +66,6 @@ class OfflinePay extends InfoDecorator
             return '';
         }
 
-        return date(
-            'Ymd',
-            mktime(
-                0,
-                0,
-                0,
-                date('m'),
-                date('d') + $this->ttl,
-                date('Y')
-            )
-        );
+        return date('Ymd', strtotime("+$this->ttl days"));
     }
 }
