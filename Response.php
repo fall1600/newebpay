@@ -158,4 +158,12 @@ class Response
     {
         return $this->tradeSha;
     }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
 }
