@@ -55,20 +55,20 @@ class NewebPay
     public function checkout(Info $info)
     {
         echo <<<EOT
-        <!DOCTYPE html>
-            <html>
-                <head>
-                    <meta charset="utf-8">
-                </head>
-                <body>
-                    {$this->generateForm($info)}
-                    <script>
-                        var form = document.getElementById("$this->formId");
-                        form.submit();
-                    </script>
-                </bod>
-            </html>
-        EOT;
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+        </head>
+        <body>
+            {$this->generateForm($info)}
+            <script>
+                var form = document.getElementById("$this->formId");
+                form.submit();
+            </script>
+        </bod>
+    </html>
+EOT;
     }
 
     /**
@@ -90,13 +90,13 @@ class NewebPay
         $version = static::VERSION;
 
         return <<<EOT
-        <form name="newebpay" id="{$this->formId}" method="post" action="{$url}" style="display:none;">
-            <input type="text" name="MerchantID" value="{$this->merchant->getId()}" type="hidden"/>
-            <input type="text" name="TradeInfo" value="{$tradeInfo}" type="hidden"/>
-            <input type="text" name="TradeSha" value="{$tradeSha}" type="hidden"/>
-            <input type="text" name="Version" value="{$version}" type="hidden"/>
-        </form>
-        EOT;
+<form name="newebpay" id="{$this->formId}" method="post" action="{$url}" style="display:none;">
+    <input type="text" name="MerchantID" value="{$this->merchant->getId()}" type="hidden"/>
+    <input type="text" name="TradeInfo" value="{$tradeInfo}" type="hidden"/>
+    <input type="text" name="TradeSha" value="{$tradeSha}" type="hidden"/>
+    <input type="text" name="Version" value="{$version}" type="hidden"/>
+</form>
+EOT;
     }
 
     /**
