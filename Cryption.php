@@ -57,7 +57,7 @@ trait Cryption
         return $this->hashIv;
     }
 
-    protected function createEncryptedStr(array $infoPayload = [])
+    public function createEncryptedStr(array $infoPayload = [])
     {
         return trim(
             bin2hex(

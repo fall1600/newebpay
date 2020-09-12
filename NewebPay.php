@@ -51,6 +51,18 @@ class NewebPay
     public const ISSUE_URL_PRODUCTION = 'https://core.newebpay.com/MPG/period';
 
     /**
+     * 修改已建立委託單狀態-測試環境
+     * @var string
+     */
+    public const ALTER_STATUS_URL_TEST = 'https://ccore.newebpay.com/MPG/period/AlterStatus';
+
+    /**
+     * 修改已建立委託單狀態-正式環境
+     * @var string
+     */
+    public const ALTER_STATUS_URL_PRODUCTION = 'https://core.newebpay.com/MPG/period/AlterStatus';
+
+    /**
      * 決定URL 要使用正式或測試機
      * @var bool
      */
@@ -64,6 +76,31 @@ class NewebPay
 
     /** @var Merchant */
     protected $merchant;
+
+    public function alterStatus(string $orderNo, string $periodNo, string $alterType)
+    {
+        if (! $this->merchant) {
+            throw new \LogicException('empty merchant');
+        }
+
+        $url = $this->isProduction? static::ALTER_STATUS_URL_PRODUCTION: static::ALTER_STATUS_URL_TEST;
+
+        $payload = [
+            'MerchantID_' => $this->merchant->getId(),
+            'PostData_' => $this->merchant->createEncryptedStr(
+                [
+                    'RespondType' => 'JSON',
+                    'Version' => '1.0',
+                    'MerOrderNo' => $orderNo,
+                    'PeriodNo' => $periodNo,
+                    'AlterType' => $alterType,
+                    'TimeStamp' => time(),
+                ]
+            ),
+        ];
+
+        return $this->post($url, $payload);
+    }
 
     public function issue(PeriodInfo $info)
     {
@@ -171,15 +208,7 @@ EOT;
             'Amt' => $order->getAmt(),
         ];
 
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($payload));
-
-        $resp = curl_exec($ch);
-        curl_close($ch);
-
-        return json_decode($resp, true);
+        return $this->post($url, $payload);
     }
     
     public function setIsProduction(bool $isProduction)
@@ -218,5 +247,17 @@ EOT;
         ];
 
         return strtoupper(hash('sha256', http_build_query($payload)));
+    }
+
+    protected function post(string $url, array $payload)
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($payload));
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($result, true);
     }
 }
