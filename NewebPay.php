@@ -4,6 +4,7 @@ namespace fall1600\Package\Newebpay;
 
 use fall1600\Package\Newebpay\Contracts\OrderInterface;
 use fall1600\Package\Newebpay\Info\Info;
+use fall1600\Package\Newebpay\Info\Period\Info as PeriodInfo;
 
 class NewebPay
 {
@@ -38,6 +39,18 @@ class NewebPay
     public const QUERY_URL_PRODUCTION = 'https://core.newebpay.com/API/QueryTradeInfo';
 
     /**
+     * 建立定期定額委託單-測試環境
+     * @var string
+     */
+    public const ISSUE_URL_TEST = 'https://ccore.newebpay.com/MPG/period';
+
+    /**
+     * 建立定期定額委託單-正式環境
+     * @var string
+     */
+    public const ISSUE_URL_PRODUCTION = 'https://core.newebpay.com/MPG/period';
+
+    /**
      * 決定URL 要使用正式或測試機
      * @var bool
      */
@@ -52,22 +65,59 @@ class NewebPay
     /** @var Merchant */
     protected $merchant;
 
+    public function issue(PeriodInfo $info)
+    {
+        echo <<<EOT
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        {$this->generatePeriodForm($info)}
+        <script>
+            var form = document.getElementById("$this->formId");
+            form.submit();
+        </script>
+    </bod>
+</html>
+EOT;
+    }
+
+    public function generatePeriodForm(PeriodInfo $info)
+    {
+        if (! $this->merchant) {
+            throw new \LogicException('empty merchant');
+        }
+
+        $url = $this->isProduction? static::ISSUE_URL_PRODUCTION: static::ISSUE_URL_TEST;
+
+        $tradeInfo = $this->merchant->countTradeInfo($info);
+
+        return <<<EOT
+<form name="newebpay" id="{$this->formId}" method="post" action="{$url}" style="display:none;">
+    <input type="text" name="MerchantID_" value="{$this->merchant->getId()}" type="hidden"/>
+    <input type="text" name="PostData_" value="$tradeInfo" type="hidden">
+</form>
+EOT;
+    }
+
     public function checkout(Info $info)
     {
         echo <<<EOT
 <!DOCTYPE html>
-    <html>
-        <head>
-            <meta charset="utf-8">
-        </head>
-        <body>
-            {$this->generateForm($info)}
-            <script>
-                var form = document.getElementById("$this->formId");
-                form.submit();
-            </script>
-        </bod>
-    </html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        {$this->generateForm($info)}
+        <script>
+            var form = document.getElementById("$this->formId");
+            form.submit();
+        </script>
+    </bod>
+</html>
 EOT;
     }
 
