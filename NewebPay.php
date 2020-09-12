@@ -3,6 +3,7 @@
 namespace fall1600\Package\Newebpay;
 
 use fall1600\Package\Newebpay\Contracts\OrderInterface;
+use fall1600\Package\Newebpay\Exceptions\TradeInfoException;
 use fall1600\Package\Newebpay\Info\Info;
 use fall1600\Package\Newebpay\Info\Period\Info as PeriodInfo;
 
@@ -77,6 +78,13 @@ class NewebPay
     /** @var Merchant */
     protected $merchant;
 
+    /**
+     * @param string $orderNo
+     * @param string $periodNo
+     * @param string $alterType
+     * @return array
+     * @throws TradeInfoException
+     */
     public function alterStatus(string $orderNo, string $periodNo, string $alterType)
     {
         if (! $this->merchant) {
@@ -99,7 +107,12 @@ class NewebPay
             ),
         ];
 
-        return $this->post($url, $payload);
+        $resp = $this->post($url, $payload);
+        if (! isset($resp['period'])) {
+            throw new TradeInfoException("interface change from Newebpay");
+        }
+
+        return json_decode($this->merchant->decryptTradeInfo($resp['period']), true);
     }
 
     public function issue(PeriodInfo $info)
