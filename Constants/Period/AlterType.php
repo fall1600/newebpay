@@ -1,6 +1,6 @@
 <?php
 
-namespace fall1600\Package\Newebpay\Constants;
+namespace fall1600\Package\Newebpay\Constants\Period;
 
 class AlterType
 {
