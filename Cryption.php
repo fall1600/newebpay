@@ -3,8 +3,8 @@
 namespace fall1600\Package\Newebpay;
 
 use fall1600\Package\Newebpay\Constants\Cipher;
+use fall1600\Package\Newebpay\Contracts\InfoInterface;
 use fall1600\Package\Newebpay\Exceptions\TradeInfoException;
-use fall1600\Package\Newebpay\Info\Info;
 
 trait Cryption
 {
@@ -13,10 +13,10 @@ trait Cryption
     protected $hashIv;
 
     /**
-     * @param Info $info
+     * @param InfoInterface $info
      * @return string
      */
-    public function countTradeInfo(Info $info)
+    public function countTradeInfo(InfoInterface $info)
     {
         $infoPayload = $info->getInfo();
 

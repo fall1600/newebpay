@@ -2,10 +2,11 @@
 
 namespace fall1600\Package\Newebpay\Info;
 
+use fall1600\Package\Newebpay\Contracts\InfoInterface;
 use fall1600\Package\Newebpay\Contracts\OrderInterface;
 use fall1600\Package\Newebpay\Contracts\PayerInterface;
 
-abstract class Info
+abstract class Info implements InfoInterface
 {
     /**
      * 要交給藍新處理金流的訂單
