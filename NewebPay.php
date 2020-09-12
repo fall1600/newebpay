@@ -64,6 +64,18 @@ class NewebPay
     public const ALTER_STATUS_URL_PRODUCTION = 'https://core.newebpay.com/MPG/period/AlterStatus';
 
     /**
+     * 修改已建立委託單內容-測試環境
+     * @var string
+     */
+    public const ALTER_AMT_URL_TEST = 'https://ccore.newebpay.com/MPG/period/AlterAmt';
+
+    /**
+     * 修改已建立委託單內容-正式環境
+     * @var string
+     */
+    public const ALTER_AMT_URL_PRODUCTION = 'https://core.newebpay.com/MPG/period/AlterAmt';
+
+    /**
      * 決定URL 要使用正式或測試機
      * @var bool
      */
@@ -78,6 +90,61 @@ class NewebPay
     /** @var Merchant */
     protected $merchant;
 
+    /**
+     * @param string $orderNo
+     * @param string $periodNo
+     * @param int|null $alterAmt
+     * @param string|null $periodType
+     * @param string|null $periodPoint
+     * @return array
+     * @throws TradeInfoException
+     */
+    public function alterAmt(
+        string $orderNo,
+        string $periodNo,
+        int $alterAmt = null,
+        string $periodType = null,
+        string $periodPoint = null
+    ) {
+        if (! $this->merchant) {
+            throw new \LogicException('empty merchant');
+        }
+
+        $url = $this->isProduction? static::ALTER_AMT_URL_PRODUCTION: static::ALTER_AMT_URL_TEST;
+
+        $data = [
+            'RespondType' => 'JSON',
+            'Version' => '1.0',
+            'MerOrderNo' => $orderNo,
+            'PeriodNo' => $periodNo,
+            'TimeStamp' => time(),
+        ];
+
+        if ($alterAmt) {
+            $data['AlterAmt'] = $alterAmt;
+        }
+
+        if ($periodType) {
+            $data['PeriodType'] = $periodType;
+        }
+
+        if ($periodPoint) {
+            $data['PeriodPoint'] = $periodPoint;
+        }
+
+        $payload = [
+            'MerchantID_' => $this->merchant->getId(),
+            'PostData_' => $this->merchant->createEncryptedStr($data),
+        ];
+
+        $resp = $this->post($url, $payload);
+        if (! isset($resp['period'])) {
+            throw new TradeInfoException("interface change from Newebpay");
+        }
+
+        return json_decode($this->merchant->decryptTradeInfo($resp['period']), true);
+    }
+    
     /**
      * @param string $orderNo
      * @param string $periodNo
