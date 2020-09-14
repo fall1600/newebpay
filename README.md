@@ -4,7 +4,93 @@
 文件版本 1.0.4 <br>
 [Official Doc](https://www.newebpay.com/website/Page/content/download_api#1)
 
+## feature
+
+- [x] 多功能收款 MPG
+- [x] 單筆交易狀態查詢
+- [ ] 信用卡取消授權
+- [ ] 信用卡請退款
+- [x] 信用卡定期定額
+
 ## How to use
+
+### 信用卡定期定額
+
+#### 建立交易資訊 (BasicInfo)
+ - $order: 你的訂單物件, 務必實作package 中的OrderInterface
+ - $contact: 你的付款人物件, 務必實作package 中的ContactInterface
+ - $periodStartType: 檢查卡號模式, 參閱文件p.13
+ - $version: 串接程式版本
+    - 帶入 1.0 版本,則[背面末三碼]將為必填欄位
+    - 帶入 1.1 版本,則[背面末三碼]將為非必填
+```php
+$info = new \fall1600\Package\Newebpay\Info\Period\BasicInfo($order, $payer, $periodStartType, $version);
+```
+
+#### 選填參數
+
+```php
+
+$info = new ReturnUrl($info, 'https://your.return.url');
+$info = new NotifyUrl($info, 'https://your.notify.url');
+$info = new BackUrl($info, 'https://your.back.url');
+$info = new Memo($info, 'your memo here');
+```
+
+#### 建立NewebPay 物件, 注入商店資訊, 帶著交易資訊前往藍新申請定期定額
+ - $merchantId: 你在藍新商店代號
+ - $hashKey: 你在藍新商店專屬的HashKey
+ - $hashIv: 你在藍新商店專屬的HashIV
+
+```php
+$newebpay = new NewebPay();
+$newebpay
+    ->setIsProduction(false) // 設定環境, 預設就是走正式機
+    ->setMerchant(new Merchant($merchantId, $hashKey, $hashIv))
+    ->issue($info);
+```
+
+#### 請在你的訂單物件實作 OrderInterface
+
+```php
+<?php
+
+namespace Your\Namespace;
+
+use fall1600\Package\Newebpay\Contracts\Period\OrderInterface;
+
+class Order implements OrderInterface
+{
+    // your order detail...
+}
+```
+
+#### 請在你的付款人(假設是Member), 實作ContactInterface
+
+```php
+<?php
+
+namespace Your\Namespace;
+
+use fall1600\Package\Newebpay\Contracts\Period\ContactInterface;
+
+class Member implements ContactInterface
+{
+    // your member detail...
+}
+```
+
+#### 各種url 你分的清楚嗎?
+| Name             | 用途                                  | 設定的物件    |    備註                                                   |
+|:-----------------|:------------------------------------ |:-------------|:---------------------------------------------------------|
+| ReturnURL        | 首次信用卡授權完成後要回到你系統的位置      | ReturnUrl    | 通常用在訂單付款狀態切換, 最重要,所以BasicInfo 就要設定了   |
+| NotifyURL        | 每期授權結果通知                        | NotifyUrl    | 每期執行信用卡授權交易完成後, 以Post 方式通知商店授權結果; 若此欄位為空值,程式則將不通知  |
+| BackURL          | 取消交易時返回商店的網址                  | BackUrl      | 沒設定就是顯示在藍新                                        |
+
+
+<hr>
+
+### 多功能收款
 
 #### 建立交易資訊 (BasicInfo)
  - $merchantId: 你在藍新申請的商店代號
