@@ -91,20 +91,21 @@ class NewebPay
     protected $merchant;
 
     /**
-     * @param string $orderNo
-     * @param string $periodNo
-     * @param int|null $alterAmt
-     * @param string|null $periodType
-     * @param string|null $periodPoint
+     * aha: 雖然文件上 PeriodType(週期類別), PeriodPoint(交易週期授權時間) 標注選填, 但實際觸發發現是必填
+     * @param string $orderNo 商店訂單編號
+     * @param string $periodNo 委託單號
+     * @param string $periodType 週期類別
+     * @param string $periodPoint 交易週期授權時間
+     * @param int|null $alterAmt 委託金額
      * @return array
      * @throws TradeInfoException
      */
     public function alterAmt(
         string $orderNo,
         string $periodNo,
-        int $alterAmt = null,
-        string $periodType = null,
-        string $periodPoint = null
+        string $periodType,
+        string $periodPoint,
+        int $alterAmt = null
     ) {
         if (! $this->merchant) {
             throw new \LogicException('empty merchant');
@@ -118,18 +119,12 @@ class NewebPay
             'MerOrderNo' => $orderNo,
             'PeriodNo' => $periodNo,
             'TimeStamp' => time(),
+            'PeriodType' => $periodType,
+            'PeriodPoint' => $periodPoint,
         ];
 
         if ($alterAmt) {
             $data['AlterAmt'] = $alterAmt;
-        }
-
-        if ($periodType) {
-            $data['PeriodType'] = $periodType;
-        }
-
-        if ($periodPoint) {
-            $data['PeriodPoint'] = $periodPoint;
         }
 
         $payload = [
