@@ -335,4 +335,12 @@ EOT;
 
         return json_decode($result, true);
     }
+
+    /**
+     * @return Merchant
+     */
+    public function getMerchant()
+    {
+        return $this->merchant;
+    }
 }
