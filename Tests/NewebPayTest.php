@@ -159,7 +159,7 @@ class NewebPayTest extends TestCase
         $result = $newebpay
             ->setIsProduction(false)
             ->setMerchant($merchant)
-            ->checkoutByApi($info);
+            ->checkoutForApi($info);
 
         //assert
         $this->assertEquals($expected, $result);

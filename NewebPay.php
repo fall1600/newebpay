@@ -261,7 +261,7 @@ EOT;
 EOT;
     }
 
-    public function checkoutByApi(Info $info)
+    public function checkoutForApi(Info $info)
     {
         if (! $this->merchant) {
             throw new \LogicException('empty merchant');
