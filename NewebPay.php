@@ -261,7 +261,7 @@ EOT;
 EOT;
     }
 
-    public function checkoutByApi()
+    public function checkoutByApi(Info $info)
     {
         if (! $this->merchant) {
             throw new \LogicException('empty merchant');
@@ -271,7 +271,7 @@ EOT;
             'url' => $this->isProduction ? static::CHECKOUT_URL_PRODUCTION: static::CHECKOUT_URL_TEST,
             'form_params' => [
                 'MerchantID' => $this->merchant->getId(),
-                'TradeInfo' => $this->merchant->countTradeInfo($info),
+                'TradeInfo' => $tradeInfo = $this->merchant->countTradeInfo($info),
                 'TradeSha' => $this->merchant->countTradeSha($tradeInfo),
                 'Version' => static::VERSION,
             ],
