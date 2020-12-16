@@ -139,7 +139,7 @@ class NewebPay
 
         return json_decode($this->merchant->decryptTradeInfo($resp['period']), true);
     }
-    
+
     /**
      * @param string $orderNo
      * @param string $periodNo
@@ -243,7 +243,7 @@ EOT;
             throw new \LogicException('empty merchant');
         }
 
-        $url = $this->isProduction? static::CHECKOUT_URL_PRODUCTION: static::CHECKOUT_URL_TEST;
+        $url = $this->isProduction ? static::CHECKOUT_URL_PRODUCTION: static::CHECKOUT_URL_TEST;
 
         $tradeInfo = $this->merchant->countTradeInfo($info);
 
@@ -259,6 +259,23 @@ EOT;
     <input type="text" name="Version" value="{$version}" type="hidden"/>
 </form>
 EOT;
+    }
+
+    public function checkoutByApi()
+    {
+        if (! $this->merchant) {
+            throw new \LogicException('empty merchant');
+        }
+
+        return [
+            'url' => $this->isProduction ? static::CHECKOUT_URL_PRODUCTION: static::CHECKOUT_URL_TEST,
+            'form_params' => [
+                'MerchantID' => $this->merchant->getId(),
+                'TradeInfo' => $this->merchant->countTradeInfo($info),
+                'TradeSha' => $this->merchant->countTradeSha($tradeInfo),
+                'Version' => static::VERSION,
+            ],
+        ];
     }
 
     /**
@@ -285,7 +302,7 @@ EOT;
 
         return $this->post($url, $payload);
     }
-    
+
     public function setIsProduction(bool $isProduction)
     {
         $this->isProduction = $isProduction;
