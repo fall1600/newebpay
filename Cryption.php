@@ -92,6 +92,25 @@ trait Cryption
         );
     }
 
+    /**
+     * 從藍新回傳的加密交易資訊解成可讀的字串
+     * @param string $period
+     * @return string
+     * @throws TradeInfoException
+     */
+    public function decryptPeriod($period)
+    {
+        if (!$period) {
+            throw new LogicException('empty period');
+        }
+        return openssl_decrypt(
+            hex2bin($period),
+            Cipher::METHOD,
+            $this->hashKey,
+            OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING,
+            $this->hashIv
+        );
+    }
 
     protected function addPadding($string, $blockSize = 32)
     {

@@ -69,16 +69,19 @@ class Merchant
      */
     public function setRawData($rawData)
     {
-        if (!isset($rawData['TradeInfo']) || !isset($rawData['TradeSha'])) {
+        if (isset($rawData['Period'])) {
+            $this->response = new PeriodResponse(
+                json_decode($this->removeCtrlChr($this->decryptPeriod($rawData['Period'])), true),
+                $rawData['Period']);
+        } else if (isset($rawData['TradeInfo'], $rawData['TradeSha'])) {
+            $this->response = new TradeInfoResponse(
+                json_decode($this->removeCtrlChr($this->decryptTradeInfo($rawData['TradeInfo'])), true),
+                $rawData['TradeInfo'],
+                $rawData['TradeSha']
+            );
+        } else {
             throw new TradeInfoException('invalid data');
         }
-
-        $this->response = new Response(
-            json_decode($this->decryptTradeInfo($rawData['TradeInfo']), true),
-            $rawData['TradeInfo'],
-            $rawData['TradeSha']
-        );
-
         return $this;
     }
 
@@ -91,7 +94,12 @@ class Merchant
         if (!$this->response) {
             throw new LogicException('set rawData first');
         }
-        return $this->response->getTradeSha() === $this->countTradeSha($this->response->getTradeInfo());
+        if ($this->response instanceof TradeInfoResponse) {
+            return $this->response->getTradeSha() === $this->countTradeSha($this->response->getTradeInfo());
+        }
+        if ($this->response instanceof PeriodResponse) {
+            return true;
+        }
     }
 
     /**
