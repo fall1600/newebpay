@@ -8,7 +8,7 @@ class EnableGooglePay extends Enable
     {
         return $this->info->getInfo() +
             [
-                'ANDROIDPAY' => $this->isEnable? 1: 0,
+                'ANDROIDPAY' => $this->isEnable ? 1 : 0,
             ];
     }
 }

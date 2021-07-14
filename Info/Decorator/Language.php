@@ -14,8 +14,9 @@ class Language extends InfoDecorator
     /** @var string */
     protected $language;
 
-    public function __construct(Info $info, string $language)
+    public function __construct($info, $language)
     {
+        parent::__construct();
         $this->info = $info;
 
         $this->language = $language;
@@ -25,7 +26,7 @@ class Language extends InfoDecorator
     {
         return $this->info->getInfo() +
             [
-                'LangType' => $this->language ?? LanguageType::ZH_TW,
+                'LangType' => isset($this->language) ? $this->language : LanguageType::ZH_TW,
             ];
     }
 }

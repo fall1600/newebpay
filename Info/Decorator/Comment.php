@@ -4,6 +4,7 @@ namespace fall1600\Package\Newebpay\Info\Decorator;
 
 use fall1600\Package\Newebpay\Info\Info;
 use fall1600\Package\Newebpay\Info\InfoDecorator;
+use LogicException;
 
 class Comment extends InfoDecorator
 {
@@ -17,8 +18,9 @@ class Comment extends InfoDecorator
      */
     protected $comment;
 
-    public function __construct(Info $info, string $comment)
+    public function __construct($info, $comment)
     {
+        parent::__construct();
         $this->info = $info;
 
         $this->setComment($comment);
@@ -32,10 +34,10 @@ class Comment extends InfoDecorator
             ];
     }
 
-    protected function setComment(string $comment)
+    protected function setComment($comment)
     {
         if (mb_strlen($comment) > 300) {
-            throw new \LogicException('comment must less or equal than 300');
+            throw new LogicException('comment must less or equal than 300');
         }
 
         $this->comment = $comment;

@@ -4,6 +4,7 @@ namespace fall1600\Package\Newebpay\Info\Decorator;
 
 use fall1600\Package\Newebpay\Info\Info;
 use fall1600\Package\Newebpay\Info\InfoDecorator;
+use LogicException;
 
 class EnableCvsCom extends InfoDecorator
 {
@@ -20,7 +21,7 @@ class EnableCvsCom extends InfoDecorator
      */
     protected $type;
 
-    public function __construct(Info $info, int $type)
+    public function __construct($info, $type)
     {
         $this->info = $info;
 
@@ -43,10 +44,10 @@ class EnableCvsCom extends InfoDecorator
     /**
      * @param int $type
      */
-    protected function setType(int $type)
+    protected function setType($type)
     {
         if ($type < 0 || $type > 3) {
-            throw new \LogicException('Newebpay does not support this type');
+            throw new LogicException('Newebpay does not support this type');
         }
 
         $this->type = $type;

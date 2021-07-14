@@ -17,8 +17,9 @@ class PayComplete extends InfoDecorator
      */
     protected $returnUrl;
 
-    public function __construct(Info $info, string $returnUrl)
+    public function __construct($info, $returnUrl)
     {
+        parent::__construct();
         $this->info = $info;
 
         $this->setReturnUrl($returnUrl);
@@ -32,7 +33,7 @@ class PayComplete extends InfoDecorator
             ];
     }
 
-    protected function setReturnUrl(string $returnUrl = null)
+    protected function setReturnUrl($returnUrl = null)
     {
         $this->returnUrl = $returnUrl;
     }

@@ -8,7 +8,7 @@ class EnableLinePay extends Enable
     {
         return $this->info->getInfo() +
             [
-                'LINEPAY' => $this->isEnable? 1: 0,
+                'LINEPAY' => $this->isEnable ? 1 : 0,
             ];
     }
 }

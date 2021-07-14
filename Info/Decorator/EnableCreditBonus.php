@@ -8,7 +8,7 @@ class EnableCreditBonus extends Enable
     {
         return $this->info->getInfo() +
             [
-                'CreditRed' => $this->isEnable? 1: 0,
+                'CreditRed' => $this->isEnable ? 1 : 0,
             ];
     }
 }

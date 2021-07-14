@@ -4,6 +4,7 @@ namespace fall1600\Package\Newebpay\Info\Decorator;
 
 use fall1600\Package\Newebpay\Info\Info;
 use fall1600\Package\Newebpay\Info\InfoDecorator;
+use LogicException;
 
 class OfflinePay extends InfoDecorator
 {
@@ -26,7 +27,7 @@ class OfflinePay extends InfoDecorator
      */
     protected $customerUrl;
 
-    public function __construct(Info $info, string $customerUrl, int $ttl = null)
+    public function __construct($info, $customerUrl, $ttl = null)
     {
         $this->info = $info;
 
@@ -44,14 +45,14 @@ class OfflinePay extends InfoDecorator
             ];
     }
 
-    protected function setTtl(int $ttl = null)
+    protected function setTtl($ttl = null)
     {
         if ($ttl <= 0) {
-            throw new \LogicException('ttl must be large than 1');
+            throw new LogicException('ttl must be large than 1');
         }
 
         if ($ttl > 180) {
-            throw new \LogicException('ttl must be less than or equal to 180');
+            throw new LogicException('ttl must be less than or equal to 180');
         }
 
         $this->ttl = $ttl;
@@ -62,7 +63,7 @@ class OfflinePay extends InfoDecorator
      */
     protected function countExpireDate()
     {
-        if (! $this->ttl) {
+        if (!$this->ttl) {
             return '';
         }
 
