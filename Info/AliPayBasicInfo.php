@@ -19,7 +19,7 @@ class AliPayBasicInfo extends AliPayInfo
             'ItemDesc' => $this->order->getItemDesc(),
             'MerchantOrderNo' => $this->order->getMerchantOrderNo(),
             'Email' => $this->payer->getEmail(),
-            'LoginType' => $this->payer->getLoginType()? 1: 0,
+            'LoginType' => $this->payer->getLoginType() ? 1 : 0,
             // AliPay 必填
             'Receiver' => $this->payer->getReceiver(),
             'Tel1' => $this->payer->getTel1(),

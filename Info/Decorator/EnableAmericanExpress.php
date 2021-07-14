@@ -8,7 +8,7 @@ class EnableAmericanExpress extends Enable
     {
         return $this->info->getInfo() +
             [
-                'CREDITAE' => $this->isEnable? 1: 0,
+                'CREDITAE' => $this->isEnable ? 1 : 0,
             ];
     }
 }

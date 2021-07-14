@@ -12,7 +12,7 @@ class EnableEzPay extends Enable
     {
         return $this->info->getInfo() +
             [
-                'P2G' => $this->isEnable? 1: 0,
+                'P2G' => $this->isEnable ? 1 : 0,
             ];
     }
 }

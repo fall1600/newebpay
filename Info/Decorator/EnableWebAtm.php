@@ -8,7 +8,7 @@ class EnableWebAtm extends Enable
     {
         return $this->info->getInfo() +
             [
-                'WEBATM' => $this->isEnable? 1: 0,
+                'WEBATM' => $this->isEnable ? 1 : 0,
             ];
     }
 }

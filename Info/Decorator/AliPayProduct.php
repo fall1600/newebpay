@@ -19,8 +19,9 @@ class AliPayProduct extends AliPayInfo
     /** @var AliPayProductInterface */
     protected $product;
 
-    public function __construct(AliPayInfo $info, int $index, AliPayProductInterface $product)
+    public function __construct($info, $index, $product)
     {
+        parent::__construct();
         $this->info = $info;
 
         $this->index = $index;

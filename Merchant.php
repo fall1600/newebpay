@@ -3,6 +3,7 @@
 namespace fall1600\Package\Newebpay;
 
 use fall1600\Package\Newebpay\Exceptions\TradeInfoException;
+use LogicException;
 
 class Merchant
 {
@@ -32,7 +33,7 @@ class Merchant
      */
     protected $response;
 
-    public function __construct(string $id, string $hashKey, string $hashIv)
+    public function __construct($id, $hashKey, $hashIv)
     {
         $this->id = $id;
 
@@ -44,12 +45,12 @@ class Merchant
     /**
      * 因為商城代號, hashKey, hashIv 是一整組的, 要就一次修改
      * response 是屬於個別商城的, 改商城順手清空response
-     * @param  string  $id
-     * @param  string  $hashKey
-     * @param  string  $hashIv
+     * @param string $id
+     * @param string $hashKey
+     * @param string $hashIv
      * @return $this
      */
-    public function reset(string $id, string $hashKey, string $hashIv)
+    public function reset($id, $hashKey, $hashIv)
     {
         $this->id = $id;
         $this->hashKey = $hashKey;
@@ -66,18 +67,21 @@ class Merchant
      * @return $this
      * @throws TradeInfoException
      */
-    public function setRawData(array $rawData)
+    public function setRawData($rawData)
     {
-        if (! isset($rawData['TradeInfo']) || ! isset($rawData['TradeSha'])) {
+        if (isset($rawData['Period'])) {
+            $this->response = new PeriodResponse(
+                json_decode($this->removeCtrlChr($this->decryptPeriod($rawData['Period'])), true),
+                $rawData['Period']);
+        } else if (isset($rawData['TradeInfo'], $rawData['TradeSha'])) {
+            $this->response = new TradeInfoResponse(
+                json_decode($this->removeCtrlChr($this->decryptTradeInfo($rawData['TradeInfo'])), true),
+                $rawData['TradeInfo'],
+                $rawData['TradeSha']
+            );
+        } else {
             throw new TradeInfoException('invalid data');
         }
-
-        $this->response = new Response(
-            json_decode($this->decryptTradeInfo($rawData['TradeInfo']), true),
-            $rawData['TradeInfo'],
-            $rawData['TradeSha']
-        );
-
         return $this;
     }
 
@@ -87,11 +91,15 @@ class Merchant
      */
     public function validateResponse()
     {
-        if (! $this->response) {
-            throw new \LogicException('set rawData first');
+        if (!$this->response) {
+            throw new LogicException('set rawData first');
         }
-
-        return $this->response->getTradeSha() === $this->countTradeSha($this->response->getTradeInfo());
+        if ($this->response instanceof TradeInfoResponse) {
+            return $this->response->getTradeSha() === $this->countTradeSha($this->response->getTradeInfo());
+        }
+        if ($this->response instanceof PeriodResponse) {
+            return true;
+        }
     }
 
     /**
@@ -105,7 +113,7 @@ class Merchant
     /**
      * @return string
      */
-    public function getHashKey(): string
+    public function getHashKey()
     {
         return $this->hashKey;
     }
@@ -124,5 +132,13 @@ class Merchant
     public function getResponse()
     {
         return $this->response;
+    }
+
+    /**
+     * @return string
+     */
+    private function removeCtrlChr($str)
+    {
+        return preg_replace('/[\x00-\x1F\x7F]/', '', $str);
     }
 }

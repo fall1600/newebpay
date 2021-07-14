@@ -13,7 +13,7 @@ class EnableBarcode extends Enable
     {
         return $this->info->getInfo() +
             [
-                'BARCODE' => $this->isEnable? 1: 0,
+                'BARCODE' => $this->isEnable ? 1 : 0,
             ];
     }
 }
