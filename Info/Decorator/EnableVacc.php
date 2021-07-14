@@ -13,7 +13,7 @@ class EnableVacc extends Enable
     {
         return $this->info->getInfo() +
             [
-                'VACC' => $this->isEnable? 1: 0,
+                'VACC' => $this->isEnable ? 1 : 0,
             ];
     }
 }

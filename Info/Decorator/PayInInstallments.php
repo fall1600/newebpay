@@ -19,8 +19,9 @@ class PayInInstallments extends InfoDecorator
      */
     protected $instFlag;
 
-    public function __construct(Info $info, string $instFlag)
+    public function __construct($info, $instFlag)
     {
+        parent::__construct();
         $this->info = $info;
 
         $this->instFlag = $instFlag;

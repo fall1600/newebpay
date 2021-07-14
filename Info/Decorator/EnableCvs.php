@@ -13,7 +13,7 @@ class EnableCvs extends Enable
     {
         return $this->info->getInfo() +
             [
-                'CVS' => $this->isEnable? 1: 0,
+                'CVS' => $this->isEnable ? 1 : 0,
             ];
     }
 }

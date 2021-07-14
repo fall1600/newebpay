@@ -1,28 +1,31 @@
 {
-    "name": "fall1600/newebpay",
-    "description": "Payment solution of NewebPay(藍新金流), implementing by pure PHP",
-    "keywords": ["newebpay", "payment"],
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "fall1600",
-            "email": "fall1600@gmail.com"
-        }
-    ],
-    "minimum-stability": "stable",
-    "require": {
-        "ext-openssl": "*",
-        "ext-mbstring": "*",
-        "ext-json": "*",
-        "ext-curl": "*"
-    },
-    "autoload": {
-        "psr-4": {
-            "fall1600\\Package\\Newebpay\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+  "name": "fall1600/newebpay",
+  "description": "Payment solution of NewebPay(藍新金流), implementing by pure PHP",
+  "keywords": [
+    "newebpay",
+    "payment"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "fall1600",
+      "email": "fall1600@gmail.com"
     }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "ext-openssl": "*",
+    "ext-mbstring": "*",
+    "ext-json": "*",
+    "ext-curl": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "fall1600\\Package\\Newebpay\\": ""
+    },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  }
 }

@@ -10,7 +10,7 @@ class EnableCredit extends Enable
     /** @var QuickCreditInterface|null */
     protected $quickCredit;
 
-    public function __construct(Info $info, ?QuickCreditInterface $quickCredit = null)
+    public function __construct($info, $quickCredit = null)
     {
         parent::__construct($info);
 
@@ -21,7 +21,7 @@ class EnableCredit extends Enable
     {
         $result = $this->info->getInfo() +
             [
-                'CREDIT' => $this->isEnable? 1: 0,
+                'CREDIT' => $this->isEnable ? 1 : 0,
             ];
 
         if ($this->quickCredit) {

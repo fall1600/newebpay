@@ -16,7 +16,7 @@ abstract class Webhook extends Info
      */
     protected $url;
 
-    public function __construct(Info $info, string $url)
+    public function __construct($info, $url)
     {
         $this->info = $info;
 

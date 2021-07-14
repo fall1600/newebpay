@@ -17,8 +17,9 @@ class PayCancel extends InfoDecorator
      */
     protected $clientBackUrl;
 
-    public function __construct(Info $info, string $clientBackUrl = null)
+    public function __construct($info, $clientBackUrl = null)
     {
+        parent::__construct();
         $this->info = $info;
 
         $this->setClientBackUrl($clientBackUrl);
@@ -32,7 +33,7 @@ class PayCancel extends InfoDecorator
             ];
     }
 
-    protected function setClientBackUrl(string $clientBackUrl = null)
+    protected function setClientBackUrl($clientBackUrl = null)
     {
         $this->clientBackUrl = $clientBackUrl;
     }

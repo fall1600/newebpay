@@ -3,6 +3,7 @@
 namespace fall1600\Package\Newebpay\Info\Period\Decorator;
 
 use fall1600\Package\Newebpay\Info\Period\Info;
+use LogicException;
 
 class Memo extends Info
 {
@@ -34,7 +35,7 @@ class Memo extends Info
     protected function setMemo(string $memo)
     {
         if (mb_strlen($memo) > 255) {
-            throw new \LogicException("unsupported length of this memo $memo");
+            throw new LogicException("unsupported length of this memo $memo");
         }
 
         $this->memo = $memo;

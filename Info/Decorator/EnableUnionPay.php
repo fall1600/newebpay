@@ -8,7 +8,7 @@ class EnableUnionPay extends Enable
     {
         return $this->info->getInfo() +
             [
-                'UNIONPAY' => $this->isEnable? 1: 0,
+                'UNIONPAY' => $this->isEnable ? 1 : 0,
             ];
     }
 }

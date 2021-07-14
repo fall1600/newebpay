@@ -48,7 +48,7 @@ class NewebPayTest extends TestCase
 
         $email = 'test@gg.cc';
 
-        $returnUrl= 'return.url';
+        $returnUrl = 'return.url';
 
         $notifyUrl = 'notify.url';
 
@@ -89,80 +89,5 @@ class NewebPayTest extends TestCase
 
         //assert
         $this->assertEquals($expected, $result);
-    }
-
-    public function test_checkoutByApi()
-    {
-        //arrange
-        $newebpay = new NewebPay();
-
-        $merchantId = 'merchant.id.123';
-
-        $hashKey = 'hash.key.234';
-
-        $hashIv = 'hash.iv.34567890';
-
-//        $merchant = new Merchant($merchantId, $hashKey, $hashIv);
-
-        $merchant = $this->getMockBuilder(Merchant::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $merchant->expects($this->atLeastOnce())
-            ->method('getId')
-            ->willReturn($merchantId);
-
-        $merchant->expects($this->once())
-            ->method('countTradeInfo')
-            ->willReturn($tradeInfo = '12345');
-
-        $merchant->expects($this->once())
-            ->method('countTradeSha')
-            ->willReturn($tradeSha = '22345');
-
-        $email = 'test@gg.cc';
-
-        $returnUrl= 'return.url';
-
-        $notifyUrl = 'notify.url';
-
-        $clientBackUrl = 'client.back.url';
-
-        $order = $this->getMockBuilder(OrderInterface::class)
-            ->getMock();
-
-        $payer = $this->getMockBuilder(PayerInterface::class)
-            ->getMock();
-
-        $ttl = 3;
-
-        $customerUrl = 'customer.url';
-
-        $info = new BasicInfo($merchant->getId(), $notifyUrl, $order, $payer);
-        $info = new PayerEmailEditable($info, $email);
-        $info = new Language($info, LanguageType::EN);
-        $info = new PayCancel($info, $clientBackUrl);
-        $info = new OfflinePay($info, $customerUrl, $ttl);
-        $info = new PayComplete($info, $returnUrl);
-
-        $expected = [
-            'url' => 'https://ccore.newebpay.com/MPG/mpg_gateway',
-            'form_params' => [
-                'MerchantID' => $merchantId,
-                'TradeInfo' => $tradeInfo,
-                'TradeSha' => $tradeSha,
-                'Version' => '1.5',
-            ],
-        ];
-
-        //act
-        $result = $newebpay
-            ->setIsProduction(false)
-            ->setMerchant($merchant)
-            ->checkoutForApi($info);
-
-        //assert
-        $this->assertEquals($expected, $result);
-
     }
 }

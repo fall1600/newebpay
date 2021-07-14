@@ -2,9 +2,6 @@
 
 namespace fall1600\Package\Newebpay\Info;
 
-use fall1600\Package\Newebpay\Contracts\AliPayPayerInterface;
-use fall1600\Package\Newebpay\Contracts\OrderInterface;
-
 abstract class AliPayInfo extends Info
 {
     /**
@@ -14,12 +11,13 @@ abstract class AliPayInfo extends Info
     protected $count;
 
     public function __construct(
-        string $merchantId,
-        string $notifyUrl,
-        OrderInterface $order,
-        AliPayPayerInterface $payer,
-        int $count
-    ) {
+        $merchantId = "",
+        $notifyUrl = "",
+        $order = null,
+        $payer = null,
+        $count = 0
+    )
+    {
         parent::__construct($merchantId, $notifyUrl, $order, $payer);
 
         $this->count = $count;

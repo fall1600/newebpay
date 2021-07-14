@@ -2,7 +2,9 @@
 
 namespace fall1600\Package\Newebpay\Exceptions;
 
-class TradeInfoException extends \Exception
+use Exception;
+
+class TradeInfoException extends Exception
 {
 
 }

@@ -19,8 +19,9 @@ class TradeLimit extends InfoDecorator
      */
     protected $limit;
 
-    public function __construct(Info $info, int $limit = 0)
+    public function __construct($info, $limit = 0)
     {
+        parent::__construct();
         $this->info = $info;
 
         $this->setLimit($limit);
@@ -34,7 +35,7 @@ class TradeLimit extends InfoDecorator
             ];
     }
 
-    protected function setLimit(int $limit)
+    protected function setLimit($limit)
     {
         if (1 <= $limit && $limit <= 60) {
             $limit = 60;
