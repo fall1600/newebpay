@@ -7,6 +7,7 @@ use fall1600\Package\Newebpay\Exceptions\TradeInfoException;
 use fall1600\Package\Newebpay\Info\Info;
 use fall1600\Package\Newebpay\Info\Period\Info as PeriodInfo;
 use fall1600\Package\Newebpay\Info\Close\Info as CloseInfo;
+use fall1600\Package\Newebpay\Info\Cancel\Info as CancelInfo;
 
 class NewebPay
 {
@@ -87,6 +88,18 @@ class NewebPay
      * @var string
      */
     public const CLOSE_URL_PRODUCTION = 'https://core.newebpay.com/API/CreditCard/Close';
+
+    /**
+     * 取消授權-測試環境
+     * @var string
+     */
+    public const CANCEL_URL_TEST = 'https://ccore.newebpay.com/API/CreditCard/Cancel';
+
+    /**
+     * 取消授權-正式環境
+     * @var string
+     */
+    public const CANCEL_URL_PRODUCTION = 'https://core.newebpay.com/API/CreditCard/Cancel';
 
     /**
      * 決定URL 要使用正式或測試機
@@ -309,6 +322,30 @@ EOT;
         }
 
         $url = $this->isProduction? static::CLOSE_URL_PRODUCTION: static::CLOSE_URL_TEST;
+
+        $payload = [
+            'MerchantID_' => $this->merchant->getId(),
+            'PostData_' => $this->merchant->createEncryptedStr($info->getInfo()),
+        ];
+
+        $resp = $this->post($url, $payload);
+        if (! isset($resp['period'])) {
+            throw new TradeInfoException("interface change from Newebpay");
+        }
+
+        return json_decode($this->merchant->decryptTradeInfo($resp['period']), true);
+    }
+
+    /**
+     * 信用卡取消授權
+     */
+    public function cancel(CancelInfo $info)
+    {
+        if (! $this->merchant) {
+            throw new \LogicException('empty merchant');
+        }
+
+        $url = $this->isProduction? static::CANCEL_URL_PRODUCTION: static::CANCEL_URL_TEST;
 
         $payload = [
             'MerchantID_' => $this->merchant->getId(),
