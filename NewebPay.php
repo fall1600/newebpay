@@ -6,6 +6,7 @@ use fall1600\Package\Newebpay\Contracts\OrderInterface;
 use fall1600\Package\Newebpay\Exceptions\TradeInfoException;
 use fall1600\Package\Newebpay\Info\Info;
 use fall1600\Package\Newebpay\Info\Period\Info as PeriodInfo;
+use fall1600\Package\Newebpay\Info\Close\Info as CloseInfo;
 
 class NewebPay
 {
@@ -76,6 +77,18 @@ class NewebPay
     public const ALTER_AMT_URL_PRODUCTION = 'https://core.newebpay.com/MPG/period/AlterAmt';
 
     /**
+     * 信用卡請退款-測試環境
+     * @var string
+     */
+    public const CLOSE_URL_TEST = 'https://ccore.newebpay.com/API/CreditCard/Close';
+
+    /**
+     * 信用卡請退款-正式環境
+     * @var string
+     */
+    public const CLOSE_URL_PRODUCTION = 'https://core.newebpay.com/API/CreditCard/Close';
+
+    /**
      * 決定URL 要使用正式或測試機
      * @var bool
      */
@@ -139,7 +152,7 @@ class NewebPay
 
         return json_decode($this->merchant->decryptTradeInfo($resp['period']), true);
     }
-    
+
     /**
      * @param string $orderNo
      * @param string $periodNo
@@ -285,7 +298,31 @@ EOT;
 
         return $this->post($url, $payload);
     }
-    
+
+    /**
+     * 信用卡請退款
+     */
+    public function close(CloseInfo $info)
+    {
+        if (! $this->merchant) {
+            throw new \LogicException('empty merchant');
+        }
+
+        $url = $this->isProduction? static::CLOSE_URL_PRODUCTION: static::CLOSE_URL_TEST;
+
+        $payload = [
+            'MerchantID_' => $this->merchant->getId(),
+            'PostData_' => $this->merchant->createEncryptedStr($info->getInfo()),
+        ];
+
+        $resp = $this->post($url, $payload);
+        if (! isset($resp['period'])) {
+            throw new TradeInfoException("interface change from Newebpay");
+        }
+
+        return json_decode($this->merchant->decryptTradeInfo($resp['period']), true);
+    }
+
     public function setIsProduction(bool $isProduction)
     {
         $this->isProduction = $isProduction;
