@@ -6,6 +6,9 @@ use fall1600\Package\Newebpay\NewebPay;
 
 class BasicInfo extends Info
 {
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         return [

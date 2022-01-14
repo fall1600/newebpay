@@ -4,6 +4,9 @@ namespace fall1600\Package\Newebpay\Info\Period;
 
 class BasicInfo extends Info
 {
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         return [

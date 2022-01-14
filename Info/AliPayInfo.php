@@ -10,6 +10,13 @@ abstract class AliPayInfo extends Info
      */
     protected $count;
 
+    /**
+     * @param string $merchantId
+     * @param string $notifyUrl
+     * @param OrderInterface $order
+     * @param AliPayPayerInterface $payer
+     * @param int $count
+     */
     public function __construct(
         $merchantId = "",
         $notifyUrl = "",

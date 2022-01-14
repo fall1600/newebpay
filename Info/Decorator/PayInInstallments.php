@@ -19,6 +19,10 @@ class PayInInstallments extends InfoDecorator
      */
     protected $instFlag;
 
+    /**
+     * @param InfoInterface $info
+     * @param string $instFlag
+     */
     public function __construct($info, $instFlag)
     {
         parent::__construct();
@@ -27,6 +31,9 @@ class PayInInstallments extends InfoDecorator
         $this->instFlag = $instFlag;
     }
 
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         return $this->info->getInfo() +

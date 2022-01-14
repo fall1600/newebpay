@@ -197,6 +197,10 @@ class NewebPay
 EOT;
     }
 
+    /**
+     * @param InfoInterface $info
+     * @return string
+     */
     public function generatePeriodForm($info)
     {
         if (!$this->merchant) {
@@ -215,6 +219,9 @@ EOT;
 EOT;
     }
 
+    /**
+     * @param InfoInterface $info
+     */
     public function checkout($info)
     {
         echo <<<EOT
@@ -287,6 +294,10 @@ EOT;
         return $this->post($url, $payload);
     }
 
+    /**
+     * @param bool $isProduction
+     * @return $this
+     */
     public function setIsProduction($isProduction)
     {
         $this->isProduction = $isProduction;
@@ -294,6 +305,10 @@ EOT;
         return $this;
     }
 
+    /**
+     * @param $formId
+     * @return $this
+     */
     public function setFormId($formId)
     {
         $this->formId = $formId;
@@ -301,6 +316,10 @@ EOT;
         return $this;
     }
 
+    /**
+     * @param $merchant
+     * @return $this
+     */
     public function setMerchant($merchant)
     {
         $this->merchant = $merchant;
@@ -325,6 +344,11 @@ EOT;
         return strtoupper(hash('sha256', http_build_query($payload)));
     }
 
+    /**
+     * @param $url
+     * @param $payload
+     * @return mixed
+     */
     protected function post($url, $payload)
     {
         $ch = curl_init($url);

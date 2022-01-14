@@ -58,6 +58,9 @@ abstract class Info implements InfoInterface
         $this->setVersion($version);
     }
 
+    /**
+     * @param string $periodStartType
+     */
     protected function setPeriodStartType($periodStartType)
     {
 //        if (! PeriodStartType::isValid($periodStartType)) {
@@ -67,6 +70,9 @@ abstract class Info implements InfoInterface
         $this->periodStartType = $periodStartType;
     }
 
+    /**
+     * @param string $version
+     */
     protected function setVersion($version)
     {
 //        if (! VersionType::isValid($version)) {

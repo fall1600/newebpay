@@ -33,6 +33,11 @@ class Merchant
      */
     protected $response;
 
+    /**
+     * @param string $id
+     * @param string $hashKey
+     * @param string $hashIv
+     */
     public function __construct($id, $hashKey, $hashIv)
     {
         $this->id = $id;

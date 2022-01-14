@@ -27,6 +27,11 @@ class OfflinePay extends InfoDecorator
      */
     protected $customerUrl;
 
+    /**
+     * @param InfoInterface $info
+     * @param string $customerUrl
+     * @param int|null $ttl
+     */
     public function __construct($info, $customerUrl, $ttl = null)
     {
         $this->info = $info;
@@ -36,6 +41,9 @@ class OfflinePay extends InfoDecorator
         $this->setTtl($ttl);
     }
 
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         return $this->info->getInfo() +
@@ -45,6 +53,9 @@ class OfflinePay extends InfoDecorator
             ];
     }
 
+    /**
+     * @param int|null $ttl
+     */
     protected function setTtl($ttl = null)
     {
         if ($ttl <= 0) {

@@ -16,6 +16,10 @@ abstract class Webhook extends Info
      */
     protected $url;
 
+    /**
+     * @param InfoInterface $info
+     * @param $url
+     */
     public function __construct($info, $url)
     {
         $this->info = $info;

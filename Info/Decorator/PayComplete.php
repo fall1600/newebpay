@@ -17,6 +17,10 @@ class PayComplete extends InfoDecorator
      */
     protected $returnUrl;
 
+    /**
+     * @param InfoInterface $info
+     * @param string|null $returnUrl
+     */
     public function __construct($info, $returnUrl)
     {
         parent::__construct();
@@ -25,6 +29,9 @@ class PayComplete extends InfoDecorator
         $this->setReturnUrl($returnUrl);
     }
 
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         return $this->info->getInfo() +
@@ -33,6 +40,9 @@ class PayComplete extends InfoDecorator
             ];
     }
 
+    /**
+     * @param string|null $returnUrl
+     */
     protected function setReturnUrl($returnUrl = null)
     {
         $this->returnUrl = $returnUrl;

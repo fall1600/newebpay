@@ -54,6 +54,10 @@ trait Cryption
         return $this->hashIv;
     }
 
+    /**
+     * @param array $infoPayload
+     * @return string
+     */
     public function createEncryptedStr($infoPayload = [])
     {
         return trim(
@@ -93,6 +97,11 @@ trait Cryption
     }
 
 
+    /**
+     * @param $string
+     * @param int $blockSize
+     * @return string
+     */
     protected function addPadding($string, $blockSize = 32)
     {
         $len = strlen($string);

@@ -17,6 +17,10 @@ class PayCancel extends InfoDecorator
      */
     protected $clientBackUrl;
 
+    /**
+     * @param InfoInterface $info
+     * @param string|null $clientBackUrl
+     */
     public function __construct($info, $clientBackUrl = null)
     {
         parent::__construct();
@@ -25,6 +29,9 @@ class PayCancel extends InfoDecorator
         $this->setClientBackUrl($clientBackUrl);
     }
 
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         return $this->info->getInfo() +
@@ -33,6 +40,9 @@ class PayCancel extends InfoDecorator
             ];
     }
 
+    /**
+     * @param string|null $clientBackUrl
+     */
     protected function setClientBackUrl($clientBackUrl = null)
     {
         $this->clientBackUrl = $clientBackUrl;

@@ -14,6 +14,10 @@ class Language extends InfoDecorator
     /** @var string */
     protected $language;
 
+    /**
+     * @param InfoInterface $info
+     * @param string $language
+     */
     public function __construct($info, $language)
     {
         parent::__construct();
@@ -22,6 +26,9 @@ class Language extends InfoDecorator
         $this->language = $language;
     }
 
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         return $this->info->getInfo() +

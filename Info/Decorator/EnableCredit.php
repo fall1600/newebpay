@@ -10,6 +10,10 @@ class EnableCredit extends Enable
     /** @var QuickCreditInterface|null */
     protected $quickCredit;
 
+    /**
+     * @param InfoInterface $info
+     * @param QuickCreditInterface|null $quickCredit
+     */
     public function __construct($info, $quickCredit = null)
     {
         parent::__construct($info);
@@ -17,6 +21,9 @@ class EnableCredit extends Enable
         $this->quickCredit = $quickCredit;
     }
 
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         $result = $this->info->getInfo() +

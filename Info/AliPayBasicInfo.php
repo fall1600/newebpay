@@ -6,6 +6,9 @@ use fall1600\Package\Newebpay\NewebPay;
 
 class AliPayBasicInfo extends AliPayInfo
 {
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         return [

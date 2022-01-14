@@ -18,6 +18,10 @@ class Comment extends InfoDecorator
      */
     protected $comment;
 
+    /**
+     * @param InfoInterface $info
+     * @param string $comment
+     */
     public function __construct($info, $comment)
     {
         parent::__construct();
@@ -26,6 +30,9 @@ class Comment extends InfoDecorator
         $this->setComment($comment);
     }
 
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         return $this->info->getInfo() +
@@ -34,6 +41,9 @@ class Comment extends InfoDecorator
             ];
     }
 
+    /**
+     * @param string $comment
+     */
     protected function setComment($comment)
     {
         if (mb_strlen($comment) > 300) {

@@ -21,6 +21,10 @@ class EnableCvsCom extends InfoDecorator
      */
     protected $type;
 
+    /**
+     * @param InfoInterface $info
+     * @param int $type
+     */
     public function __construct($info, $type)
     {
         $this->info = $info;
