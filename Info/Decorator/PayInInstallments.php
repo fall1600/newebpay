@@ -19,13 +19,21 @@ class PayInInstallments extends InfoDecorator
      */
     protected $instFlag;
 
-    public function __construct(Info $info, string $instFlag)
+    /**
+     * @param InfoInterface $info
+     * @param string $instFlag
+     */
+    public function __construct($info, $instFlag)
     {
+        parent::__construct();
         $this->info = $info;
 
         $this->instFlag = $instFlag;
     }
 
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         return $this->info->getInfo() +

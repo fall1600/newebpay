@@ -19,7 +19,7 @@ class Response
      * @param string $tradeInfo
      * @param string $tradeSha
      */
-    public function __construct(array $data, string $tradeInfo, string $tradeSha)
+    public function __construct($data, $tradeInfo, $tradeSha)
     {
         $this->data = $data;
 

@@ -5,12 +5,12 @@ namespace fall1600\Package\Newebpay\Tests;
 use fall1600\Package\Newebpay\Constants\LanguageType;
 use fall1600\Package\Newebpay\Contracts\OrderInterface;
 use fall1600\Package\Newebpay\Contracts\PayerInterface;
+use fall1600\Package\Newebpay\Info\BasicInfo;
 use fall1600\Package\Newebpay\Info\Decorator\Language;
 use fall1600\Package\Newebpay\Info\Decorator\OfflinePay;
+use fall1600\Package\Newebpay\Info\Decorator\PayCancel;
 use fall1600\Package\Newebpay\Info\Decorator\PayComplete;
 use fall1600\Package\Newebpay\Info\Decorator\PayerEmailEditable;
-use fall1600\Package\Newebpay\Info\BasicInfo;
-use fall1600\Package\Newebpay\Info\Decorator\PayCancel;
 use fall1600\Package\Newebpay\Merchant;
 use fall1600\Package\Newebpay\NewebPay;
 use PHPUnit\Framework\TestCase;
@@ -20,9 +20,9 @@ class InfoTest extends TestCase
     public function test_info()
     {
         //arrange
-        $merchant = new Merchant('merchant.id.123','hash.key.123','hash.iv.4567890');
+        $merchant = new Merchant('merchant.id.123', 'hash.key.123', 'hash.iv.4567890');
 
-        $returnUrl= 'return.url';
+        $returnUrl = 'return.url';
 
         $notifyUrl = 'notify.url';
 
@@ -33,7 +33,7 @@ class InfoTest extends TestCase
 
         $order->expects($this->once())
             ->method('getMerchantOrderNo')
-            ->willReturn($orderMerchantNo = (string) time());
+            ->willReturn($orderMerchantNo = (string)time());
 
         $order->expects($this->once())
             ->method('getItemDesc')
@@ -76,8 +76,7 @@ class InfoTest extends TestCase
                     $ttl
                 ),
                 $returnUrl
-            )
-        ;
+            );
         $result = $info->getInfo();
 
         //assert

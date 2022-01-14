@@ -12,7 +12,7 @@ class EnableAliPay extends Enable
     {
         return $this->info->getInfo() +
             [
-                'ALIPAY' => $this->isEnable? 1: 0,
+                'ALIPAY' => $this->isEnable ? 1 : 0,
             ];
     }
 }

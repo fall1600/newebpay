@@ -13,18 +13,26 @@ class PayerEmailEditable extends InfoDecorator
     /** @var bool */
     protected $canEditEmail;
 
-    public function __construct(Info $info, bool $canEditEmail = true)
+    /**
+     * @param InfoInterface $info
+     * @param bool $canEditEmail
+     */
+    public function __construct($info, $canEditEmail = true)
     {
+        parent::__construct();
         $this->info = $info;
 
         $this->canEditEmail = $canEditEmail;
     }
 
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         return $this->info->getInfo() +
             [
-                'EmailModify' => $this->canEditEmail? 1: 0,
+                'EmailModify' => $this->canEditEmail ? 1 : 0,
             ];
     }
 }

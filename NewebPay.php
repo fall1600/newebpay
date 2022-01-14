@@ -5,7 +5,7 @@ namespace fall1600\Package\Newebpay;
 use fall1600\Package\Newebpay\Contracts\OrderInterface;
 use fall1600\Package\Newebpay\Exceptions\TradeInfoException;
 use fall1600\Package\Newebpay\Info\Info;
-use fall1600\Package\Newebpay\Info\Period\Info as PeriodInfo;
+use LogicException;
 
 class NewebPay
 {
@@ -13,67 +13,67 @@ class NewebPay
      * 藍新說是哪一版就是哪一版
      * @var string
      */
-    public const VERSION = '1.5';
+    const VERSION = '1.6';
 
     /**
      * 付款-測試環境
      * @var string
      */
-    public const CHECKOUT_URL_TEST = 'https://ccore.newebpay.com/MPG/mpg_gateway';
+    const CHECKOUT_URL_TEST = 'https://ccore.newebpay.com/MPG/mpg_gateway';
 
     /**
      * 付款-正式環境
      * @var string
      */
-    public const CHECKOUT_URL_PRODUCTION = 'https://core.newebpay.com/MPG/mpg_gateway';
+    const CHECKOUT_URL_PRODUCTION = 'https://core.newebpay.com/MPG/mpg_gateway';
 
     /**
      * 查詢付款資訊-測試環境
      * @var string
      */
-    public const QUERY_URL_TEST = 'https://ccore.newebpay.com/API/QueryTradeInfo';
+    const QUERY_URL_TEST = 'https://ccore.newebpay.com/API/QueryTradeInfo';
 
     /**
      * 查詢付款資訊-正式環境
      * @var string
      */
-    public const QUERY_URL_PRODUCTION = 'https://core.newebpay.com/API/QueryTradeInfo';
+    const QUERY_URL_PRODUCTION = 'https://core.newebpay.com/API/QueryTradeInfo';
 
     /**
      * 建立定期定額委託單-測試環境
      * @var string
      */
-    public const ISSUE_URL_TEST = 'https://ccore.newebpay.com/MPG/period';
+    const ISSUE_URL_TEST = 'https://ccore.newebpay.com/MPG/period';
 
     /**
      * 建立定期定額委託單-正式環境
      * @var string
      */
-    public const ISSUE_URL_PRODUCTION = 'https://core.newebpay.com/MPG/period';
+    const ISSUE_URL_PRODUCTION = 'https://core.newebpay.com/MPG/period';
 
     /**
      * 修改已建立委託單狀態-測試環境
      * @var string
      */
-    public const ALTER_STATUS_URL_TEST = 'https://ccore.newebpay.com/MPG/period/AlterStatus';
+    const ALTER_STATUS_URL_TEST = 'https://ccore.newebpay.com/MPG/period/AlterStatus';
 
     /**
      * 修改已建立委託單狀態-正式環境
      * @var string
      */
-    public const ALTER_STATUS_URL_PRODUCTION = 'https://core.newebpay.com/MPG/period/AlterStatus';
+    const ALTER_STATUS_URL_PRODUCTION = 'https://core.newebpay.com/MPG/period/AlterStatus';
 
     /**
      * 修改已建立委託單內容-測試環境
      * @var string
      */
-    public const ALTER_AMT_URL_TEST = 'https://ccore.newebpay.com/MPG/period/AlterAmt';
+    const ALTER_AMT_URL_TEST = 'https://ccore.newebpay.com/MPG/period/AlterAmt';
 
     /**
      * 修改已建立委託單內容-正式環境
      * @var string
      */
-    public const ALTER_AMT_URL_PRODUCTION = 'https://core.newebpay.com/MPG/period/AlterAmt';
+    const ALTER_AMT_URL_PRODUCTION = 'https://core.newebpay.com/MPG/period/AlterAmt';
 
     /**
      * 決定URL 要使用正式或測試機
@@ -101,17 +101,18 @@ class NewebPay
      * @throws TradeInfoException
      */
     public function alterAmt(
-        string $orderNo,
-        string $periodNo,
-        string $periodType,
-        string $periodPoint,
-        int $alterAmt = null
-    ) {
-        if (! $this->merchant) {
-            throw new \LogicException('empty merchant');
+        $orderNo,
+        $periodNo,
+        $periodType,
+        $periodPoint,
+        $alterAmt = null
+    )
+    {
+        if (!$this->merchant) {
+            throw new LogicException('empty merchant');
         }
 
-        $url = $this->isProduction? static::ALTER_AMT_URL_PRODUCTION: static::ALTER_AMT_URL_TEST;
+        $url = $this->isProduction ? static::ALTER_AMT_URL_PRODUCTION : static::ALTER_AMT_URL_TEST;
 
         $data = [
             'RespondType' => 'JSON',
@@ -133,7 +134,7 @@ class NewebPay
         ];
 
         $resp = $this->post($url, $payload);
-        if (! isset($resp['period'])) {
+        if (!isset($resp['period'])) {
             throw new TradeInfoException("interface change from Newebpay");
         }
 
@@ -147,13 +148,13 @@ class NewebPay
      * @return array
      * @throws TradeInfoException
      */
-    public function alterStatus(string $orderNo, string $periodNo, string $alterType)
+    public function alterStatus($orderNo, $periodNo, $alterType)
     {
-        if (! $this->merchant) {
-            throw new \LogicException('empty merchant');
+        if (!$this->merchant) {
+            throw new LogicException('empty merchant');
         }
 
-        $url = $this->isProduction? static::ALTER_STATUS_URL_PRODUCTION: static::ALTER_STATUS_URL_TEST;
+        $url = $this->isProduction ? static::ALTER_STATUS_URL_PRODUCTION : static::ALTER_STATUS_URL_TEST;
 
         $payload = [
             'MerchantID_' => $this->merchant->getId(),
@@ -170,14 +171,14 @@ class NewebPay
         ];
 
         $resp = $this->post($url, $payload);
-        if (! isset($resp['period'])) {
+        if (!isset($resp['period'])) {
             throw new TradeInfoException("interface change from Newebpay");
         }
 
         return json_decode($this->merchant->decryptTradeInfo($resp['period']), true);
     }
 
-    public function issue(PeriodInfo $info)
+    public function issue($info)
     {
         echo <<<EOT
 <!DOCTYPE html>
@@ -196,13 +197,17 @@ class NewebPay
 EOT;
     }
 
-    public function generatePeriodForm(PeriodInfo $info)
+    /**
+     * @param InfoInterface $info
+     * @return string
+     */
+    public function generatePeriodForm($info)
     {
-        if (! $this->merchant) {
-            throw new \LogicException('empty merchant');
+        if (!$this->merchant) {
+            throw new LogicException('empty merchant');
         }
 
-        $url = $this->isProduction? static::ISSUE_URL_PRODUCTION: static::ISSUE_URL_TEST;
+        $url = $this->isProduction ? static::ISSUE_URL_PRODUCTION : static::ISSUE_URL_TEST;
 
         $tradeInfo = $this->merchant->countTradeInfo($info);
 
@@ -214,7 +219,10 @@ EOT;
 EOT;
     }
 
-    public function checkout(Info $info)
+    /**
+     * @param InfoInterface $info
+     */
+    public function checkout($info)
     {
         echo <<<EOT
 <!DOCTYPE html>
@@ -237,13 +245,13 @@ EOT;
      * @param Info $info
      * @return string
      */
-    public function generateForm(Info $info)
+    public function generateForm($info)
     {
-        if (! $this->merchant) {
-            throw new \LogicException('empty merchant');
+        if (!$this->merchant) {
+            throw new LogicException('empty merchant');
         }
 
-        $url = $this->isProduction ? static::CHECKOUT_URL_PRODUCTION: static::CHECKOUT_URL_TEST;
+        $url = $this->isProduction ? static::CHECKOUT_URL_PRODUCTION : static::CHECKOUT_URL_TEST;
 
         $tradeInfo = $this->merchant->countTradeInfo($info);
 
@@ -261,34 +269,17 @@ EOT;
 EOT;
     }
 
-    public function checkoutForApi(Info $info)
-    {
-        if (! $this->merchant) {
-            throw new \LogicException('empty merchant');
-        }
-
-        return [
-            'url' => $this->isProduction ? static::CHECKOUT_URL_PRODUCTION: static::CHECKOUT_URL_TEST,
-            'form_params' => [
-                'MerchantID' => $this->merchant->getId(),
-                'TradeInfo' => $tradeInfo = $this->merchant->countTradeInfo($info),
-                'TradeSha' => $this->merchant->countTradeSha($tradeInfo),
-                'Version' => static::VERSION,
-            ],
-        ];
-    }
-
     /**
-     * @param  OrderInterface  $order
+     * @param OrderInterface $order
      * @return array
      */
-    public function query(OrderInterface $order)
+    public function query($order)
     {
-        if (! $this->merchant) {
-            throw new \LogicException('empty merchant');
+        if (!$this->merchant) {
+            throw new LogicException('empty merchant');
         }
 
-        $url = $this->isProduction? static::QUERY_URL_PRODUCTION: static::QUERY_URL_TEST;
+        $url = $this->isProduction ? static::QUERY_URL_PRODUCTION : static::QUERY_URL_TEST;
 
         $payload = [
             'MerchantID' => $this->merchant->getId(),
@@ -303,21 +294,33 @@ EOT;
         return $this->post($url, $payload);
     }
 
-    public function setIsProduction(bool $isProduction)
+    /**
+     * @param bool $isProduction
+     * @return $this
+     */
+    public function setIsProduction($isProduction)
     {
         $this->isProduction = $isProduction;
 
         return $this;
     }
 
-    public function setFormId(string $formId)
+    /**
+     * @param $formId
+     * @return $this
+     */
+    public function setFormId($formId)
     {
         $this->formId = $formId;
 
         return $this;
     }
 
-    public function setMerchant(Merchant $merchant)
+    /**
+     * @param $merchant
+     * @return $this
+     */
+    public function setMerchant($merchant)
     {
         $this->merchant = $merchant;
 
@@ -325,10 +328,10 @@ EOT;
     }
 
     /**
-     * @param  OrderInterface  $order
+     * @param OrderInterface $order
      * @return string
      */
-    protected function countCheckValue(OrderInterface $order)
+    protected function countCheckValue($order)
     {
         $payload = [
             'IV' => $this->merchant->getHashIv(),
@@ -341,7 +344,12 @@ EOT;
         return strtoupper(hash('sha256', http_build_query($payload)));
     }
 
-    protected function post(string $url, array $payload)
+    /**
+     * @param $url
+     * @param $payload
+     * @return mixed
+     */
+    protected function post($url, $payload)
     {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -351,5 +359,13 @@ EOT;
         curl_close($ch);
 
         return json_decode($result, true);
+    }
+
+    /**
+     * @return Merchant
+     */
+    public function getMerchant()
+    {
+        return $this->merchant;
     }
 }

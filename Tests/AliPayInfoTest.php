@@ -6,8 +6,8 @@ use fall1600\Package\Newebpay\Contracts\AliPayPayerInterface;
 use fall1600\Package\Newebpay\Contracts\AliPayProductInterface;
 use fall1600\Package\Newebpay\Contracts\OrderInterface;
 use fall1600\Package\Newebpay\Info\AliPayBasicInfo;
-use fall1600\Package\Newebpay\Info\Decorator\EnableAliPay;
 use fall1600\Package\Newebpay\Info\Decorator\AliPayProduct;
+use fall1600\Package\Newebpay\Info\Decorator\EnableAliPay;
 use fall1600\Package\Newebpay\Info\Decorator\EnableCredit;
 use fall1600\Package\Newebpay\Merchant;
 use fall1600\Package\Newebpay\NewebPay;
@@ -23,7 +23,7 @@ class AliPayInfoTest extends TestCase
 
         $order->expects($this->once())
             ->method('getMerchantOrderNo')
-            ->willReturn($orderMerchantNo = (string) time());
+            ->willReturn($orderMerchantNo = (string)time());
 
         $order->expects($this->once())
             ->method('getItemDesc')

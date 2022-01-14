@@ -6,6 +6,9 @@ use fall1600\Package\Newebpay\NewebPay;
 
 class BasicInfo extends Info
 {
+    /**
+     * @return array
+     */
     public function getInfo()
     {
         return [
@@ -18,7 +21,7 @@ class BasicInfo extends Info
             'ItemDesc' => $this->order->getItemDesc(),
             'MerchantOrderNo' => $this->order->getMerchantOrderNo(),
             'Email' => $this->payer->getEmail(),
-            'LoginType' => $this->payer->getLoginType()? 1: 0,
+            'LoginType' => $this->payer->getLoginType() ? 1 : 0,
         ];
     }
 }

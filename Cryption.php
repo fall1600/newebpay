@@ -5,18 +5,15 @@ namespace fall1600\Package\Newebpay;
 use fall1600\Package\Newebpay\Constants\Cipher;
 use fall1600\Package\Newebpay\Contracts\InfoInterface;
 use fall1600\Package\Newebpay\Exceptions\TradeInfoException;
+use LogicException;
 
 trait Cryption
 {
-    protected $hashKey;
-
-    protected $hashIv;
-
     /**
      * @param InfoInterface $info
      * @return string
      */
-    public function countTradeInfo(InfoInterface $info)
+    public function countTradeInfo($info)
     {
         $infoPayload = $info->getInfo();
 
@@ -27,10 +24,10 @@ trait Cryption
      * @param string $tradeInfo
      * @return string
      */
-    public function countTradeSha(string $tradeInfo)
+    public function countTradeSha($tradeInfo)
     {
-        if (! $tradeInfo) {
-            throw new \LogicException('empty trade info');
+        if (!$tradeInfo) {
+            throw new LogicException('empty trade info');
         }
 
         return strtoupper(
@@ -57,7 +54,11 @@ trait Cryption
         return $this->hashIv;
     }
 
-    public function createEncryptedStr(array $infoPayload = [])
+    /**
+     * @param array $infoPayload
+     * @return string
+     */
+    public function createEncryptedStr($infoPayload = [])
     {
         return trim(
             bin2hex(
@@ -65,7 +66,7 @@ trait Cryption
                     $this->addPadding(http_build_query($infoPayload)),
                     Cipher::METHOD,
                     $this->hashKey,
-                    OPENSSL_RAW_DATA|OPENSSL_ZERO_PADDING,
+                    OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING,
                     $this->hashIv
                 )
             )
@@ -78,10 +79,10 @@ trait Cryption
      * @return string
      * @throws TradeInfoException
      */
-    public function decryptTradeInfo(string $tradeInfo)
+    public function decryptTradeInfo($tradeInfo)
     {
-        if (! $tradeInfo) {
-            throw new \LogicException('empty trade info');
+        if (!$tradeInfo) {
+            throw new LogicException('empty trade info');
         }
 
         return $this->stripPadding(
@@ -89,13 +90,19 @@ trait Cryption
                 hex2bin($tradeInfo),
                 Cipher::METHOD,
                 $this->hashKey,
-                OPENSSL_RAW_DATA|OPENSSL_ZERO_PADDING,
+                OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING,
                 $this->hashIv
             )
         );
     }
 
-    protected function addPadding(string $string, int $blockSize = 32)
+
+    /**
+     * @param $string
+     * @param int $blockSize
+     * @return string
+     */
+    protected function addPadding($string, $blockSize = 32)
     {
         $len = strlen($string);
         $pad = $blockSize - ($len % $blockSize);

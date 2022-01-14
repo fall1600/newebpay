@@ -13,7 +13,11 @@ abstract class Enable extends InfoDecorator
     /** @var bool */
     protected $isEnable;
 
-    public function __construct(Info $info, bool $isEnable = true)
+    /**
+     * @param InfoInterface $info
+     * @param bool $isEnable
+     */
+    public function __construct($info, $isEnable = true)
     {
         $this->info = $info;
 

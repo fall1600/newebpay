@@ -40,7 +40,13 @@ abstract class Info implements InfoInterface
      */
     abstract public function getInfo();
 
-    public function __construct(string $merchantId, string $notifyUrl, OrderInterface $order, PayerInterface $payer)
+    /**
+     * @param string $merchantId
+     * @param string $notifyUrl
+     * @param OrderInterface $order
+     * @param PayerInterface $payer
+     */
+    public function __construct($merchantId, $notifyUrl, $order, $payer)
     {
         $this->order = $order;
 
