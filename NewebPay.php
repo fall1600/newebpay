@@ -13,7 +13,7 @@ class NewebPay
      * 藍新說是哪一版就是哪一版
      * @var string
      */
-    public const VERSION = '1.5';
+    public const VERSION = '2.3';
 
     /**
      * 付款-測試環境
