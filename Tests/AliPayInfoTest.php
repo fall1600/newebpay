@@ -41,10 +41,6 @@ class AliPayInfoTest extends TestCase
             ->willReturn($email = 'foobar@gg.cc');
 
         $payer->expects($this->once())
-            ->method('getLoginType')
-            ->willReturn($loginType = false);
-
-        $payer->expects($this->once())
             ->method('getReceiver')
             ->willReturn('foobar');
 
@@ -144,9 +140,6 @@ class AliPayInfoTest extends TestCase
 
         $this->assertArrayHasKey('Email', $result);
         $this->assertEquals($email, $result['Email']);
-
-        $this->assertArrayHasKey('LoginType', $result);
-        $this->assertEquals($loginType, $result['LoginType']);
 
         $this->assertArrayHasKey('Pid1', $result);
         $this->assertEquals($p1id, $result['Pid1']);

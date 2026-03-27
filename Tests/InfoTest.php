@@ -50,10 +50,6 @@ class InfoTest extends TestCase
             ->method('getEmail')
             ->willReturn($email = 'foobar@gg.cc');
 
-        $payer->expects($this->once())
-            ->method('getLoginType')
-            ->willReturn($loginType = false);
-
         $ttl = 3;
 
         $customerUrl = 'customer.url';
@@ -106,9 +102,6 @@ class InfoTest extends TestCase
 
         $this->assertArrayHasKey('Email', $result);
         $this->assertEquals($email, $result['Email']);
-
-        $this->assertArrayHasKey('LoginType', $result);
-        $this->assertEquals($loginType, $result['LoginType']);
 
         $this->assertArrayHasKey('EmailModify', $result);
         $this->assertEquals(1, $result['EmailModify']);

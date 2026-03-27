@@ -9,10 +9,4 @@ interface PayerInterface
      * @return string
      */
     public function getEmail();
-
-    /**
-     * 是否需要登入藍新金流會員
-     * @return bool
-     */
-    public function getLoginType();
 }
